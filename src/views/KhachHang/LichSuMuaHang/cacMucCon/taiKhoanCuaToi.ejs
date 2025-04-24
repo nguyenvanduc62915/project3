@@ -1,0 +1,108 @@
+<div class="tab-pane fade" id="taikhoancuatoi" style="display: block;">
+        <img style="width: 200px; height: auto;position: relative; left: 35%; " src="assets/img/logo/avt-acc1.png" alt="">
+
+        <form action="/doi-mat-khau-kh" method="post" id="doimk">
+            <div class="form-group">
+                <label for="matKhauCu" style="font-weight: bold;font-family: Arial, Helvetica, sans-serif;">Nhập mật khẩu hiện tại <span style="color: red;">*</span></label>
+                <input name="matKhauCu" type="password" class="form-control" id="matKhauCu" aria-describedby="emailHelp" placeholder="Nhập lại mật khẩu cũ ..." required>
+            </div>
+            <div class="form-group">
+                <label for="matKhauMoi" style="font-weight: bold;font-family: Arial, Helvetica, sans-serif;">Tạo mật khẩu mới <span style="color: red;">*</span></label>
+                <input name="matKhauMoi" type="password" class="form-control" id="matKhauMoi" placeholder="Nhập mật khẩu mới ..." required>
+            </div>
+            <div class="form-group">
+                <input name="XacNhanMatKhauMoi" type="password" class="form-control" id="XacNhanMatKhauMoi" placeholder="Xác nhận lại mật khẩu ..." required>
+            </div>
+            <button type="submit" class="btn btn-danger" style="cursor: pointer;border-radius: 5px; font-size: 18px;height: 50px;">Xác nhận mật khẩu</button>
+        </form>
+</div>
+ <!-- Thêm loader.svg vào trang HTML -->
+ <div id="loader" class="loader">
+    <img id="loader_page_img" src="assets/css/loader.svg" alt="Loader">
+</div>
+
+        <!-- xu ly loader page -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var formmm = document.getElementById("doimk");
+                var loader = document.getElementById("loader");
+
+                formmm.addEventListener("submit", function (event) {
+                    event.preventDefault();
+
+                    loader.style.display = "flex";
+
+                    setTimeout(function () {
+                        loader.style.display = "none";
+                    }, 2000);
+                });
+            });
+        </script>
+
+<script>    
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var doimk = document.getElementById("doimk");
+
+        doimk.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(doimk);
+            const response = await fetch('/doi-mat-khau-kh', {
+                method: 'POST',
+                body: formData
+            });
+
+            const responseData = await response.json();
+
+            if(responseData.success) {
+
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr["success"](responseData.message, "Chúc mừng bạn!")
+                // Xóa giá trị trong input email
+                // $('input[name="email_doimk"]').val('');
+                setTimeout(function() {
+                    toastr.clear();
+                    window.location.reload()
+                }, 2000);
+
+            } else {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-full-width",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr["error"](responseData.message, "Đổi mật khẩu không thành công!")
+
+            }        
+        });
+    });
+</script>

@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- start head -->
+<%- include("../partials/head.ejs") %>
+<!-- end head -->
+
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+
+  <!-- navbar left start -->
+  <%- include("../partials/navbarLeft.ejs") %>
+  <!-- navbar left end -->
+  
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar TOP start -->
+    <%- include("../partials/navTop.ejs") %>
+    <!-- End Navbar TOP -->
+    <div class="container-fluid py-4">
+            
+        <!-- start quản lý tk admin-->
+        <div class="row">
+            <div class="col-12">
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center pb-0 p-3">
+                  <div id="debugSearchAD" style="display: none;"><%= ssSearchAd %></div>
+                  <select name="locTheoStatus" onchange="handleChangeStatus()" title="Lọc theo Status" class="form-select me-2" aria-label="Default select example" style="width: 200px;cursor: pointer;">                            
+                    <optgroup label="Lọc theo Status" >
+                      <% if (locTheoStatus === "") { %>
+                        <option value="" selected style="font-weight: bold;color: navy;">Tất Cả</option>
+                        <option value="false" >Tài khoản được Online</option>
+                        <option value="true" >Tài khoản đang khoá</option>  
+                      <% } else if(locTheoStatus === "false") { %>
+                        <option value="">Tất Cả</option>
+                        <option value="false" selected style="font-weight: bold;color: navy;">Tài khoản được Online</option>
+                        <option value="true" >Tài khoản đang khoá</option>      
+                        <%  } else { %>                              
+                          <option value="">Tất Cả</option>
+                          <option value="false">Tài khoản được Online</option>
+                          <option value="true" selected style="font-weight: bold;color: navy;">Tài khoản đang khoá</option>   
+                          <% } %>  
+                    </optgroup>                                 
+                  </select>
+                  <h6 class="text-sm text-primary">DANH SÁCH TÀI KHOẢN ADMIN</h6>
+                  <div class="text-end">
+                    <a class="btn bg-gradient-dark mb-0" data-bs-toggle="modal" href="#listAdmin" role="button"><i class="fas fa-plus"></i>&nbsp;&nbsp;Thêm Mới Tài Khoản</a>
+                  </div>
+                </div>                  
+
+                <div class="card-body px-0 pt-0 pb-2">
+                  <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                      <thead>
+                        <tr>
+                          <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-7">STT</th>
+                          <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-7">Tài khoản</th>
+                          <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-7 ps-2">Mật khẩu</th>
+                          <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-7 ps-2">Số điện thoại</th>
+                          <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-7">Ngày tạo</th>
+                          <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-7">Ngày sửa</th>
+                          <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-7">Chức vụ</th>
+                          <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-7">Trạng thái</th>
+                          <th class="text-dark opacity-7"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <%
+                            <!-- Tính toán số thứ tự bắt đầu của sản phẩm đầu tiên trên trang -->
+                            const startIndex = (curPage - 1) * limit + 1;
+
+                            <!-- Tính toán số thứ tự của các sản phẩm tiếp theo trên trang -->
+                            const endIndex = Math.min(startIndex + limit - 1, );
+                          %> 
+                          <% if(listADWithTime.length > 0 ){ %>                                                   
+                              <% listADWithTime.forEach((listADWithTime, index) => { %>
+                                <% var loggedIn = false; %>
+                                    <% checkToken2.forEach(token => { %>
+                                        <% if(token.userId._id.toString() === listADWithTime._id.toString()) { %>
+                                            <% loggedIn = true; %>
+                                        <% } %>
+                                    <% }) %>
+                                <tr>
+                                  <td class="text-center align-middle"><p class="text-sm font-weight-bold mb-0"><%= startIndex  + index %></p></td>
+                                  <td class="text-center align-middle">
+                                      <div class="d-flex px-2 py-1">
+                                          <div>
+                                              <img id="avatarImg<%= index %>" class="avatar avatar-sm me-3" alt="user1">
+
+                                              <script>
+                                                  // Mảng chứa các tên tệp hình ảnh
+                                                  var fileNames = ['team-1.jpg', 'team-2.jpg', 'team-3.jpg', 'team-4.jpg', 'kt.jpg', 'ivana-square.jpg', 'bruce-mars.jpg', 'marie.jpg'];
+
+                                                  // Hàm chọn ngẫu nhiên một tên tệp từ mảng
+                                                  function randomFileName() {
+                                                      var randomIndex = Math.floor(Math.random() * fileNames.length);
+                                                      return fileNames[randomIndex];
+                                                  }
+
+                                                  // Chọn ngẫu nhiên một tên tệp và cập nhật thuộc tính src của thẻ img
+                                                  document.addEventListener('DOMContentLoaded', function() {
+                                                      var imgElement = document.getElementById('avatarImg<%= index %>');
+                                                      imgElement.src = 'assets/img/' + randomFileName();
+                                                  });
+                                              </script>
+                                          </div>
+                                          <div class="d-flex flex-column justify-content-center">
+                                              <h6 class="mb-0 text-sm text-primary"><%= listADWithTime.HoTen %></h6>
+                                              <p class="text-sm text-secondary mb-0 mt-1"><%= listADWithTime.TenDangNhap %></p>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  <td class="text-center align-middle">
+                                    <!-- Hiển thị mật khẩu -->
+                                    <span id="password<%= index %>" style="cursor: pointer;"  class="text-sm font-weight-bold mb-0 text-danger">********</span>
+                                                    
+                                    <!-- Icon ẩn/hiện mật khẩu -->
+                                    <i  id="togglePasswordIcon<%= index %>" 
+                                        style="cursor: pointer;" 
+                                        class="fas fa-eye-slash" 
+                                        onclick="togglePassword('<%= index %>', '<%= listADWithTime.MatKhau %>')"></i>
+                                      
+                                  </td>
+                                  <td class="text-center align-middle">
+                                    <p class="text-sm font-weight-bold mb-0"><%= listADWithTime.SDT %></p>
+                                </td>
+                                  
+                                <td class="align-middle text-center">
+                                    <span class="text-dark text-sm font-weight-bold"><%= listADWithTime.createdAt %></span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-dark text-sm font-weight-bold"><%= listADWithTime.updatedAt %></span>
+                                </td>
+                                <td class="align-middle text-center">
+                                  <!-- Hiển thị chức năng -->
+                                  <span class="text-dark text-sm font-weight-bold">
+                                    <script>
+                                      function findEmployeeIndex(listADWithTimeId, employeesArray) {
+                                          for (let i = 0; i < employeesArray.length; i++) {
+                                              if (listADWithTimeId === employeesArray[i]._idAdminNV.toString()) {
+                                                  return i;
+                                              }
+                                          }
+                                          return -1;
+                                      }
+                                      function findItemIndex(value, array, key) {
+                                          for (let i = 0; i < array.length; i++) {
+                                              if (value === array[i][key].toString()) {
+                                                  return i;
+                                              }
+                                          }
+                                          return -1;
+                                      }
+                                    </script>
+                                    <% if (employeesArray && employeesArray.length > 0) { %>
+                                      <% var employeeIndex = findEmployeeIndex(listADWithTime._id.toString(), employeesArray); %>                                      
+                                      <% if (employeeIndex !== -1 && employeesArray[employeeIndex].TenChucNang) { %>
+                                          <% employeesArray[employeeIndex].TenChucNang.forEach((chucNang, chucNangIndex) => { %>
+                                              <%= chucNang %>
+                                              <% if(chucNangIndex < employeesArray[employeeIndex].TenChucNang.length - 1) { %> 
+                                                  <br> 
+                                              <% } %>
+                                          <% }) %>
+                                      <% } else { %>
+                                          <!-- Xử lý khi không có dữ liệu chức năng -->
+                                          <span class="text-secondary text-sm font-weight-bold">
+                                              Không có chức năng
+                                          </span>
+                                      <% } %>
+                                  <% } %>
+                                  </span>
+                              </td>
+                                <td class="align-middle text-center text-sm">
+                                  <% if(listADWithTime.deleted === true) { %> 
+                                    <span class="badge badge-sm bg-gradient-danger">Đã khoá tài khoản</span>
+                                  <% } else { %> 
+                                      <% if(loggedIn) { %>
+                                        <span class="badge badge-sm bg-gradient-success">Đang Online</span> 
+                                      <% } else { %> 
+                                        <span class="badge badge-sm bg-gradient-secondary">Offline</span> 
+                                      <% } %>
+                                    <span class="badge badge-sm bg-gradient-primary">Cho phép Online</span>
+                                  <% } %>
+                                  
+                                </td>
+                                  <td class="align-middle">
+                                    <% if(listADWithTime.deleted === true) { %> 
+                                      <a class="btn btn-link text-danger text-gradient px-3 mb-0 disabled" href="#" ><i class="far fa-trash-alt me-2"></i> Khoá</a>
+                                      <a class="btn btn-link text-dark px-3 mb-0" href="#" data-bs-toggle="modal" data-bs-target="#suaAdminDangKhoa<%= listADWithTime._id %>"><img src="assets/img/icons8-key.gif" width="18" alt="">&nbsp;&nbsp;Mở khóa tài khoản</a>
+                                    <% } else { %>                                                                                 
+                                          <% if(loggedIn) { %>
+                                              <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="#tbKoDuocXoaAdmin<%= listADWithTime._id %>"><i class="far fa-trash-alt me-2"></i>Khoá</a>
+                                              <a class="btn btn-link text-dark px-3 mb-0" href="#" data-bs-toggle="modal" data-bs-target="#suaAdmin<%= listADWithTime._id %>"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Chỉnh sửa</a>
+                                              <a class="btn btn-link text-primary px-3 mb-0" href="#" data-bs-toggle="modal" data-bs-target="#phanQuyenAdmin<%= listADWithTime._id %>"><img src="assets/img/icons8-setting.gif" alt="" width="18">&nbsp;Phân quyền</a>
+                                              <a class="btn btn-link text-dark px-3 mb-0" onclick="toggleShowHide('<%= index %>', this)"><i id="viewIcon<%= index %>" class="fas fa-eye-slash text-primary me-2" aria-hidden="true"></i>View Token</a>
+                                          <% } else { %> 
+                                              <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="#xoaAdmin<%= listADWithTime._id %>"><i class="far fa-trash-alt me-2"></i>Khoá</a>
+                                              <a class="btn btn-link text-dark px-3 mb-0" href="#" data-bs-toggle="modal" data-bs-target="#suaAdmin<%= listADWithTime._id %>"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Chỉnh sửa</a>
+                                              <a class="btn btn-link text-primary px-3 mb-0" href="#" data-bs-toggle="modal" data-bs-target="#phanQuyenAdmin<%= listADWithTime._id %>"><img src="assets/img/icons8-setting.gif" alt="" width="18">&nbsp;&nbsp;Phân quyền</a>
+                                          <% } %>
+                                    <% } %>
+                                      
+                                  </td>
+                              </tr>
+                              <!-- Modal sửa tài khoản admin -->
+                              <form action="/save-tk-admin/<%= listADWithTime._id %>" enctype="multipart/form-data" id="updateAd<%= listADWithTime._id %>" class="updateAd" method="POST">
+                                <!-- sử dụng hidden để gửi phương thức PUT, hiểu là làm giả method PUT -->
+                                <input type="hidden" name="_method" value="PUT" />  
+                                <input type="hidden" name="idEditAd" id="idEditAd<%= listADWithTime._id %>" value="<%= listADWithTime._id %>" />  
+
+                                <div class="modal fade" id="suaAdmin<%= listADWithTime._id %>" aria-hidden="true" aria-labelledby="suaAdminModalToggleLabel<%= listADWithTime._id %>" tabindex="-1">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                          <div class="modal-header">
+                                              <h5 class="modal-title text-dark" id="suaAdminModalToggleLabel<%= listADWithTime._id %>">Bạn có chắc chắn muốn sửa tài khoản  <br>
+                                                <span class="text-danger"><%= listADWithTime.TenDangNhap %></span> ( <span class="text-danger"><%= listADWithTime.HoTen %></span> )?
+                                              </h5>
+                                          </div>
+                                          <div class="modal-body">
+                                              <div class="row">
+                                                  <div class="col-md-11">
+                                                    <input type="hidden" name="IdAdmin" id="IdAdmin<%= listADWithTime._id %>" value="<%= listADWithTime._id %>">                                                                                                        
+                                                    
+                                                    <div class="form-group">
+                                                      <label for="TenDangNhap<%= listADWithTime._id %>" class="form-control-label" style="font-size: 14px;">Tên đăng nhập </label>
+                                                      <input disabled class="form-control" id="TenDangNhap<%= listADWithTime._id %>" name="TenDangNhap" type="text" value="<%= listADWithTime.TenDangNhap %>" placeholder="Nhập tên đăng nhập ..." required>
+                                                      <div class="text-danger text-xs mt-2" id="txt_TenDangNhap<%= listADWithTime._id %>"></div>
+                                                    </div>  
+                                                    
+                                                    <div class="form-group">
+                                                        <label for="MatKhau<%= listADWithTime._id %>" class="form-control-label" style="font-size: 14px;">Mật khẩu <span style="color: red;">*</span></label>
+                                                        <input class="form-control" id="MatKhau<%= listADWithTime._id %>" name="MatKhau" type="password" value="<%= listADWithTime.MatKhau %>" placeholder="Nhập mật khẩu ..." required>
+                                                        <div class="text-danger text-xs mt-2" id="txt_MatKhau<%= listADWithTime._id %>"></div>
+                                                    </div>  
+                            
+                                                    <div class="form-group">
+                                                        <label for="HoTen<%= listADWithTime._id %>" class="form-control-label" style="font-size: 14px;">Họ tên <span style="color: red;">*</span></label>
+                                                        <input class="form-control" id="HoTen<%= listADWithTime._id %>" name="HoTen" type="text" value="<%= listADWithTime.HoTen %>" placeholder="Nhập họ tên ..." required>
+                                                        <div class="text-danger text-xs mt-2" id="txt_HoTen<%= listADWithTime._id %>"></div>
+                                                    </div>  
+                            
+                                                    <div class="form-group">
+                                                        <label for="SDT<%= listADWithTime._id %>" class="form-control-label" style="font-size: 14px;">Số điện thoại <span style="color: red;">*</span></label>
+                                                        <input class="form-control" id="SDT<%= listADWithTime._id %>" name="SDT" type="number" value="<%= listADWithTime.SDT %>" placeholder="Nhập số điện thoại ..." required>
+                                                        <div class="text-danger text-xs mt-2" id="txt_SDT<%= listADWithTime._id %>"></div>
+                                                    </div>
+                                                    
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary"  data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">Đóng</button>                
+                                              <button class="btn btn-warning" type="submit">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                &nbsp;Xác nhận sửa
+                                            </button>
+                                          </div>
+                                      </div>                            
+                                  </div>
+                                </div>
+                              </form>
+                              <!-- Modal sửa khoản admin đang khoá -->
+                              <form action="/save-tk-dang-khoa/<%= listADWithTime._id %>" enctype="multipart/form-data" id="updatelistADWithTime<%= listADWithTime._id %>" class="updateADKhoa" method="POST">
+                                <!-- sử dụng hidden để gửi phương thức PUT, hiểu là làm giả method PUT -->
+                                <input type="hidden" name="_method" value="PUT" />  
+                                <input type="hidden" name="idEdit" id="idEdit<%= listADWithTime._id %>" value="<%= listADWithTime._id %>" />  
+
+                                <div class="modal fade" id="suaAdminDangKhoa<%= listADWithTime._id %>" aria-hidden="true" aria-labelledby="suaAdminDangKhoaModalToggleLabel<%= listADWithTime._id %>" tabindex="-1">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                          <div class="modal-header">
+                                              <h5 class="modal-title text-dark" id="suaAdminDangKhoaModalToggleLabel<%= listADWithTime._id %>">Bạn có chắc chắn muốn mở tài khoản  
+                                                <span class="text-danger"><%= listADWithTime.TenDangNhap %></span> đang khoá không?
+                                              </h5>
+                                          </div>
+                                          <div class="modal-body">
+                                              <div class="row">
+                                                  <div class="col-md-11">
+                                                    <input type="hidden" name="IdDangNhap" id="IdDangNhap<%= listADWithTime._id %>" value="<%= listADWithTime._id %>">                                                                                                        
+                                                    
+                                                    <div class="form-check form-switch">
+                                                      <input class="form-check-input" type="checkbox" name="moKhoaTK" id="moKhoaTK<%= listADWithTime._id %>" >
+                                                      <label class="form-check-label text-primary font-weight-bold text-sm" for="moKhoaTK<%= listADWithTime._id %>">Tài khoản đang khoá</label>
+                                                    </div>
+                                                    <script>
+                                                      document.addEventListener('DOMContentLoaded', function() {
+                                                          const switchElement = document.getElementById('moKhoaTK<%= listADWithTime._id %>');
+                                                          
+                                                          switchElement.addEventListener('change', function() {
+                                                              const labelElement = switchElement.nextElementSibling;
+                                                              if (switchElement.checked) {
+                                                                  labelElement.textContent = 'Mở khoá tài khoản';
+                                                              } else {
+                                                                  labelElement.textContent = 'Tài khoản đang khoá';
+                                                              }
+                                                          });
+                                                      });
+                                                  </script>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary"  data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">Đóng</button>                
+                                              <button class="btn btn-success" type="submit">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                &nbsp;Xác nhận mở lại
+                                            </button>
+                                          </div>
+                                      </div>                            
+                                  </div>
+                                </div>
+                              </form>
+                              <!-- Modal phân quyền khoản admin -->
+                              <div class="modal fade" id="phanQuyenAdmin<%= listADWithTime._id %>" aria-hidden="true" aria-labelledby="phanQuyenAdminModalToggleLabel<%= listADWithTime._id %>" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-dark" id="phanQuyenAdminModalToggleLabel<%= listADWithTime._id %>">Phân quyền Admin cho tài khoản 
+                                              <span class="text-danger"><%= listADWithTime.TenDangNhap %></span>
+                                            </h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-11">
+                                                    <input type="hidden" name="IdDangNhap" id="IdDangNhap<%= listADWithTime._id %>" value="<%= listADWithTime._id %>">
+                                                    
+                                                    <div class="mb-3">                                  
+                                                      <label for="ChucNang" class="form-label text-sm text-primary">Chức năng quản lý <span class="text-danger">*</span></label> <br>
+                                                       <% chucNang.forEach(function(chucNang) { %>
+                                                        <input type="checkbox" id="ChucNang-<%= listADWithTime._id %>-<%= chucNang._id %>" name="ChucNang" value="<%= chucNang._id %>">
+                                                        <label for="ChucNang-<%= listADWithTime._id %>-<%= chucNang._id %>" class="form-label text-sm"> <%= chucNang.TenChucNang %></label><br>                                                      
+                                                        <% }); %>                                                                                                                                                                                                                      
+                                                    </div> 
+                                                  
+                                                  <div class="mb-3">                                  
+                                                      <label for="GhiChu" class="form-label text-sm">Ghi chú </label> <br>
+                                                      <input type="text" name="GhiChu" id="GhiChu<%= listADWithTime._id %>" class="form-control">                                    
+                                                  </div> 
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" onclick="loadTrang()" aria-label="Close">Đóng</button>                
+                                            <button class="btn btn-danger" type="button" onclick="createAdminPhanQuyen()">
+                                              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                              &nbsp;Xác nhận phân quyền
+                                          </button>
+                                        </div>
+                                    </div>                            
+                                </div>
+                              </div>
+                              <!-- Modal xoá tài khoản admin -->
+                              <div class="modal fade" id="xoaAdmin<%= listADWithTime._id %>" aria-hidden="true" aria-labelledby="xoaAdminModalToggleLabel<%= listADWithTime._id %>" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="xoaAdminModalToggleLabel<%= listADWithTime._id %>" style="color: navy;">Khoá tài khoản admin?</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-11">
+                                                    <p class="text-dark font-weight-bold">Bạn có muốn khoá tài khoản <span class="text-danger font-weight-bold"><%= listADWithTime.TenDangNhap %></span> ( <span class="text-danger font-weight-bold"><%= listADWithTime.HoTen %></span> ) này không?</p>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">Không</button>
+                                            <!-- <button type="button" onclick="deleteAdmin()" class="btn btn-primary" >Xác nhận thêm</button> -->
+                                            <button class="btn btn-danger" type="button" onclick="deleteAdmin('<%= listADWithTime._id %>')">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                &nbsp;Xác nhận xoá
+                                            </button>
+                                        </div>
+                                    </div>                            
+                                </div>
+                              </div>
+                              <!-- Modal không được xoá tài khoản admin -->
+                              <div class="modal fade" id="tbKoDuocXoaAdmin<%= listADWithTime._id %>" aria-hidden="true" aria-labelledby="tbKoDuocXoaAdminModalToggleLabel<%= listADWithTime._id %>" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-danger" id="tbKoDuocXoaAdminModalToggleLabel<%= listADWithTime._id %>">Không thể khoá!!</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-11">
+                                                    <span class="text-dark  font-weight-bold">Không thể khoá tài khoản <span class="text-primary  font-weight-bold"><%= listADWithTime.TenDangNhap %></span> 
+                                                        ( <span class="text-primary font-weight-bold"><%= listADWithTime.HoTen %></span> ) khi đang đăng nhập!
+                                                        <br> <span class="text-danger font-weight-bold">Hãy xoá phiên đăng nhập trước, nếu muốn khoá tài khoản bạn nhé.</span>
+                                                    </span> 
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn bg-gradient-success" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">OK SẾP</button>                
+                                        </div>
+                                    </div>                            
+                                </div>
+                              </div>
+                                <% if(loggedIn) { %>
+                                  <% checkToken2.forEach(token => { %>
+                                    <% if(token.userId._id.toString() === listADWithTime._id.toString()) { %>
+                                      <tr >
+                                        <td colspan="6" >
+                                          <div style="padding: 5px 30px; display: none;" class="text-xs" id="showttsp<%= index %>">
+                                            Token: <span class="text-primary text-xs"><%= token.token %></span> <br>
+                                            connect.sid: <span class="text-primary text-xs "><%= token.sid %></span> <br>                                            
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <div style="padding: 5px 30px; display: none;" id="showttspp<%= index %>">
+                                            <a class="btn btn-link text-danger text-gradient px-3 mb-0 text-end" data-bs-toggle="modal" data-bs-target="#xoaPhienDangNhapAdmin<%= token._id %>" ><i class="far fa-trash-alt me-2"></i> Xoá Phiên Đăng Nhập</a>
+                                          </div>
+                                        </td>
+                                      </tr>
+
+                                      <!-- Modal xoá phiên đăng nhập -->
+                                      <div class="modal fade" id="xoaPhienDangNhapAdmin<%= token._id %>" aria-hidden="true" aria-labelledby="xoaPhienDangNhapAdminModalToggleLabel<%= token._id %>" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="xoaPhienDangNhapAdminModalToggleLabel<%= token._id %>" style="color: navy;">Xoá phiên đăng nhập?</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-11">
+                                                            <p>Bạn có chắc chắn xoá phiên sid: 
+                                                              <span class="text-primary">
+                                                                <%= token.sid %>
+                                                              </span> của tài khoản <span class="text-danger"><%= listADWithTime.TenDangNhap%></span> này không?
+                                                            </p>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">Không</button>
+                                                    <button class="btn btn-danger" type="button" onclick="deleteTokenAD('<%= token._id %>')">
+                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                        &nbsp;Xác nhận xoá
+                                                    </button>
+                                                </div>
+                                            </div>                            
+                                        </div>
+                                      </div>
+                                    <% } %>
+                                  <% }) %>
+                                <% } %>
+
+                              <% }) %>
+                          <% } else { %> 
+                              <p>admin chưa update</p>
+                            <% } %>
+                            <tr >
+                                <td colspan="10" >
+                                  <%- include("../partials/phanTrang.ejs") %>
+                                </td>
+                            </tr>
+                       
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <!-- end quản lý tk admin-->
+        <%- include("../modal/modalQLTK.ejs") %>
+      <%- include("../partials/footer.ejs") %>
+    </div>
+
+  </main>
+
+  <!-- chân trang và các script -->
+  <%- include("../partials/chanTrangVaScript.ejs") %>
+  <!-- end chân trang và các script -->
+  
+</body>
+
+</html>

@@ -1,0 +1,286 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+    
+<!-- index-231:32-->
+    <!-- start head -->
+    <%- include("../../TrangChu/partials/head.ejs") %>
+    <!-- end head -->
+    <body>
+
+        <!-- Begin Body Wrapper -->
+        <div class="body-wrapper">
+            <!-- Begin Header Area -->
+            <%- include("../../TrangChu/partials/navTop.ejs") %>
+            <!-- Header Area End Here -->
+
+            <!-- Begin Li's Breadcrumb Area -->
+            <div class="breadcrumb-area">
+                <div class="container">
+                    <div class="breadcrumb-content">
+                        <ul>
+                            <li><a href="/page-home">Home</a></li>
+                            <li class="active">Xem chi tiết giỏ hàng </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!--Shopping Cart Area Strat-->
+            <div class="Shopping-cart-area pt-60 pb-60">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- <form action="#"> -->
+                                <% if(productDetailsArray.length > 0) { %>                                                                     
+                                <div class="table-content table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-family: Arial, Helvetica, sans-serif;" class="li-product-remove font-weight-bold">STT</th>
+                                                <th style="font-family: Arial, Helvetica, sans-serif;" class="li-product-remove font-weight-bold">Chức năng</th>
+                                                <th style="font-family: Arial, Helvetica, sans-serif;" class="li-product-thumbnail font-weight-bold">Hình Ảnh</th>
+                                                <th style="font-family: Arial, Helvetica, sans-serif;" class="cart-product-name font-weight-bold">Sản Phẩm & Cấu Hình</th>
+                                                <th style="font-family: Arial, Helvetica, sans-serif;" class="li-product-price font-weight-bold">Giá Sản Phẩm</th>
+                                                <th style="font-family: Arial, Helvetica, sans-serif;" class="li-product-quantity font-weight-bold">Số Lượng Mua</th>
+                                                <th style="font-family: Arial, Helvetica, sans-serif;" class="li-product-subtotal font-weight-bold">Tổng Tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% productDetailsArray.forEach(function(spDetailCart, index) { %>
+                                            <tr>
+                                                <td style="font-size: 18px;">
+                                                    <%= index + 1 %>
+                                                </td>
+                                                <td class="li-product-remove">
+                                                    <a href="#" data-toggle="modal" data-target="#xoaSPTrongCart<%= spDetailCart._id %>">
+                                                        <i style="font-size: 24px;color: red;" title="Xoá sản phẩm này khỏi giỏ hàng" class="fa fa-trash"></i>
+                                                    </a>
+
+                                                    <!-- Modal xoá sản phẩm trong giỏ hàng -->
+                                                    <div class="modal fade" id="xoaSPTrongCart<%= spDetailCart._id %>" tabindex="-1" role="dialog" aria-labelledby="xoaSPTrongCart<%= spDetailCart._id %>Label" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                          <div class="modal-content">
+                                                            <div class="modal-header">
+                                                              <h5 class="modal-title" id="xoaSPTrongCart<%= spDetailCart._id %>Label" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold;">Xoá sản phẩm trong giỏ hàng?</h5>
+                                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                              </button>
+                                                            </div>
+                                                            <div class="modal-body" style="font-size: 18px;">
+                                                                Bạn có chắc chắn muốn xóa sản phẩm <span style="color: red;"><%= spDetailCart.productDetails.TenSP %> <span style="color: blue;">- Có Cấu Hình: (<%= spDetailCart.size %>)</span></span> trong giỏ hàng này không?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                                                              <button type="button" class="btn btn-danger" onclick="deleteSPCart('<%= spDetailCart._id %>')">Xoá Ngay</button>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <p></p>
+                                                    <input type="hidden" name="idDetailTaiTrang" value="<%= spDetailCart._id %>">
+                                                    <a href="#" data-toggle="modal" id="viewUpdateProductCart<%= spDetailCart.productDetails._id %>" data-target="#suaSPTrongCart<%= spDetailCart.productDetails._id %>">
+                                                        <i style="font-size: 24px;color: gray;" title="Edit số lượng và size của sản phẩm này"  class="fa fa-pencil"></i>
+                                                    </a>
+
+                                                    <!-- Modal SỬA sản phẩm trong giỏ hàng -->
+                                                    <div class="modal fade" id="suaSPTrongCart<%= spDetailCart.productDetails._id %>" tabindex="-1" role="dialog" aria-labelledby="suaSPTrongCart<%= spDetailCart.productDetails._id %>Label" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                          <div class="modal-content">
+                                                            <div class="modal-header">
+                                                              <h5 class="modal-title" id="suaSPTrongCart<%= spDetailCart.productDetails._id %>Label" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold;">Sửa sản phẩm trong giỏ hàng?</h5>
+                                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                              </button>
+                                                            </div>
+                                                            <div class="modal-body" style="font-size: 18px;">
+                                                               
+                                                                <span style="color: red;">
+                                                                    <%= spDetailCart.productDetails.TenSP %> 
+                                                                    <span style="color: blue;"><br> Có Cấu Hình: (<%= spDetailCart.size %>)</span>
+                                                                </span> <br><br>                                                                                                                                
+
+                                                                <div class="input-group mb-3">
+                                                                    <div class="input-group-prepend">
+                                                                      <label class="input-group-text" for="size-select<%= spDetailCart.productDetails._id %>">Cấu Hình</label>
+                                                                    </div>
+                                                                    <select name="size" class="custom-select" id="size-select<%= spDetailCart.productDetails._id %>" style="font-size: 18px;">
+                                                                        <!-- <% spDetailCart.productDetails.sizeQuantity.forEach((item, index) => { %> 
+                                                                            <option style="font-size: 18px;" value="<%= index %>"><%= item.size %></option>
+                                                                        <% }) %> -->
+                                                                        <!-- <option selected>Choose...</option>
+                                                                        <option value="1">One</option>
+                                                                        <option value="2">Two</option>
+                                                                        <option value="3">Three</option> -->
+                                                                    </select>
+                                                                </div>                                                                
+
+                                                                <div class="input-group mb-3">
+                                                                    <div class="input-group-prepend">
+                                                                      <span class="input-group-text">Số lượng mua</span>
+                                                                    </div>
+                                                                    <input type="number" min="1" name="SoLuongMua" id="SoLuongMua<%= spDetailCart.productDetails._id %>" value="<%= spDetailCart.qty %>" class="form-control" aria-label="Số lượng mua">
+                                                                </div>
+                                                                                                                                                                                                
+                                                                <div class="input-group">
+                                                                    <input  type="text" 
+                                                                            disabled
+                                                                            name="donGiaProduct"
+                                                                            id="price-product<%= spDetailCart.productDetails._id %>"
+                                                                            class="form-control" 
+                                                                            style="color: rgb(240, 26, 26);display: flex;justify-content: center;text-align: center;" 
+                                                                            aria-label="Amount (to the nearest dollar)">
+                                                                    <div class="input-group-append">
+                                                                        <span   class="input-group-text"                                                                                 
+                                                                                id="old-price<%= spDetailCart.productDetails._id %>"
+                                                                                style="color: rgb(150, 150, 150);font-weight: 400;font-style: italic;text-decoration: line-through;">
+                                                                        </span>
+                                                                        <input type="hidden" name="giaChuaGiam" id="old-price-input<%= spDetailCart.productDetails._id %>" value="">
+                                                                        <span class="input-group-text">VNĐ</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <br>
+                                                                <div class="input-group mb-3">
+                                                                    <div class="input-group-prepend">
+                                                                      <span class="input-group-text" id="inputGroup-sizing-default">Tổng Tiền</span>
+                                                                    </div>
+                                                                    <input  type="text" 
+                                                                            disabled
+                                                                            style="color: blue;"
+                                                                            id="tongTien<%= spDetailCart.productDetails._id %>"
+                                                                            class="form-control" 
+                                                                            aria-label="Default" 
+                                                                            aria-describedby="inputGroup-sizing-default">
+                                                                </div>
+                                                                
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                                                              <button type="button" class="btn btn-primary" onclick="updateSPTrongCart('<%= spDetailCart._id %>','<%= spDetailCart.productDetails._id %>')">Lưu Lại Ngay</button>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </td>
+                                                <td class="li-product-thumbnail">
+                                                    <a href="/detailt-sp-linkUrl?idDetailTrangMoi=<%= spDetailCart.productDetails._id %>">
+                                                        <img width="100" height="80" src="images/upload/<%= getRelativeImagePath(spDetailCart.productDetails.Icon[0]) %>" alt="Li's Product Image">
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a  style="font-size: 18px; color: navy;" 
+                                                        href="/detailt-sp-linkUrl?idDetailTrangMoi=<%= spDetailCart.productDetails._id %>">
+                                                        <%= spDetailCart.productDetails.TenSP  %>
+                                                    </a>
+                                                    <p >Cấu Hình: <span style="color: black;">&nbsp; <%= spDetailCart.size %></span></p>
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    <span class="amount" style="color: rgb(240, 26, 26);"><%= formatCurrency(spDetailCart.donGia) %></span> &nbsp;
+                                                    <span class="amount" style="color: rgb(150, 150, 150);font-weight: 500;font-style: italic;text-decoration: line-through;"><%= formatCurrency(spDetailCart.giaChuaGiam) %></span>
+                                                </td>
+                                                <td class="quantity" style="font-size: 18px;color: blue;"><%= spDetailCart.qty %></td>
+                                                <td class="product-subtotal">
+                                                    <span class="amount" style="color: rgb(240, 26, 26);">
+                                                        <%= formatCurrency(spDetailCart.donGia * spDetailCart.qty ) %>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <% }); %> 
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="coupon-all">
+                                            <form action="/add-voucher" method="POST" id="add-voucher">
+                                                <div class="coupon">
+                                                    <input id="coupon_code" style="width: 200px;border-radius: 5px;" class="input-text" name="voucher" placeholder="NHẬP MÃ GIẢM GIÁ" type="text">
+                                                    <input class="btn btn-primary" style="background-color: navy; color: white;border-radius: 5px;" value="ADD VOUCHER" type="submit">
+                                                </div>
+                                            </form>                                            
+                                            <!-- <div class="coupon2">
+                                                <input class="button" name="update_cart" value="Update cart" type="submit">
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-5 ml-auto">
+                                        <div class="cart-page-total">
+                                            <h2 style="font-family: Arial, Helvetica, sans-serif;color: navy;">Tổng Số Giỏ Hàng</h2>
+                                            <ul>
+                                                <li>
+                                                    Tổng giá &nbsp; <text style="color: blue;"><%= cartItemss.totalQuaty !== 0 ? cartItemss.totalQuaty : 0 %></text> &nbsp; sản phẩm 
+                                                    <span style="color: red;font-size: 18px;"><%= formatCurrency(tongGiaAllSP) %></span>
+                                                </li>
+                                                <li title="Giảm giá tuỳ vào tài khoản của khách hàng">
+
+                                                    <% if(GiamGia > 0) { %> 
+                                                        Giảm giá &nbsp; <text style="color: blue;"><%= GiamGia %>%</text> <text style="font-style: italic;font-size: 15px;color: green;">(Đã dùng VOUCHER)</text>
+                                                    <% } else { %>
+                                                        Giảm giá &nbsp; <text style="color: blue;"><%= GiamGia %>%</text>
+                                                    <% } %>
+
+                                                    
+                                                    <% 
+                                                        const giam_gia = ( GiamGia / 100 ) * tongGiaAllSP
+                                                    %>
+                                                    <span style="color: red;font-style: italic;font-size: 18px;">-<%= formatCurrency(giam_gia) %></span>
+                                                </li>
+                                                <li >
+                                                    Phí giao hàng
+                                                    <% if (tongGiaAllSP >= 1000000) { %>
+                                                        <span style="color: rgb(0, 148, 37);">Miễn phí vận chuyển</span>
+                                                    <% } else { %>
+                                                        <span class="cart_amount" style="color: blue;font-size: 18px;"> <%= formatCurrency(detailCart.cart.PhiShip) %></span>
+                                                    <% } %>
+                                                    <!-- <span style="color: rgb(0, 148, 37);">Miễn phí vận chuyển</span> -->
+                                                </li>
+                                                <li>
+                                                    Số tiền cần thanh toán 
+                                                    <span style="color: navy;font-size: 18px;">
+                                                        <% if (tongGiaAllSP >= 1000000) { %>
+                                                            <%= formatCurrency(tongGiaAllSP - giam_gia ) %>
+                                                        <% } else { %>
+                                                            <%= formatCurrency(tongGiaAllSP + detailCart.cart.PhiShip - giam_gia ) %>
+                                                        <% } %>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                            <a href="/check-out-web">Tiến hành kiểm tra và đặt hàng</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } else { %> 
+                                    <div style="display: flex; justify-content: center;">
+                                        <img width="70" src="pageHome/jsXuLyCacChucNang/icons8-error.gif" alt="">                                        
+                                        <p style=" color: red; font-size: 22px; margin-top: 20px; margin-left: 30px;">Giỏ hàng rỗng</p>
+                                    </div>
+                                <% } %>
+                            <!-- </form> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Shopping Cart Area End-->
+            
+            <!-- Begin Footer Area -->
+            <%- include("../../TrangChu/partials/footer.ejs") %>
+            <!-- Footer Area End Here -->
+
+            <!-- Begin Quick View | Modal Area -->
+            <%- include("../../TrangChu/Modal/modal-detailt-product.ejs") %>
+            <!-- Quick View | Modal Area End Here -->
+        </div>
+        <!-- Body Wrapper End Here -->
+        <!-- các script -->
+        <%- include("../../TrangChu/partials/chanTrangVaScript.ejs") %>
+    </body>
+
+<!-- index-231:38-->
+</html>

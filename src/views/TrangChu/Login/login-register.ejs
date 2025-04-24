@@ -1,0 +1,221 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+    
+<!-- index-231:32-->
+    <!-- start head -->
+    <%- include("../../TrangChu/partials/head.ejs") %>
+    <!-- end head -->
+    <body>
+
+        <!-- Begin Body Wrapper -->
+        <div class="body-wrapper">
+            <!-- Begin Header Area -->
+            <%- include("../../TrangChu/partials/navTop.ejs") %>
+            <!-- Header Area End Here -->            
+
+             <!-- Begin Li's Breadcrumb Area -->
+             <div class="breadcrumb-area">
+                <div class="container">
+                    <div class="breadcrumb-content">
+                        <ul>
+                            <li><a href="/page-home">Home</a></li>
+                            <li class="active">Đăng nhập - Đăng ký tài khoản</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Breadcrumb Area End Here -->
+            <%- include("../../TrangChu/partials/loader_xoayxoay.ejs") %>
+            <!-- Begin Login Content Area -->
+            <div class="page-section mb-60">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
+                            <!-- Login Form s-->
+                            <form id="login-form" >
+                                <div class="login-form">
+                                    <h4 class="login-title" style="font-family:Arial, Helvetica, sans-serif">Đăng nhập</h4>
+                                    <div class="col-md-12 mt-10 mb-20 text-left text-md-center">                                        
+                                        <a href="/auth/google" style="font-size: 18px;"> 
+                                            <img src="pageHome/jsXuLyCacChucNang/icons8-google-144.png" width="30" height="30" alt=""> 
+                                             Google
+                                        </a>  &nbsp;&nbsp;
+                                        <a href="/auth/facebook" style="font-size: 18px;"> 
+                                            <img src="pageHome/jsXuLyCacChucNang/icons8-facebook-48.png" width="35" height="35" alt="">
+                                             Facebook
+                                        </a> 
+                                        <br> 
+                                        <span style="font-size: 18px;">
+                                            <hr style="width: 50%; margin: 10px auto;">
+                                            <span>Hoặc</span>
+                                        </span>     
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-12 mb-20">
+                                            <label for="Email" style="font-family:Arial, Helvetica, sans-serif" class="fw-bold">Địa chỉ Email <span class="text-danger">*</span></label>
+                                            <input id="Email" name="Email" class="mb-0" type="email" placeholder="Nhập email đăng nhập..." required>
+                                            <div class="text-danger text-xs mt-2" id="txt_TenDangNhap"></div>
+                                        </div>
+                                        <div class="col-12 mb-20">
+                                            <label for="MatKhau" style="font-family:Arial, Helvetica, sans-serif" class="fw-bold">Mật khẩu  <span class="text-danger">*</span></label>
+                                            <input id="MatKhau" name="MatKhau" class="mb-0" type="password" placeholder="Nhập mật khẩu..." required>
+                                            <div class="text-danger text-xs mt-2" id="txt_MatKhau"></div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
+                                                <input type="checkbox" id="remember_me" name="remember_me">
+                                                <label for="remember_me">Lưu tài khoản</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
+                                            <a  href="#" data-target="#quenMKModalToggle" data-toggle="modal"> Quên mật khẩu?</a>                                            
+                                        </div>
+                                                                                
+                                        <div class="col-md-12">
+                                            <button class="register-button mt-0" style="cursor: pointer;">Đăng nhập</button>
+                                        </div>
+
+                                       
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                            
+                            <%- include("../Modal/modal-quen-mat-khau.ejs") %>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
+                            <form id="register-form">
+                                <div class="login-form">
+                                    <h4 class="login-title" style="font-family:Arial, Helvetica, sans-serif">Đăng ký</h4>
+                                    <div class="row">
+                                        <div class="col-md-6 col-12 mb-20">
+                                            <label for="Ho" style="font-family:Arial, Helvetica, sans-serif" class="fw-bold">Họ <span class="text-danger">*</span></label>
+                                            <input id="Ho" name="Ho" class="mb-0" type="text" placeholder="Nhập họ của bạn...">
+                                            <div class="text-danger text-xs mt-2" id="txt_Ho"></div>
+                                        </div>
+                                        <div class="col-md-6 col-12 mb-20">
+                                            <label for="Ten" style="font-family:Arial, Helvetica, sans-serif" class="fw-bold">Tên <span class="text-danger">*</span></label>
+                                            <input id="Ten" name="Ten" class="mb-0" type="text" placeholder="Nhập tên của bạn...">
+                                            <div class="text-danger text-xs mt-2" id="txt_Ten"></div>
+                                        </div>
+                                        <div class="col-md-12 mb-20">
+                                            <label for="EmailDky" style="font-family:Arial, Helvetica, sans-serif" class="fw-bold">Địa Chỉ Email <span class="text-danger">*</span></label>
+                                            <input id="EmailDky" name="EmailDky" class="mb-0" type="email" placeholder="Nhập email đăng ký...">
+                                            <div class="text-danger text-xs mt-2" id="txt_TenDangKy"></div>
+                                        </div>
+                                        <div class="col-md-6 mb-20">
+                                            <label for="PasswordDky" style="font-family:Arial, Helvetica, sans-serif" class="fw-bold">Mật Khẩu <span class="text-danger">*</span></label>
+                                            <input id="PasswordDky" name="PasswordDky" class="mb-0" type="password" placeholder="Nhập mật khẩu...">
+                                            <div class="text-danger text-xs mt-2" id="txt_MatKhauDky"></div>
+                                        </div>
+                                        <div class="col-md-6 mb-20">
+                                            <label for="NhapLaiPasswordDky" style="font-family:Arial, Helvetica, sans-serif" class="fw-bold">Nhập lại mật khẩu <span class="text-danger">*</span></label>
+                                            <input id="NhapLaiPasswordDky" name="NhapLaiPasswordDky" class="mb-0" type="password" placeholder="Nhập lại mật khẩu...">
+                                            <div class="text-danger text-xs mt-2" id="txt_NhapLaiMatKhauDky"></div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="register-button mt-0" style="cursor: pointer;">Đăng ký</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!--  -->
+                            <!-- Modal for OTP -->
+                            <div class="modal" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="otpModalLabel">Nhập Mã OTP</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label for="otp">Mã OTP đã được gửi đến email của bạn</label>
+                                            <input type="text" id="otp" class="form-control" placeholder="Nhập mã OTP" required>
+                                            <div class="text-danger text-xs mt-2" id="otp-error"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                            <button type="button" id="verify-otp-btn" class="btn btn-primary">Xác nhận OTP</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                document.getElementById("register-form").addEventListener("submit", async function(event) {
+                                    event.preventDefault();
+
+                                    const Ho = document.getElementById("Ho").value;
+                                    const Ten = document.getElementById("Ten").value;
+                                    const EmailDky = document.getElementById("EmailDky").value;
+                                    const PasswordDky = document.getElementById("PasswordDky").value;
+                                    const NhapLaiPasswordDky = document.getElementById("NhapLaiPasswordDky").value;
+
+                                    // Gửi đăng ký đến backend
+                                    const response = await fetch("/register-user", {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({
+                                            Ho,
+                                            Ten,
+                                            EmailDky,
+                                            PasswordDky,
+                                            NhapLaiPasswordDky
+                                        })
+                                    });
+
+                                    const data = await response.json();
+
+                                    if (data.success) {
+                                        // Nếu đăng ký thành công, hiển thị modal OTP
+                                        $('#otpModal').modal('show');
+                                    } else {
+                                        alert(data.message);
+                                    }
+                                });
+
+                                // Xác nhận OTP
+                                document.getElementById("verify-otp-btn").addEventListener("click", async function() {
+                                    const otp = document.getElementById("otp").value;
+                                    const email = document.getElementById("EmailDky").value; // Lấy lại email từ form
+
+                                    const response = await fetch("/xac-thuc-otp", {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({
+                                            otp,
+                                            email
+                                        })
+                                    });
+
+                                    const data = await response.json();
+
+                                    if (data.success) {
+                                        alert("Xác thực OTP thành công! Bạn có thể đăng nhập.");
+                                        $('#otpModal').modal('hide');
+                                    } else {
+                                        document.getElementById("otp-error").innerText = data.message;
+                                    }
+                                });
+                            </script>
+                              
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Login Content Area End Here -->
+            
+             <!-- Begin Footer Area -->
+             <%- include("../../TrangChu/partials/footer.ejs") %>
+             <!-- Footer Area End Here -->
+            </div>
+        <!-- Body Wrapper End Here -->
+        <!-- các script -->
+        <%- include("../../TrangChu/partials/chanTrangVaScript.ejs") %>
+    </body>
+
+<!-- index-231:38-->
+</html>

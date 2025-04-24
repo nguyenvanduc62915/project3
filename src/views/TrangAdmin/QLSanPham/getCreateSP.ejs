@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- start head -->
+<%- include("../partials/head.ejs") %>
+<!-- end head -->
+
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+
+  <!-- navbar left start -->
+  <%- include("../partials/navbarLeft.ejs") %>
+  <!-- navbar left end -->
+  
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar TOP start -->
+    <%- include("../partials/navTop.ejs") %>
+    <!-- End Navbar TOP -->
+    <div class="container-fluid py-4">
+            
+        <!-- start create sản phẩm -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="col-md-12">
+                        <div class="card">    
+                            <form id="themSPForm" method="post" action="/create-spp" enctype="multipart/form-data">
+                                <div class="card-body">
+                                    <p class="text-uppercase text-sm font-weight-bold">Thông tin sản phẩm</p>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="TenSP" class="form-control-label text-sm">Tên sản phẩm <span style="color: red;">*</span></label>
+                                                <input class="form-control" type="text" placeholder="Nhập tên sản phẩm" id="TenSP" name="TenSP" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="GiamGiaSP" class="form-control-label text-sm">Giảm giá theo <span style="color: blue;">%</span></label>
+                                                <input class="form-control" type="number" min="0" max="100" value="0" id="GiamGiaSP" name="GiamGiaSP">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="IdHangSX" class="form-control-label text-sm">Hãng sản xuất (Loại sản phẩm) <span style="color: red;">*</span></label>
+                                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="IdHangSX" id="IdHangSX">
+                                                    <optgroup label="Chọn hãng sản xuất">
+                                                        <% hangSx.forEach(function(hangSx) { %> 
+                                                            <option value="<%= hangSx._id %>"><%= hangSx.TenHangSX %> &nbsp;&nbsp;( <%= hangSx.IdLoaiSP.TenLoaiSP%> )</option>
+                                                        <% }); %> 
+                                                    </optgroup>                                                                                  
+                                                </select>                                          
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <!-- <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Postal code</label>
+                                            <input class="form-control" type="text" value="437300">
+                                            </div> -->
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label for="sizeQuantity" class="form-control-label text-sm">Size - Số lượng - Đơn giá <span style="color: red;">*</span></label>
+                                                <!-- <input class="form-control" type="text" value="437300"> -->
+                                                <div id="sizeInputs" class="row">
+                                                    <!-- Đây là nơi để các trường nhập thông tin size, quantity và price được thêm vào bằng JavaScript -->
+                                                </div>
+                                                <button class="btn btn-primary" type="button" onclick="addSizeInput()">Add Size</button><br><br>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label for="Icon" class="form-control-label text-sm">Hình Ảnh: <span style="color: red;">*</span></label>
+                                                <input name="Icon" id="Icon" class="form-control" type="file" multiple onchange="previewImages()" required>
+                                                <!-- <img id="imagePreviewIcon" height="100" width="100" src="" alt="ảnh 1">                                         -->
+                                                <div id="imagePreviewContainer" style="background-color: rgba(243, 243, 243, 0.815);border-radius: 10px;"></div> <!-- Nơi để hiển thị các ảnh preview -->
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label for="HinhAnh1" class="form-control-label">Hình Ảnh 2: <span style="color: red;">*</span></label>
+                                                <input name="HinhAnh1" id="HinhAnh1" class="form-control" type="file">
+                                                <img id="imagePreview1" height="100" width="100" src="" alt="ảnh 2">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label for="HinhAnh2" class="form-control-label">Hình Ảnh 3: <span style="color: red;">*</span></label>
+                                                <input name="HinhAnh2" id="HinhAnh2" class="form-control" type="file">
+                                                <img id="imagePreview2" height="100" width="100" src="" alt="ảnh 3">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label for="HinhAnh3" class="form-control-label">Hình Ảnh 4: <span style="color: red;">*</span></label>
+                                                <input name="HinhAnh3" id="HinhAnh3" class="form-control" type="file">
+                                                <img id="imagePreview3" height="100" width="100" src="" alt="ảnh 4">
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    
+                                    <p class="text-uppercase text-sm font-weight-bold">Soạn thảo mô tả và mô tả chi tiết</p>
+    
+                                    <div class="col-md-12">
+                                        <label for="MoTa" class="form-label text-sm">Mô Tả</label>
+                                        <textarea name="MoTa" id="MoTa" class="form-control"></textarea>
+                                    </div>
+    
+                                    <div class="col-md-12">
+                                        <label for="MoTaChiTiet" class="form-label text-sm">Mô Tả Chi Tiết</label>
+                                        <textarea name="MoTaChiTiet" id="MoTaChiTiet" class="form-control"></textarea>
+                                    </div>
+    
+                                    <div class="card-header pb-0">
+                                        <button type="submit" class="btn bg-gradient-success  ms-auto">Đồng ý thêm mới</button>                              
+                                    </div>
+                                </div>
+                            </form>                                                  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    
+        <!-- end create sản phẩm -->
+      
+      <%- include("../partials/footer.ejs") %>
+    </div>
+
+  </main>
+
+  <!-- chân trang và các script -->
+  <%- include("../partials/chanTrangVaScript.ejs") %>
+  <!-- end chân trang và các script -->
+  
+</body>
+
+</html>

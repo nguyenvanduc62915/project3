@@ -1,0 +1,90 @@
+<% if(activeee == "active_quanLySP") { %>
+    
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center" style="margin-top: 10px;">
+        <ul class="pagination">
+        <% 
+            const pre = curPage <= 1 ? curPage : curPage - 1; 
+            const next = curPage >= soTrang ? curPage : parseInt(curPage) + 1                                
+
+            let queryParams = '';
+            if (searchSPSession) {
+                queryParams += `searchSP=${encodeURIComponent(searchSPSession)}`;
+            }
+            if (searchSP_TheLoaiSPSession) {
+                queryParams += `${queryParams ? '&' : ''}searchSP_TheLoaiSP=${encodeURIComponent(searchSP_TheLoaiSPSession)}`;
+            }
+            if (SapXepTheoGiaSession) {
+                queryParams += `${queryParams ? '&' : ''}SapXepTheoGia=${SapXepTheoGiaSession}`;
+            }
+            if (LocTheoGiaSession) {
+                queryParams += `${queryParams ? '&' : ''}LocTheoGia=${LocTheoGiaSession}`;
+            }
+            queryParams += queryParams ? '&' : '';
+        %>
+            <li class="page-item ">
+                <a class="page-link" href="/list-quan-ly-sp?<%=queryParams%>page=<%= pre %>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <% for(var i=1; i <=soTrang; i++) { 
+                let active = (i == curPage) ? 'active' : '';
+            %>
+
+            <li class="page-item <%= active %>">
+                <a class="page-link" href="/list-quan-ly-sp?<%=queryParams%>page=<%= i %>">
+                    <%= i %>
+                </a>
+            </li>
+
+            <% } %>    
+            <li class="page-item">
+                <a class="page-link" href="/list-quan-ly-sp?<%=queryParams%>page=<%= next %>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <% } else if(activeee == "active_quanLyTKAdmin_list") { %>
+        <nav aria-label="Page navigation example" class="d-flex justify-content-center" style="margin-top: 10px;">
+            <ul class="pagination">
+            <% 
+                const pre = curPage <= 1 ? curPage : curPage - 1; 
+                const next = curPage >= soTrang ? curPage : parseInt(curPage) + 1                                
+    
+                let queryParams = '';       
+                if (ssSearchAd) {
+                    queryParams += `searchAD=${encodeURIComponent(ssSearchAd)}`;
+                }    
+                if (locTheoStatus) {
+                    queryParams += `${queryParams ? '&' : ''}locTheoStatus=${locTheoStatus}`;
+                }                     
+                queryParams += queryParams ? '&' : '';
+            %>
+                <li class="page-item ">
+                    <a class="page-link" href="/list-account-admin?<%=queryParams%>page=<%= pre %>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <% for(var i=1; i <=soTrang; i++) { 
+                    let active = (i == curPage) ? 'active' : '';
+                %>
+    
+                <li class="page-item <%= active %>">
+                    <a class="page-link" href="/list-account-admin?<%=queryParams%>page=<%= i %>">
+                        <%= i %>
+                    </a>
+                </li>
+    
+                <% } %>    
+                <li class="page-item">
+                    <a class="page-link" href="/list-account-admin?<%=queryParams%>page=<%= next %>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    <% } else { %>
+
+        <% } %>
+
+

@@ -1,0 +1,240 @@
+<header>
+    <!-- Begin Header Top Area -->
+    <div class="header-top">
+        <div class="container">
+            <div class="row">
+                <!-- Begin Header Top Left Area -->
+                <div class="col-lg-3 col-md-4">
+                    <div class="header-top-left">
+                        <ul class="phone-wrap">
+                            <li><span style="font-size: 15px;">Phone:</span><a style="font-size: 15px;" href="#">  0972 138 493</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Header Top Left Area End Here -->
+                <!-- Begin Header Top Right Area -->
+                <div class="col-lg-9 col-md-8">
+                    <div class="header-top-right">
+                        <ul class="ht-menu">
+                            <!-- Begin Setting Area -->
+                            <!-- <li>
+                                <div class="ht-setting-trigger"><span>Setting</span></div>
+                                <div class="setting ht-setting">
+                                    <ul class="ht-setting-list">
+                                        <li><a href="login-register.html">My Account</a></li>
+                                        <li><a href="checkout.html">Checkout</a></li>
+                                        <li><a href="/login-register">Đăng nhập</a></li>
+                                    </ul>
+                                </div>
+                            </li> -->
+                            <!-- Setting Area End Here -->
+                            
+                            <!-- Begin Language Area -->
+                            <% if(user && token) { %>  
+                                <li>
+                                    <img src="pageHome/images/user.png" alt="" width="25">
+                                    <span class="s-4 fw-bold" style="font-size: 18px;">&nbsp; Xin Chào: &nbsp; <a class="text-success fw-bold" style="font-size: 18px;" href="/tai-khoan-cua-toi"><%= ho %> <%= ten %></a></span>
+                                </li>
+                                <li>
+                                    <img src="pageHome/images/logout.png" alt="" width="30">
+                                    <span class="s-4 fw-bold" style="font-size: 18px;">&nbsp; <a class="text-black fw-bold" style="font-size: 18px;" href="/logout-user">Đăng xuất</a> </span>
+                                </li>
+                            <% } else { %> 
+                                <li>
+                                    <img src="pageHome/images/login-icon.png" alt="" width="30">
+                                    <a class="text-black" href="/login-register" style="font-size: 18px;">Tiến hành đăng nhập</a>                                
+                                </li>
+                            <% } %>
+                            
+                            <!-- Language Area End Here -->
+                        </ul>
+                    </div>
+                </div>
+                <!-- Header Top Right Area End Here -->
+            </div>
+        </div>
+    </div>
+    <!-- Header Top Area End Here -->
+    <!-- Begin Header Middle Area -->
+    <div class="header-middle pl-sm-0 pr-sm-0 pl-xs-0 pr-xs-0">
+        <div class="container">
+            <div class="row">
+                <!-- Begin Header Logo Area -->
+                <div class="col-lg-3">
+                    <div class="logo pb-sm-30 pb-xs-30">
+                        <a href="/page-home">
+                            <img style="width: 220px;height: 55px;" src="pageHome/images/menu/logo/LOGO-NA-KT.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- Header Logo Area End Here -->
+                <!-- Begin Header Middle Right Area -->
+                <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
+                    <!-- Begin Header Middle Searchbox Area -->
+                    <form action="/shop-list-category-product" class="hm-searchbox">
+                        <select class="nice-select select-search-category" name="idLoaiSP">
+                            <% loaiSPSeach.forEach(function(loaiSPSeach) { %> 
+                                <% if (loaiSPSeach._id.toString() === ssIdLoaiSP) { %>
+                                    <option selected value="<%= loaiSPSeach._id %>"><%= loaiSPSeach.TenLoaiSP %></option>   
+                                <% } else { %>
+                                    <option value="<%= loaiSPSeach._id %>"><%= loaiSPSeach.TenLoaiSP %></option>   
+                                <% } %>                                
+                            <% }) %>                                                                              
+                        </select>
+                        <input type="text" placeholder="Bạn cần tìm gì ?" name="TenSPSearch" value="<%= ssTenSPSearch %>">
+                        <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                    <!-- Header Middle Searchbox Area End Here -->
+                    <!-- Begin Header Middle Right Area -->
+                    <% if(user && token) { %>  
+                    <div class="header-middle-right">
+                        <ul class="hm-menu">
+                            <!-- Begin Header Middle Wishlist Area -->
+                            <li class="hm-wishlist">
+                                <a href="wishlist.html">
+                                    <span class="cart-item-count wishlist-item-count">0</span>
+                                    <i class="fa fa-heart-o"></i>
+                                </a>
+                            </li>
+                            <!-- Header Middle Wishlist Area End Here -->
+                            <!-- Begin Header Mini Cart Area -->
+                            <li class="hm-minicart">
+                                <div class="hm-minicart-trigger">
+                                    <span class="item-icon"></span>
+                                    <span class="item-text"> <span id="totalPrice">0</span>
+                                        <span class="cart-item-count" id="totalQuantity">0</span>
+                                    </span>
+                                </div>
+                                <span></span>
+                                <div class="minicart" style=" max-height: 500px; overflow-y: auto; width: 400px;">
+                                    <ul class="minicart-product-list" id="cartProductList">
+                                        <!-- Sản phẩm trong giỏ hàng sẽ được thêm vào đây -->
+                                    </ul>
+                                    <p id="checkRong" class="minicart-total" >Tổng Tiền: <span style="color: red;" id="cartTotalPrice">0</span></p>
+                                    <div id="checkRong1" class="minicart-button">
+                                        <a href="/get-chi-tiet-cart-url" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+                                            <span>Xem chi tiết giỏ hàng</span> 
+                                        </a>
+                                        <a href="/check-out-web" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+                                            <span>Kiểm tra thông tin đặt hàng</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- Header Mini Cart Area End Here -->
+                        </ul>
+                    </div>
+                    <% } else { %> 
+                        <div class="header-middle-right">
+                            <ul class="hm-menu">
+                                <!-- Begin Header Middle Wishlist Area -->
+                                <li class="hm-wishlist">
+                                    <a href="wishlist.html">
+                                        <span class="cart-item-count wishlist-item-count">0</span>
+                                        <i class="fa fa-heart-o"></i>
+                                    </a>
+                                </li>
+                                <!-- Header Middle Wishlist Area End Here -->
+                                <!-- Begin Header Mini Cart Area -->
+                                <li class="hm-minicart">
+                                    <div class="hm-minicart-trigger">
+                                        <span class="item-icon"></span>
+                                        <span class="item-text" >0
+                                            <span class="cart-item-count">0</span>
+                                        </span>
+                                    </div>
+                                    <span></span>
+                                    <div class="minicart">
+                                        
+                                        <div class="minicart-button">
+                                            <a href="#" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+                                                <span>Giỏ hàng chưa có gì</span>
+                                            </a>
+                                            
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- Header Mini Cart Area End Here -->
+                            </ul>
+                        </div>
+                    <% } %>  
+                    <!-- Header Middle Right Area End Here -->
+                </div>
+                <!-- Header Middle Right Area End Here -->
+            </div>
+        </div>
+    </div>
+    <!-- Header Middle Area End Here -->
+    <!-- Begin Header Bottom Area -->
+    <div class="header-bottom header-sticky d-none d-lg-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Begin Header Bottom Menu Area -->
+                    <div class="hb-menu hb-menu-2 d-xl-block">
+                        <nav>
+                            <ul>
+                                <li ></li>
+                                <li class="megamenu-static-holder"><a class="font-weight-bold"style="font-family: Arial, Helvetica, sans-serif;" href="/page-home">Home</a>
+                                    <!-- <ul class="megamenu hb-megamenu">
+                                        
+                                        <li><a href="blog-left-sidebar.html">Blog Layouts</a>
+                                            <ul>
+                                                <li><a href="blog-2-column.html">Blog 2 Column</a></li>
+                                                <li><a href="blog-3-column.html">Blog 3 Column</a></li>
+                                                <li><a href="blog-left-sidebar.html">Grid Left Sidebar</a></li>
+                                                <li><a href="blog-right-sidebar.html">Grid Right Sidebar</a></li>
+                                                <li><a href="blog-list.html">Blog List</a></li>
+                                                <li><a href="blog-list-left-sidebar.html">List Left Sidebar</a></li>
+                                                <li><a href="blog-list-right-sidebar.html">List Right Sidebar</a></li>
+                                            </ul>
+                                        </li>
+                                        
+                                    </ul> -->
+                                </li>
+                                
+                                <li class="dropdown-holder"><a class="font-weight-bold" href="#" style="font-family: Arial, Helvetica, sans-serif;">CATEGORY</a>
+                                    <ul class="hb-dropdown">
+                                        <% menuData.forEach(function(item) { %> 
+                                            <li class="sub-dropdown-holder" style="margin-bottom: 10px;">
+                                                <img width="32" src="<%= item.loaiSP.Icon %>" alt="" style="margin-left: 10px;" > &nbsp;
+                                                <span>
+                                                    <a href="/shop-list-category-product?idLoaiSP=<%= item.loaiSP._id %>"><%= item.loaiSP.TenLoaiSP %></a>
+                                                </span>
+                                                <ul class="hb-dropdown hb-sub-dropdown">
+                                                    <% item.hangSXs.forEach(function(hangSX) { %> 
+                                                        <li><a href="/shop-list-category-product?idHangSX=<%= hangSX._id %>&idLoaiSP=<%= item.loaiSP._id %>"><%= hangSX.TenHangSX %></a></li>
+                                                    <% }) %>
+                                                </ul>
+                                            </li>
+                                        <% }) %>   
+                                    </ul>                                    
+                                </li>
+                                <li></li>
+                                <li><a href="about-us.html">About Us</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <!-- Begin Header Bottom Menu Information Area -->
+                                <li class="hb-info f-right p-0 d-sm-none d-lg-block">
+                                    <span>Nam Từ Liêm, Hà Nội, Việt Nam</span>
+                                </li>
+                                <!-- Header Bottom Menu Information Area End Here -->
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- Header Bottom Menu Area End Here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header Bottom Area End Here -->
+    <!-- Begin Mobile Menu Area -->
+    <div class="mobile-menu-area d-lg-none d-xl-none col-12">
+        <div class="container"> 
+            <div class="row">
+                <div class="mobile-menu">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Menu Area End Here -->
+</header>

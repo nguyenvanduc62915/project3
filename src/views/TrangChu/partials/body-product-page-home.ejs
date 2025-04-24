@@ -1,0 +1,844 @@
+<!-- Begin Li's Static Banner Area -->
+<div class="li-static-banner pt-20 pt-sm-30 pt-xs-30">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4">
+                <div class="single-banner pb-xs-30">
+                    <a href="#">
+                        <img src="pageHome/images/banner/1_3.jpg" alt="Li's Static Banner">
+                    </a>
+                </div>
+            </div>
+            <!-- Single Banner Area End Here -->
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4">
+                <div class="single-banner pb-xs-30">
+                    <a href="#">
+                        <img src="pageHome/images/banner/1_4.jpg" alt="Li's Static Banner">
+                    </a>
+                </div>
+            </div>
+            <!-- Single Banner Area End Here -->
+            <!-- Begin Single Banner Area -->
+            <div class="col-lg-4 col-md-4">
+                <div class="single-banner">
+                    <a href="#">
+                        <img src="pageHome/images/banner/1_5.jpg" alt="Li's Static Banner">
+                    </a>
+                </div>
+            </div>
+            <!-- Single Banner Area End Here -->
+        </div>
+    </div>
+</div>
+<!-- Li's Static Banner Area End Here -->
+
+<!-- Begin Li's Special Product Area -->
+<% if (sanPham && sanPham.length > 0) { %>
+<section class="product-area li-laptop-product Special-product pt-60 pb-45">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Li's Section Area --> 
+
+            <div class="col-lg-12">
+                <div class="li-section-title">
+                    <h2>
+                        <h4 style="font-family: Arial, Helvetica, sans-serif;color: navy;text-transform:uppercase;">
+                            Các sản phẩm đang khuyến mãi cực sốc
+                            <span class="text-end"><img src="pageHome/jsXuLyCacChucNang/icons8-sale.gif" alt=""></span>
+                        </h4>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="special-product-active owl-carousel">
+                    
+                        <% sanPham.forEach(function(sp, index) { %>                                                         
+
+                            <% if (sp.GiamGiaTheoNgay > 0) { %>                                
+                                <div class="col-lg-12">
+                                    <!-- single-product-wrap start -->
+                                    <div class="single-product-wrap">
+                                        <div class="product-image" >
+                                            <a href="/detailt-sp-linkUrl?idDetailTrangMoi=<%= sp._id %>">
+                                                <img width="100" height="220" src="images/upload/<%= getRelativeImagePath(sp.Icon[0]) %>" alt="image product" >
+                                            </a>
+                                            <span class="sticker font-weight-bold">-<%= sp.GiamGiaTheoNgay %>%</span>
+                                        </div>
+                                        <div class="product_desc">
+                                            <div class="product_desc_info">
+                                                <div class="product-review">
+                                                    <h5 class="manufacturer">
+                                                        <a href="shop-left-sidebar.html"><%= sp.IdHangSX.TenHangSX %></a>
+                                                    </h5>
+                                                    <div class="rating-box">
+                                                        <ul class="rating">
+                                                            <li><i class="fa fa-star-o"></i></li>
+                                                            <li><i class="fa fa-star-o"></i></li>
+                                                            <li><i class="fa fa-star-o"></i></li>
+                                                            <li><i class="fa fa-star-o"></i></li>
+                                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <h4><a class="product_name" href="/detailt-sp-linkUrl?idDetailTrangMoi=<%= sp._id %>"><%= sp.TenSP %></a></h4>
+                                                <div class="price-box">
+                                                    <%
+                                                        let sale = sp.sizeQuantity[0].price * (sp.GiamGiaTheoNgay / 100)
+                                                    %>
+                                                    <span class="new-price new-price-2"><%= formatCurrency(sp.sizeQuantity[0].price - sale) %></span>
+                                                    <span class="old-price"><%= formatCurrency(sp.sizeQuantity[0].price) %></span>
+                                                </div>
+                                                <!-- <div class="countersection">
+                                                    <div class="li-countdown">
+                                                </div> -->
+                                                <div class="countersection" data-starttime="<%= sp.KhuyenMaiBatDau %>" data-endtime="<%= sp.KhuyenMaiKetThuc %>">
+                                                    <ul class="countdown" id="<%= sp._id %>"s>
+                                                        <li><span class="text-danger" id="days<%= sp._id %>">00</span><span class="label">Ngày</span></li>
+                                                        <li><span class="text-danger" id="hours<%= sp._id %>">00</span><span class="label">Giờ</span></li>
+                                                        <li><span class="text-danger" id="minutes<%= sp._id %>">00</span><span class="label">Phút</span></li>
+                                                        <li><span class="text-danger" id="seconds<%= sp._id %>">00</span><span class="label">Giây</span></li>
+                                                    </ul>
+                                                </div>
+    
+                                            </div>
+                                            <div class="add-actions">
+                                                <ul class="add-actions-link">
+                                                    <li class="add-cart active"><a href="/detailt-sp-linkUrl?idDetailTrangMoi=<%= sp._id %>">Đi Mua Thôi</a></li>
+                                                    <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
+                                                    <li>
+                                                        <input type="hidden" name="idDetailTaiTrang" value="<%= sp._id %>">
+                                                        <a id="viewDetailt<%= sp._id %>" 
+                                                            href="#" 
+                                                            data-product-id="<%= sp._id %>"  
+                                                            data-toggle="modal" 
+                                                            data-target="#modalDetails" 
+                                                            title="Quick view" > <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- single-product-wrap end -->
+                                </div>    
+
+                            <% } %> 
+                                                                                                                  
+                        <% }) %>
+                    
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Hàm cập nhật GiamGiaTheoNgay thành 0 trong cơ sở dữ liệu
+                function updateGiamGiaTheoNgay(productId) {
+                    fetch('/update-giamgia', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ productId: productId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.reload();
+                            console.log('GiamGiaTheoNgay đã được cập nhật thành 0');
+                        } else {
+                            console.error('Cập nhật GiamGiaTheoNgay thất bại');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi cập nhật GiamGiaTheoNgay:', error);
+                    });
+                }
+
+                // Hàm khởi tạo và cập nhật đồng hồ đếm ngược
+                function startCountdown(element, startTime, endTime, elementId) {
+                    var endDateTime = new Date(endTime).getTime();
+                    var now = new Date().getTime();
+                    var duration = endDateTime - now;
+
+                    function updateCountdown() {
+                        var daysElement = document.getElementById('days' + elementId);
+                        var hoursElement = document.getElementById('hours' + elementId);
+                        var minutesElement = document.getElementById('minutes' + elementId);
+                        var secondsElement = document.getElementById('seconds' + elementId);
+
+                        if (daysElement && hoursElement && minutesElement && secondsElement) {
+                            if (!isNaN(duration) && duration > 0) {
+                                var days = Math.floor(duration / (1000 * 60 * 60 * 24));
+                                var hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+                                var seconds = Math.floor((duration % (1000 * 60)) / 1000);
+
+                                daysElement.textContent = days < 10 ? '0' + days : days;
+                                hoursElement.textContent = hours < 10 ? '0' + hours : hours;
+                                minutesElement.textContent = minutes < 10 ? '0' + minutes : minutes;
+                                secondsElement.textContent = seconds < 10 ? '0' + seconds : seconds;
+
+                                duration -= 1000;
+                            } else {
+                                clearInterval(interval);
+                                daysElement.textContent = "00";
+                                hoursElement.textContent = "00";
+                                minutesElement.textContent = "00";
+                                secondsElement.textContent = "00";
+                                document.getElementById(elementId).innerHTML = "Hết hạn khuyến mãi";
+                                
+                                // Gọi API để cập nhật GiamGiaTheoNgay thành 0
+                                updateGiamGiaTheoNgay(elementId);
+                            }
+                        }
+                    }
+
+                    var interval = setInterval(updateCountdown, 1000);
+                    updateCountdown();
+                }
+
+                function initializeCountdowns() {
+                    var counterElements = document.querySelectorAll('.countersection');
+                    counterElements.forEach(function(element) {
+                        var startTime = element.getAttribute('data-starttime');
+                        var endTime = element.getAttribute('data-endtime');
+                        var elementId = element.querySelector('.countdown').getAttribute('id');
+                        console.log("startTime: ", startTime);
+                        console.log("endTime: ", endTime);
+                        console.log("elementId: ", elementId);
+
+                        startCountdown(element, startTime, endTime, elementId);
+                    });
+                }
+
+                initializeCountdowns();
+
+                $('.special-product-active').on('translated.owl.carousel', function(event) {
+                    initializeCountdowns();
+                });
+
+                $(document).ready(function(){
+                    $(".special-product-active").owlCarousel({
+                        items: 4,
+                        loop: true,
+                        autoplay: true,
+                        autoplayTimeout: 5000,
+                        nav: true,
+                        dots: false,
+                        navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+                        responsive: {
+                            0: { items: 1 },
+                            600: { items: 2 },
+                            1000: { items: 4 }
+                        }
+                    });
+                });
+
+            </script>
+            
+            <!-- <script>               
+                // Hàm khởi tạo và cập nhật đồng hồ đếm ngược
+                function startCountdown(element, startTime, endTime, elementId) {
+                    // Chuyển đổi thời gian bắt đầu và kết thúc thành dạng timestamp
+                    var startDateTime = new Date(startTime).getTime();
+                    var endDateTime = new Date(endTime).getTime();
+                    var now = new Date().getTime();
+
+                    // Tính toán thời gian còn lại
+                    var duration = endDateTime - now;
+
+                    // Hàm cập nhật thời gian đếm ngược
+                    function updateCountdown() {
+                        var daysElement = document.getElementById('days' + elementId);
+                        var hoursElement = document.getElementById('hours' + elementId);
+                        var minutesElement = document.getElementById('minutes' + elementId);
+                        var secondsElement = document.getElementById('seconds' + elementId);
+
+                        if (daysElement && hoursElement && minutesElement && secondsElement) {
+                            if (!isNaN(duration) && duration > 0) {
+                                var days = Math.floor(duration / (1000 * 60 * 60 * 24));
+                                var hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                var minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+                                var seconds = Math.floor((duration % (1000 * 60)) / 1000);
+
+                                daysElement.textContent = days < 10 ? '0' + days : days;
+                                hoursElement.textContent = hours < 10 ? '0' + hours : hours;
+                                minutesElement.textContent = minutes < 10 ? '0' + minutes : minutes;
+                                secondsElement.textContent = seconds < 10 ? '0' + seconds : seconds;
+
+                                duration -= 1000;
+                            } else {
+                                clearInterval(interval);
+                                daysElement.textContent = "00";
+                                hoursElement.textContent = "00";
+                                minutesElement.textContent = "00";
+                                secondsElement.textContent = "00";
+                                document.getElementById(elementId).innerHTML = "Hết hạn khuyến mãi";
+                            }
+                        }
+                    }
+
+                    // Gọi hàm cập nhật mỗi giây
+                    var interval = setInterval(updateCountdown, 1000);
+                    updateCountdown(); // Gọi ngay để tránh trễ lần đầu
+                }
+
+                // Hàm khởi tạo lại các bộ đếm thời gian
+                function initializeCountdowns() {
+                    // Lấy tất cả các phần tử có thuộc tính data-endtime
+                    var counterElements = document.querySelectorAll('.countersection');
+
+                    // Lặp qua từng phần tử và khởi tạo hàm đếm ngược cho mỗi phần tử
+                    counterElements.forEach(function(element) {
+                        var startTime = element.getAttribute('data-starttime');
+                        var endTime = element.getAttribute('data-endtime');
+                        var elementId = element.querySelector('.countdown').getAttribute('id');
+                        console.log("startTime: ", startTime);
+                        console.log("endTime: ", endTime);
+                        console.log("elementId: ", elementId);
+
+                        // Khởi tạo đếm ngược cho từng phần tử
+                        startCountdown(element, startTime, endTime, elementId);
+                    });
+                }
+
+                // Khởi tạo bộ đếm thời gian ban đầu
+                initializeCountdowns();
+
+                // Khởi tạo lại bộ đếm thời gian khi Owl Carousel hoàn tất thay đổi
+                $('.special-product-active').on('translated.owl.carousel', function(event) {
+                    initializeCountdowns();
+                });
+
+                // Cấu hình Owl Carousel
+                $(document).ready(function(){
+                    $(".special-product-active").owlCarousel({
+                        items: 4,
+                        loop: true,
+                        autoplay: true,
+                        autoplayTimeout: 5000,
+                        nav: true,
+                        dots: false,
+                        navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+                        responsive: {
+                            0: { items: 1 },
+                            600: { items: 2 },
+                            1000: { items: 4 }
+                        }
+                    });
+                });
+
+            </script> -->
+            
+            <!-- Li's Section Area End Here -->
+        </div>
+    </div>
+</section>
+<% } %>
+<!-- Li's Special Product Area End Here -->
+<!-- Begin Li's Laptops Product | Home V2 Area -->
+<section class="product-area li-laptop-product li-laptop-product-2 pb-45">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Li's Section Area -->
+            <div class="col-lg-12">
+                <div class="li-section-title">
+                    <h2>
+                        <span class="font-weight-bold" style="font-family: Arial, Helvetica, sans-serif; color: navy;text-transform:uppercase;">
+                            <img width="50" src="pageHome/jsXuLyCacChucNang/icons8-laptop.gif" alt="">                    
+                            <span style="position: relative;top: 15px;">&nbsp; Laptops</span>
+                        </span>
+                    </h2>
+                </div>
+                
+                <div class="row">
+                    <div class="product-active owl-carousel">
+                        
+                        <% if (sanPham && sanPham.length > 0) { %>
+                            <% sanPham.forEach(function(sp, index) { %> 
+
+                                <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                    <% if(sp.IdLoaiSP.TenLoaiSP === "LapTop") { %>
+                                        <div class="col-lg-12">
+                                        <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                        </div>
+                                    <% } %> 
+                                <% } %> 
+                                                           
+                            <% }) %>
+                        <% } else { %> 
+                            <p>Chưa có sản phẩm</p>
+                        <% } %>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Section Area End Here -->
+        </div>
+    </div>
+</section>
+<!-- Li's Laptops Product | Home V2 Area End Here -->
+<!-- Begin Li's TV & Audio Product Area -->
+<section class="product-area li-laptop-product li-tv-audio-product-2 pb-45">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Li's Section Area -->
+            <div class="col-lg-12">                                
+                <div class="li-product-tab li-trending-product-tab">
+                    <!-- <h2> -->
+                        <!-- <span class="font-weight-bold" style="font-family: Arial, Helvetica, sans-serif; color: navy;text-transform:uppercase;">
+                            Âm Thanh - Màn Hình & Phụ Kiện
+                        </span> -->
+                        <!-- <span style="color: navy;text-transform:uppercase;">
+                            <img width="45" height="45" src="pageHome/jsXuLyCacChucNang/icons8-screen.gif" alt="">                    
+                            &nbsp; Âm Thanh - Màn Hình & Phụ Kiện
+                        </span> -->
+
+                        <span style="text-transform:uppercase;font-family: Arial, Helvetica, sans-serif;color: navy;font-weight: bold;font-size: 20px;">
+                            <img width="45" height="45" src="pageHome/jsXuLyCacChucNang/icons8-screen.gif" alt="">                    
+                            &nbsp; Âm Thanh - Màn Hình & Phụ Kiện
+                        </span>
+                        
+                    <!-- </h2> -->
+                    <ul class="nav li-product-menu li-trending-product-menu">
+                       <li><a class="active" data-toggle="tab" href="#manHinh"><span>Màn Hình</span></a></li>
+                       <li><a data-toggle="tab" href="#dongHo"><span>Đồng Hồ</span></a></li>
+                       <li><a data-toggle="tab" href="#taiNghe"><span>Tai Nghe</span></a></li>
+                       <li><a data-toggle="tab" href="#banPhim"><span>Bàn Phím</span></a></li>
+                    </ul>               
+                </div>
+                <div class="li-banner-2 pt-15">
+                    <div class="row">
+                        <!-- Begin Single Banner Area -->
+                        <div class="col-lg-6 col-md-6">
+                            <div class="single-banner">
+                                <a href="#">
+                                    <img src="pageHome/images/banner/2_5.jpg" alt="Li's Static Banner">
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Single Banner Area End Here -->
+                        <!-- Begin Single Banner Area -->
+                        <div class="col-lg-6 col-md-6">
+                            <div class="single-banner pt-xs-30">
+                                <a href="#">
+                                    <img src="pageHome/images/banner/2_6.jpg" alt="Li's Static Banner">
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Single Banner Area End Here -->
+                    </div>
+                </div>
+                <!-- Begin Li's Tab Menu Content Area -->
+                <div class="tab-content li-tab-content li-trending-product-content">
+                    <div id="manHinh" class="tab-pane show fade in active">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+
+                                <% if (sanPham && sanPham.length > 0) { %>
+                                    <% sanPham.forEach(function(sp, index) { %> 
+                                        
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP === "Màn Hình") { %>
+                                                <div class="col-lg-12">
+                                                    <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                                </div>
+                                            <% } %> 
+                                        <% } %> 
+                                                                
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dongHo" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (sanPham && sanPham.length > 0) { %>
+                                    <% sanPham.forEach(function(sp, index) { %> 
+                                    
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP === "Đồng Hồ") { %>
+                                                <div class="col-lg-12">
+                                                    <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                                </div>
+                                            <% } %> 
+                                        <% } %> 
+                                                                   
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="taiNghe" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (sanPham && sanPham.length > 0) { %>
+                                    <% sanPham.forEach(function(sp, index) { %> 
+                                        
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP === "Tai Nghe") { %>
+                                                <div class="col-lg-12">
+                                                    <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                                </div>
+                                            <% } %> 
+                                        <% } %> 
+                                                                   
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="banPhim" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (sanPham && sanPham.length > 0) { %>
+                                    <% sanPham.forEach(function(sp, index) { %> 
+                                    
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP === "Bàn Phím") { %>
+                                                <div class="col-lg-12">
+                                                    <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                                </div>
+                                            <% } %> 
+                                        <% } %> 
+                                                                   
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Section Area End Here -->
+        </div>
+    </div>
+</section>
+<!-- Li's TV & Audio Product Area End Here -->
+<!-- Begin Li's Smart Phone Product Area -->
+<section class="product-area li-laptop-product li-smart-phone-product-2 pb-50">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Li's Section Area -->
+            <div class="col-lg-12">
+                <div class="li-section-title">
+                    <h2>
+                        <span style="color: navy;text-transform:uppercase;">
+                            <img width="45" height="45" src="pageHome/jsXuLyCacChucNang/icons8-phonelink-ring.gif" alt="">                    
+                            Smartphone
+                        </span>
+                    </h2>
+                    <ul class="nav li-product-menu li-trending-product-menu">
+                        <li><a class="active" data-toggle="tab" href="#Iphone"><span>Apple</span></a></li>
+                        <li><a data-toggle="tab" href="#Xiaomi"><span>Xiaomi</span></a></li>
+                        <li><a data-toggle="tab" href="#Realme"><span>Realme</span></a></li>
+                        <li><a data-toggle="tab" href="#Samsung"><span>SamSung</span></a></li>
+                        
+                     </ul>
+                </div>
+                
+                <div class="tab-content li-tab-content li-trending-product-content">
+                    <div id="Iphone" class="tab-pane show fade in active">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+
+                                <% if (sanPham && sanPham.length > 0) { %>
+                                    <% sanPham.forEach(function(sp, index) { %> 
+
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdHangSX.TenHangSX === "IOS" && sp.IdLoaiSP.TenLoaiSP == "Điện Thoại") { %>
+                                                <div class="col-lg-12">
+                                                    <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                                </div>
+                                            <% } %> 
+                                        <% } %> 
+                                                                
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Xiaomi" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (sanPham && sanPham.length > 0) { %>
+                                    <% sanPham.forEach(function(sp, index) { %> 
+                                    
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdHangSX.TenHangSX === "Xiaomi" && sp.IdLoaiSP.TenLoaiSP == "Điện Thoại") { %>
+                                                <div class="col-lg-12">
+                                                    <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                                </div>
+                                            <% } %> 
+                                        <% } %> 
+                                                                   
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Realme" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (sanPham && sanPham.length > 0) { %>
+                                    <% sanPham.forEach(function(sp, index) { %> 
+                                    
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdHangSX.TenHangSX === "Realme" && sp.IdLoaiSP.TenLoaiSP == "Điện Thoại") { %>
+                                                <div class="col-lg-12">
+                                                    <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                                </div>
+                                            <% } %> 
+                                        <% } %> 
+                                                                   
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Samsung" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (sanPham && sanPham.length > 0) { %>
+                                    <% sanPham.forEach(function(sp, index) { %>                                         
+                                    
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdHangSX.TenHangSX === "Samsung" && sp.IdLoaiSP.TenLoaiSP == "Điện Thoại") { %>
+                                                <div class="col-lg-12">
+                                                    <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                                </div>
+                                            <% } %> 
+                                        <% } %> 
+                                                                   
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Section Area End Here -->
+        </div>
+    </div>
+</section>
+<!-- Li's Smart Phone Product Area End Here -->
+<!-- Begin Li's Static Home Area -->
+<div class="li-static-home">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Begin Li's Static Home Image Area -->
+                <div class="li-static-home-image"></div>
+                <!-- Li's Static Home Image Area End Here -->
+                <!-- Begin Li's Static Home Content Area -->
+                <div class="li-static-home-content">
+                    <p>Sale Offer<span>-20% Off</span>This Week</p>
+                    <h2>Featured Product</h2>
+                    <h2>Meito Accessories 2018</h2>
+                    <p class="schedule">
+                        Starting at
+                        <span> $1209.00</span>
+                    </p>
+                    <div class="default-btn">
+                        <a href="shop-left-sidebar.html" class="links">Shopping Now</a>
+                    </div>
+                </div>
+                <!-- Li's Static Home Content Area End Here -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Li's Static Home Area End Here -->
+<!-- Begin Li's Trending Product | Home V2 Area -->
+<section class="product-area li-trending-product li-trending-product-2 pt-60 pb-45">
+    <div class="container">
+        <div class="row">
+            <!-- Begin Li's Tab Menu Area -->
+            <div class="col-lg-12">
+                <div class="li-product-tab li-trending-product-tab">
+                    <!-- <h2> -->
+                        <span style="text-transform:uppercase;font-family: Arial, Helvetica, sans-serif;color: navy;font-weight: bold;font-size: 20px;">
+                            <img width="45" height="45" src="pageHome/jsXuLyCacChucNang/icons8-us-dollar-circled.gif" alt="">                    
+                            &nbsp; Sản phẩm bán chạy nhất
+                        </span>
+                        <!-- <span title="Các sản phẩm đã được bán trên 50 sản phẩm" 
+                                class="font-weight-bold" 
+                                style="text-transform:uppercase;font-family: Arial, Helvetica, sans-serif;color: navy;">
+                                Sản phẩm bán chạy nhất
+                        </span> -->
+                    <!-- </h2> -->
+                    <ul class="nav li-product-menu li-trending-product-menu">
+                       <li><a class="active" data-toggle="tab" href="#mayTinh"><span>Máy Tính</span></a></li>
+                       <li><a data-toggle="tab" href="#dienThoai"><span>Điện Thoại</span></a></li>
+                       <li><a data-toggle="tab" href="#mh-mt"><span>Màn Hình</span></a></li>
+                       <li><a data-toggle="tab" href="#bphim"><span>Bàn Phím</span></a></li>
+                       <li><a data-toggle="tab" href="#tai-nghe"><span>Tai Nghe</span></a></li>
+                       <li><a data-toggle="tab" href="#dong-ho"><span>Đồng Hô</span></a></li>
+                       <li><a data-toggle="tab" href="#phu-kien"><span>Phụ Kiện</span></a></li>
+                    </ul>               
+                </div>
+                <!-- Begin Li's Tab Menu Content Area -->
+                <div class="tab-content li-tab-content li-trending-product-content">
+                    <div id="mayTinh" class="tab-pane show fade in active">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                
+                                <% if (spBanChay && spBanChay.length > 0) { %>
+                                    <% spBanChay.forEach(function(sp, index) { %> 
+
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP == "LapTop") { %>
+                                                <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                            <% } %> 
+                                        <% } %> 
+                                                                
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div id="dienThoai" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (spBanChay && spBanChay.length > 0) { %>
+                                    <% spBanChay.forEach(function(sp, index) { %> 
+
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP == "Điện Thoại") { %>
+                                                <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                            <% } %> 
+                                        <% } %> 
+                                                                
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="mh-mt" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (spBanChay && spBanChay.length > 0) { %>
+                                    <% spBanChay.forEach(function(sp, index) { %> 
+
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP == "Màn Hình") { %>
+                                                <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                            <% } %> 
+                                        <% } %> 
+                                                                
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="bphim" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (spBanChay && spBanChay.length > 0) { %>
+                                    <% spBanChay.forEach(function(sp, index) { %> 
+
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP == "Bàn Phím") { %>
+                                                <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                            <% } %> 
+                                        <% } %> 
+                                                                
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tai-nghe" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (spBanChay && spBanChay.length > 0) { %>
+                                    <% spBanChay.forEach(function(sp, index) { %> 
+
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP == "Tai Nghe") { %>
+                                                <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                            <% } %> 
+                                        <% } %> 
+                                                                
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dong-ho" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (spBanChay && spBanChay.length > 0) { %>
+                                    <% spBanChay.forEach(function(sp, index) { %> 
+
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP == "Đồng Hồ") { %>
+                                                <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                            <% } %> 
+                                        <% } %> 
+                                                                
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="phu-kien" class="tab-pane fade">
+                        <div class="row">
+                            <div class="product-active owl-carousel">
+                                <% if (spBanChay && spBanChay.length > 0) { %>
+                                    <% spBanChay.forEach(function(sp, index) { %> 
+
+                                        <% if (sp.GiamGiaTheoNgay === 0) { %> 
+                                            <% if(sp.IdLoaiSP.TenLoaiSP == "USB") { %>
+                                                <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>
+                                            <% } %> 
+                                        <% } %> 
+                                                                
+                                    <% }) %>
+                                <% } else { %> 
+                                    <p>Chưa có sản phẩm</p>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab Menu Content Area End Here -->
+            </div>
+            <!-- Tab Menu Area End Here -->
+        </div>
+    </div>
+</section>
+<!-- Li's Trending Product | Home V2 Area End Here -->

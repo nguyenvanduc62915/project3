@@ -1,0 +1,27 @@
+
+<div class="modal fade" id="quenMKModalToggle" tabindex="-1" role="dialog" aria-labelledby="quenMKModalToggleLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title text-danger text-xs" id="quenMKModalToggleLabel">Nhập Email đăng nhập để tiến hành lấy lại mật khẩu!</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="doi-mk" method="post" action="/quen-mat-khau">
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+                        </div>
+                        <input required type="email" name="email_doimk" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-danger">Lấy lại mật khẩu</button>
+                </div>
+            </form>            
+        </div>
+    </div>
+</div>

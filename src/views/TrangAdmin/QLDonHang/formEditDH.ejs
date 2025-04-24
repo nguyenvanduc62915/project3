@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets\img\logo-KTT1.ico">
+
+    <title>Quản lý đơn hàng</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="AdminQL/HomeAdminQL/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="AdminQL/HomeAdminQL/css/sb-admin-2.min.css" rel="stylesheet">
+    
+    <!-- Latest compiled and minified CSS -->
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Ví dụ với thư viện sweetalert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        .pagination-container {
+          display: flex;
+          justify-content: center;
+          margin-top: 50px;
+        }
+      
+        .pagination {
+          list-style: none;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      
+      </style>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <%- include("../partials/danhMuc.ejs") %>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <a  onclick="history.go(-1);" class="btn btn-dark" >Trở Về </a>
+
+                    <!-- Topbar Navbar -->
+                    <%- include("../partials/topAccount.ejs") %>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <div class="table-wrap" style="overflow-x: scroll">
+                    <div class="container py-5" >                                    
+                        <div class="p-5 bg-white rounded shadow mb-5" >
+                            <h2 style="color: rgb(0, 17, 173); font-weight: bold;">
+                                CHỈNH SỬA ĐƠN HÀNG &nbsp;&nbsp; <span style="font-style: italic; font-size: 25px; color: gray; text-decoration: underline;">#<%= getId._id %></span>
+                            </h2>
+                        
+                            <!-- <form> -->
+                                <div class="table-wrap" style="overflow-x: scroll">
+                                    <table>
+                                        <tr>
+                                            <td><input type="hidden" name="id_QLDH" id="" value="<%= getId._id %>" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="height: 100px; font-size: 20px;">Tình Trạng Đơn Hàng</td>
+                                            <td style="height: 100px; padding:  20px;">
+                                                <select id="TinhTrangDonHang" name="TinhTrangDonHang" class="form-select" aria-label="Default select example" style="height: 40px;">                                                    
+                                                    
+                                                    <% if(getId.TinhTrangDonHang == "Chưa giao hàng") { %> 
+                                                        <option style="font-weight: bold;color: navy;" value="<%= getId.TinhTrangDonHang %>" selected><%= getId.TinhTrangDonHang %></option>
+                                                        <option value="Đang giao hàng">Đang giao hàng</option>
+                                                        <option value="Đã giao hàng">Đã giao hàng</option>  
+                                                    <% } else if(getId.TinhTrangDonHang == "Đang giao hàng"){ %>
+                                                        <option style="font-weight: bold;color: navy;" value="<%= getId.TinhTrangDonHang %>" selected><%= getId.TinhTrangDonHang %></option>
+                                                        <option value="Chưa giao hàng">Chưa giao hàng</option>
+                                                        <option value="Đã giao hàng">Đã giao hàng</option> 
+                                                    <% } else { %> 
+                                                        <option style="font-weight: bold;color: navy;" value="<%= getId.TinhTrangDonHang %>" selected><%= getId.TinhTrangDonHang %></option>
+                                                        <option value="Chưa giao hàng">Chưa giao hàng</option>
+                                                        <option value="Đang giao hàng">Đang giao hàng</option>
+                                                    <% } %> 
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="height: 100px; font-size: 20px;">Tình Trạng Thanh Toán</td>
+                                            <td style="height: 100px; padding:  20px;">
+                                                <select id="TinhTrangThanhToan" name="TinhTrangThanhToan" class="form-select" aria-label="Default select example" style="height: 40px;">
+
+                                                    <% if(getId.TinhTrangThanhToan == "Chưa Thanh Toán") { %> 
+                                                        <option style="font-weight: bold;color: navy;" value="<%= getId.TinhTrangThanhToan %>" selected><%= getId.TinhTrangThanhToan %></option>
+                                                        <option value="Đã Thanh Toán">Đã Thanh Toán</option>                                                    
+                                                    <% } else { %> 
+                                                        <option style="font-weight: bold;color: navy;" value="<%= getId.TinhTrangThanhToan %>" selected><%= getId.TinhTrangThanhToan %></option>
+                                                        <option value="Chưa Thanh Toán">Chưa Thanh Toán</option>
+                                                    <% } %> 
+                                                    
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <a                                                
+                                                    class="btn btn-primary" 
+                                                    onclick="updateDonHang('<%= getId._id %>')"
+                                                >Save</a> 
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            <!-- </form> -->
+                        <!-- End rounded tabs -->
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>WebShop &copy; Khắc Tú</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn đăng xuất không?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Ấn vào "Logout" để xác nhận đăng xuất.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/login-admin">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="AdminQL/HomeAdminQL/vendor/jquery/jquery.min.js"></script>
+    <script src="AdminQL/HomeAdminQL/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="AdminQL/HomeAdminQL/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="AdminQL/HomeAdminQL/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="AdminQL/HomeAdminQL/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="AdminQL/HomeAdminQL/js/demo/chart-area-demo.js"></script>
+    <script src="AdminQL/HomeAdminQL/js/demo/chart-pie-demo.js"></script>
+
+    <script src="assets/js/hamDinhDangTien_VaLinkAnh.js"></script>
+    <script src="AdminQL/HomeAdminQL/js/xuLyNutSaveDonHang.js"></script>
+
+    
+</body>
+
+</html>

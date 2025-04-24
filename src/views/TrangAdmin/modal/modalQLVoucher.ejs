@@ -1,0 +1,60 @@
+<!-- Modal thêm voucher -->
+<div class="modal fade" id="listAdmin" aria-hidden="true" aria-labelledby="listAdminModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="listAdminModalToggleLabel" style="color: navy;">Thêm Voucher?</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="form-group">
+                            <label for="MaGiamGia" class="form-control-label" style="font-size: 14px;">Mã giảm giá <span style="color: red;">*</span></label>
+                            <input class="form-control" id="MaGiamGia" name="MaGiamGia" type="text" placeholder="Nhập Mã giảm giá ..." required>
+                            <div class="text-danger text-xs mt-2" id="txt_MaGiamGia"></div>
+                        </div>  
+                        
+                        <div class="form-group">
+                            <label for="GiamGiaTheoDonHang" class="form-control-label" style="font-size: 14px;">Số % Giảm Giá <span style="color: red;">*</span></label>
+                            <input class="form-control" id="GiamGiaTheoDonHang" name="GiamGiaTheoDonHang" type="text" placeholder="Nhập Số % Giảm Giá ..." required>
+                            <div class="text-danger text-xs mt-2" id="txt_GiamGiaTheoDonHang"></div>
+                        </div>  
+
+                        <div class="form-group">
+                            <label for="DieuKienGiamGia" class="form-control-label" style="font-size: 14px;">Điều kiện giảm giá (lớn hơn số tiền tổng đơn)<span style="color: red;">*</span></label>
+                            <input class="form-control" id="DieuKienGiamGia" name="DieuKienGiamGia" type="text" placeholder="Nhập Điều kiện giảm giá ..." required>
+                            <div class="text-danger text-xs mt-2" id="txt_DieuKienGiamGia"></div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    var inputElement = document.getElementById('DieuKienGiamGia');
+                        
+                                    inputElement.addEventListener('input', function(event) {
+                                        var value = event.target.value;
+                                        var formattedValue = formatNumber(value);
+                                        event.target.value = formattedValue;
+                                    });
+                        
+                                    function formatNumber(value) {
+                                        // Xóa tất cả ký tự không phải số
+                                        var number = value.replace(/\D/g, '');
+                        
+                                        // Định dạng số với dấu phân cách nhóm hàng nghìn
+                                        return number.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                                    }
+                                });
+                            </script>
+                        </div>                         
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">Không</button>
+                <button class="btn btn-primary" type="button" onclick="createVoucher()">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    &nbsp;Xác nhận thêm
+                </button>
+            </div>
+        </div>                            
+    </div>
+</div>

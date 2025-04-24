@@ -1,0 +1,48 @@
+<!-- Modal thêm tài khoản admin -->
+<div class="modal fade" id="listAdmin" aria-hidden="true" aria-labelledby="listAdminModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="listAdminModalToggleLabel" style="color: navy;">Thêm tài khoản admin?</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="form-group">
+                            <label for="TenDangNhap" class="form-control-label" style="font-size: 14px;">Tên đăng nhập <span style="color: red;">*</span></label>
+                            <input class="form-control" id="TenDangNhap" name="TenDangNhap" type="text" placeholder="Nhập tên đăng nhập ..." required>
+                            <div class="text-danger text-xs mt-2" id="txt_TenDangNhap"></div>
+                        </div>  
+                        
+                        <div class="form-group">
+                            <label for="MatKhau" class="form-control-label" style="font-size: 14px;">Mật khẩu <span style="color: red;">*</span></label>
+                            <input class="form-control" id="MatKhau" name="MatKhau" type="password" placeholder="Nhập mật khẩu ..." required>
+                            <div class="text-danger text-xs mt-2" id="txt_MatKhau"></div>
+                        </div>  
+
+                        <div class="form-group">
+                            <label for="HoTen" class="form-control-label" style="font-size: 14px;">Họ tên <span style="color: red;">*</span></label>
+                            <input class="form-control" id="HoTen" name="HoTen" type="text" placeholder="Nhập họ tên ..." required>
+                            <div class="text-danger text-xs mt-2" id="txt_HoTen"></div>
+                        </div>  
+
+                        <div class="form-group">
+                            <label for="SDT" class="form-control-label" style="font-size: 14px;">Số điện thoại <span style="color: red;">*</span></label>
+                            <input class="form-control" id="SDT" name="SDT" type="number" placeholder="Nhập số điện thoại ..." required>
+                            <div class="text-danger text-xs mt-2" id="txt_SDT"></div>
+                        </div>  
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">Không</button>
+                <!-- <button type="button" onclick="createAdmin()" class="btn btn-primary" >Xác nhận thêm</button> -->
+                <button class="btn btn-primary" type="button" onclick="createAdmin()">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    &nbsp;Xác nhận thêm
+                </button>
+            </div>
+        </div>                            
+    </div>
+</div>

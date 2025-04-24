@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- start head -->
+<%- include("../partials/head.ejs") %>
+<!-- end head -->
+
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+
+  <!-- navbar left start -->
+  <%- include("../partials/navbarLeft.ejs") %>
+  <!-- navbar left end -->
+  
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar TOP start -->
+    <%- include("../partials/navTop.ejs") %>
+    <!-- End Navbar TOP -->
+    <div class="container-fluid py-4">
+            
+        <!-- start quản lý tk admin-->
+        <div class="row">
+            <div class="col-12">
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center pb-0 p-3">
+                  <div id="debugSearchAD" style="display: none;">...</div>                  
+                  <h6 class="text-sm text-primary">DANH SÁCH VOUCHER</h6>
+                  <div class="text-end">
+                    <a class="btn bg-gradient-dark mb-0" data-bs-toggle="modal" href="#listAdmin" role="button"><i class="fas fa-plus"></i>&nbsp;&nbsp;Thêm Mới Voucher</a>
+                  </div>
+                </div>                  
+
+                <div class="card-body px-0 pt-0 pb-2">
+                  <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                      <thead>
+                        <tr>
+                          <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-7 text-center">STT</th>
+                          <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-7 ps-2 text-center">VOUCHER</th>
+                          <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-7 ps-2 text-center">Số % giảm giá</th>
+                          <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-7">Điều kiện giảm giá</th>
+                          <th class="text-dark opacity-7"></th>
+                        </tr>
+                      </thead>
+                      <tbody> 
+                        <% if (listVoucher && listVoucher.length > 0) { %>    
+                          <% listVoucher.forEach(function(listVoucher, index) { %>                         
+                            <tr>
+                                <td class="text-center align-middle"><p class="text-sm font-weight-bold mb-0 "><%= index + 1 %></p></td>                                  
+                                <td class="text-center align-middle"><%= listVoucher.MaGiamGia %></td>
+                                <td class="text-center align-middle">
+                                    <p class="text-sm font-weight-bold mb-0">Giảm <span style="color: red;"> <%= listVoucher.GiamGiaTheoDonHang %>%</span></p>
+                                </td>
+                                
+                                <td class="align-middle text-center">
+                                    <span class="text-dark text-sm font-weight-bold">Trên <span><%= formatCurrency(listVoucher.DieuKienGiamGia) %></span></span>
+                                </td>
+                            
+                                <td class="align-middle">
+                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0"  data-bs-toggle="modal" data-bs-target="#xoaVoucher<%= listVoucher._id %>"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                    <span>&nbsp;&nbsp;</span>
+                                    <a class="btn btn-link text-dark px-3 mb-0" href="/update-sp?idUpdate=" 
+                                      data-bs-toggle="modal" data-bs-target="#suaVoucher<%= listVoucher._id %>">
+                                      <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit
+                                    </a>
+                                </td>
+                              </tr>
+                              
+                              <!-- Modal sửa tài khoản admin -->
+                              <form action="/save-voucher/<%= listVoucher._id %>" enctype="multipart/form-data" id="updateVoucher<%= listVoucher._id %>" class="updateVoucher" method="POST">
+                                <!-- sử dụng hidden để gửi phương thức PUT, hiểu là làm giả method PUT -->
+                                <input type="hidden" name="_method" value="PUT" />  
+                                <input type="hidden" name="idEditVoucher" id="idEditVoucher<%= listVoucher._id %>" value="<%= listVoucher._id %>" />  
+
+                                <div class="modal fade" id="suaVoucher<%= listVoucher._id %>" aria-hidden="true" aria-labelledby="suaVoucherModalToggleLabel<%= listVoucher._id %>" tabindex="-1">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                          <div class="modal-header">
+                                              <h5 class="modal-title text-dark" id="suaVoucherModalToggleLabel<%= listVoucher._id %>">Bạn có chắc chắn muốn sửa Voucher  <br>
+                                                <span class="text-danger"><%= listVoucher.MaGiamGia %></span>?
+                                              </h5>
+                                          </div>
+                                          <div class="modal-body">
+                                              <div class="row">
+                                                  <div class="col-md-11">
+                                                    <input type="hidden" name="IdVoucher" id="IdVoucher<%= listVoucher._id %>" value="<%= listVoucher._id %>">                                                                                                        
+                                                    
+                                                    <div class="form-group">
+                                                      <label for="MaGiamGia<%= listVoucher._id %>" class="form-control-label" style="font-size: 14px;">Mã giảm giá </label>
+                                                      <input class="form-control" id="MaGiamGia<%= listVoucher._id %>" name="MaGiamGia" type="text" value="<%= listVoucher.MaGiamGia %>" placeholder="Nhập tên đăng nhập ..." required>
+                                                      <div class="text-danger text-xs mt-2" id="txt_MaGiamGia<%= listVoucher._id %>"></div>
+                                                    </div>  
+                                                    
+                                                    <div class="form-group">
+                                                        <label for="GiamGiaTheoDonHang<%= listVoucher._id %>" class="form-control-label" style="font-size: 14px;">Số % Giảm Giá <span style="color: red;">*</span></label>
+                                                        <input class="form-control" id="GiamGiaTheoDonHang<%= listVoucher._id %>" name="GiamGiaTheoDonHang" type="text" value="<%= listVoucher.GiamGiaTheoDonHang %>" placeholder="Nhập mật khẩu ..." required>
+                                                        <div class="text-danger text-xs mt-2" id="txt_GiamGiaTheoDonHang<%= listVoucher._id %>"></div>
+                                                    </div>  
+                            
+                                                    <div class="form-group">
+                                                        <label for="DieuKienGiamGia<%= listVoucher._id %>" class="form-control-label" style="font-size: 14px;">Điều kiện giảm giá (lớn hơn số tiền tổng đơn) <span style="color: red;">*</span></label>
+                                                        <input class="form-control" id="DieuKienGiamGia<%= listVoucher._id %>" name="DieuKienGiamGia" type="text" value="<%= listVoucher.DieuKienGiamGia %>" placeholder="Nhập họ tên ..." required>
+                                                        <div class="text-danger text-xs mt-2" id="txt_DieuKienGiamGia<%= listVoucher._id %>"></div>
+                                                        <script>
+                                                          document.addEventListener('DOMContentLoaded', function() {
+                                                              var inputElement = document.getElementById('DieuKienGiamGia<%= listVoucher._id %>');
+                                                  
+                                                              inputElement.addEventListener('input', function(event) {
+                                                                  var value = event.target.value;
+                                                                  var formattedValue = formatNumber(value);
+                                                                  event.target.value = formattedValue;
+                                                              });
+                                                  
+                                                              function formatNumber(value) {
+                                                                  // Xóa tất cả ký tự không phải số
+                                                                  var number = value.replace(/\D/g, '');
+                                                  
+                                                                  // Định dạng số với dấu phân cách nhóm hàng nghìn
+                                                                  return number.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                                                              }
+                                                          });
+                                                      </script>
+                                                    </div>  
+                                                                                                                                    
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary"  data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">Đóng</button>                
+                                              <button class="btn btn-warning" type="submit">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                &nbsp;Xác nhận sửa
+                                            </button>
+                                          </div>
+                                      </div>                            
+                                  </div>
+                                </div>
+                              </form>
+                              <!-- Modal xoá tài khoản admin -->
+                              <div class="modal fade" id="xoaVoucher<%= listVoucher._id %>" aria-hidden="true" aria-labelledby="xoaVoucherModalToggleLabel<%= listVoucher._id %>" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="xoaVoucherModalToggleLabel<%= listVoucher._id %>" style="color: navy;">Xóa Voucher?</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-11">
+                                                    <p class="text-dark font-weight-bold">Bạn có muốn xóa voucher 
+                                                        <span class="text-danger font-weight-bold"><%= listVoucher.MaGiamGia %></span> 
+                                                        này không?</p>                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">Không</button>
+                                            <!-- <button type="button" onclick="deleteAdmin()" class="btn btn-primary" >Xác nhận thêm</button> -->
+                                            <button class="btn btn-danger" type="button" onclick="deleteVoucher('<%= listVoucher._id %>')">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                &nbsp;Xác nhận xoá
+                                            </button>
+                                        </div>
+                                    </div>                            
+                                </div>
+                              </div>   
+                              <% }); %>  
+
+                              <% } else { %> 
+                                <tr >
+                                    <td colspan="10" >
+                                        <span style="color: red;">Chưa có Voucher nào trong này cả. <br> Vui lòng chọn loại khác. <br> Cảm ơn bạn!</span>
+                                    </td>
+                                </tr>
+                            <% } %>                                               
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card mb-4">
+              <div class="card-header d-flex justify-content-between align-items-center pb-0 p-3">
+                <div id="debugSearchAD" style="display: none;">...</div>                  
+                <h6 class="text-sm text-primary fw-bold">DANH SÁCH TÀI KHOẢN KHÁCH HÀNG</h6>
+                <div class="text-end">
+                  <!-- <a class="btn bg-gradient-dark mb-0" data-bs-toggle="modal" href="#listAdmin" role="button"><i class="fas fa-plus"></i>&nbsp;&nbsp;Thêm Mới Voucher</a> -->
+                </div>
+              </div>                  
+
+              <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-7 text-center">STT</th>
+                        <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-7 ps-2 text-center">Email</th>
+                        <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-7 ps-2 text-center">Họ tên</th>
+                        <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-7">thông tin voucher</th>
+                        <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-7">Ngày cập nhật</th>
+                        <th class="text-dark opacity-7"></th>
+                      </tr>
+                    </thead>
+                    <tbody> 
+                      <% if (lishTKKH && lishTKKH.length > 0) { %>    
+                        <% lishTKKH.forEach(function(lishTKKH, index) { %>                         
+                          <tr>
+                              <td class="text-center align-middle"><p class="text-sm font-weight-bold mb-0 "><%= index + 1 %></p></td>                                  
+                              <td class="text-center align-middle"><%= lishTKKH.Email %></td>
+                              <td class="text-center align-middle">
+                                  <p class="text-sm font-weight-bold mb-0"><%= lishTKKH.Ho %> <%= lishTKKH.Ten  %></p>
+                              </td>
+                              
+                              <td class="align-middle text-center">
+                                  <span class="text-dark text-sm font-weight-bold">
+                                    <% if (lishTKKH.IdMaGiamGiaChoKH && Array.isArray(lishTKKH.IdMaGiamGiaChoKH) && lishTKKH.IdMaGiamGiaChoKH.length > 0) { %>
+                                      <% lishTKKH.IdMaGiamGiaChoKH.forEach(function(voucher) { %>
+                                          <p class="text-sm font-weight-bold mb-0">
+                                            <%= voucher.MaGiamGia %> &nbsp;
+                                            <span class="text-danger">(giảm <%= voucher.GiamGiaTheoDonHang %>%)</span>
+                                          </p>
+                                      <% }); %>
+                                    <% } else { %>
+                                        <p class="text-sm font-weight-bold mb-0" style="color: rgb(207, 202, 202);">Không có mã giảm giá</p>
+                                    <% } %>
+                                  </span>
+                              </td>
+
+                              <td class="align-middle text-center">
+                                <span class="text-dark text-sm font-weight-bold"><%= lishTKKH.updatedAt %></span>
+                            </td>
+                          
+                              <td class="align-middle">
+                                  <a class="btn btn-link text-danger text-gradient px-3 mb-0"  data-bs-toggle="modal" data-bs-target="#xoaTKKH<%= lishTKKH._id %>"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                  <span>&nbsp;&nbsp;</span>
+                                  <a class="btn btn-link text-dark px-3 mb-0" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#suaVoucher<%= lishTKKH._id %>">
+                                    <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Chỉnh sửa mã giảm giá
+                                  </a>
+                              </td>
+                            </tr>
+                            
+                            <!-- Modal sửa -->                            
+                              <div class="modal fade" id="suaVoucher<%= lishTKKH._id %>" aria-hidden="true" aria-labelledby="suaVoucherModalToggleLabel<%= lishTKKH._id %>" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered" >
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-dark" id="suaVoucherModalToggleLabel<%= lishTKKH._id %>">Bạn có chắc chắn muốn thêm voucher cho tài khoản  <br>
+                                              <span class="text-danger"><%= lishTKKH.Email %></span>?
+                                            </h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-11">
+                                                  <input type="hidden" name="IdVoucher" id="IdVoucher<%= lishTKKH._id %>" value="<%= lishTKKH._id %>">                                                                                                        
+                                                  
+                                                  <div class="form-group">
+                                                    <label for="Email<%= lishTKKH._id %>" class="form-control-label" style="font-size: 14px;">Email </label>
+                                                    <input class="form-control" id="Email<%= lishTKKH._id %>" name="Email" type="email" value="<%= lishTKKH.Email %>" disabled>
+                                                    <div class="text-danger text-xs mt-2" id="txt_Email<%= lishTKKH._id %>"></div>
+                                                  </div>  
+                                                  
+                                                  <div class="form-group">
+                                                      <label for="IdMaGiamGiaChoKH<%= lishTKKH._id %>" class="form-control-label" style="font-size: 14px;">Voucher <span style="color: red;">*</span></label> <br>                                                      
+                                                      <% listVoucher.forEach(function(listVoucher, index) { %>  
+                                                          <input 
+                                                            type="checkbox" 
+                                                            id="voucher-<%= lishTKKH._id %>-<%= listVoucher._id %>" 
+                                                            name="IdMaGiamGiaChoKH" 
+                                                            value="<%= listVoucher._id %>">
+
+                                                            <label for="voucher-<%= lishTKKH._id %>-<%= listVoucher._id %>" class="form-label text-sm">
+                                                              <%= listVoucher.MaGiamGia %> <span class="text-danger">(giảm <%= listVoucher.GiamGiaTheoDonHang %>%) </span>
+                                                              cho đơn từ <%= formatCurrency(listVoucher.DieuKienGiamGia) %> trở lên
+                                                            </label><br>
+                                                        <% }); %>  
+                                                  </div>                            
+                                                                                                                                  
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" onclick="loadTrang()" aria-label="Close">Đóng</button>                
+                                          <button class="btn btn-danger" type="button" onclick="createVoucherKH()">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            &nbsp;Xác nhận thêm voucher cho khách hàng
+                                        </button>
+                                      </div>
+                                    </div>                            
+                                </div>
+                              </div>
+                           
+                            <!-- Modal xoá -->
+                            <div class="modal fade" id="xoaTKKH<%= lishTKKH._id %>" aria-hidden="true" aria-labelledby="xoaTKKHModalToggleLabel<%= lishTKKH._id %>" tabindex="-1">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="xoaTKKHModalToggleLabel<%= lishTKKH._id %>" style="color: navy;">Xóa tài khoản?</h5>
+                                      </div>
+                                      <div class="modal-body">
+                                          <div class="row">
+                                              <div class="col-md-11">
+                                                  <p class="text-dark font-weight-bold">Bạn có muốn xóa tài khoản 
+                                                      <span class="text-danger font-weight-bold"><%= lishTKKH.Email %></span> 
+                                                      này không?</p>                                                    
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">Không</button>
+                                          <!-- <button type="button" onclick="deleteAdmin()" class="btn btn-primary" >Xác nhận thêm</button> -->
+                                          <button class="btn btn-danger" type="button" onclick="deleteTKKH('<%= lishTKKH._id %>')">
+                                              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                              &nbsp;Xác nhận xoá
+                                          </button>
+                                      </div>
+                                  </div>                            
+                              </div>
+                            </div>   
+                            <% }); %>  
+
+                            <% } else { %> 
+                              <tr >
+                                  <td colspan="10" >
+                                      <span style="color: red;">Chưa có tài khoản nào trong này cả. <br> Cảm ơn bạn!</span>
+                                  </td>
+                              </tr>
+                          <% } %>    
+                          <tr >
+                            <td colspan="10" >
+                              <%- include("../partials/phanTrang.ejs") %>
+                            </td>
+                        </tr>                                           
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+        <!-- end quản lý tk admin-->
+        <%- include("../modal/modalQLVoucher.ejs") %>
+      <%- include("../partials/footer.ejs") %>
+    </div>
+
+  </main>
+
+  <!-- chân trang và các script -->
+  <%- include("../partials/chanTrangVaScript.ejs") %>
+  <!-- end chân trang và các script -->
+  
+</body>
+
+</html>

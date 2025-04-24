@@ -1,0 +1,368 @@
+<!-- <div id="home" role="tabpanel" aria-labelledby="home-tab" class="tab-pane fade px-4 py-5 show active"> -->
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+    <!-- <p class="text-muted">chưa giao hàng</p>
+    <p class="text-muted">chưa giao hàng</p>                           -->
+    <div class="table-wrap" style="overflow-x: scroll">
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col" style="width: 20%;text-align: center;vertical-align: middle;">
+                  Mã đơn hàng/ </br> 
+                  Ngày đặt hàng
+              </th>
+              <th scope="col" style="text-align: center;vertical-align: middle;">Trạng thái</th>
+              <th scope="col" style="text-align: left;vertical-align: middle;">
+                  Số lượng / Gỉảm giá / TT 
+                  <span style="float: right;"><i title="Số lượng/Gỉảm giá/Tổng tiền của đơn hàng" class="fas fa-info-circle"></i></span>
+              </th>
+              <th scope="col" style="text-align: center;vertical-align: middle;">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+              <!-- đơn thứ 1 -->
+              <!-- Chưa giao hàng -->
+               <% if(showHDChuaGiao.length > 0) { %> 
+              <% showHDChuaGiao.forEach(function(showHDChuaGiao, index) { %>  
+            <tr>
+              <th scope="row">
+                  <p style="color: blue;"><%= showHDChuaGiao._id %></p>
+                  <p><%= showHDChuaGiao.NgayLap %></p>
+              </th>
+              <td style="padding: 15px 20px;">                                    
+                  <p style="
+                      background-color: rgb(255, 234, 234);                                             
+                      padding: 10px 15px;
+                      width: 190px;
+                      border: none;
+                      color: rgb(255, 0, 0);
+                  ">
+                      <i data-status="pending" class="fas fa-shopping-cart" style="font-size: 16px; color: rgb(22, 15, 1);"></i>
+                      &nbsp;
+                      <%= showHDChuaGiao.TinhTrangDonHang %>
+                  </p>
+                  <% if (showHDChuaGiao.TinhTrangThanhToan == "Chưa Thanh Toán") { %>
+                      <span style=" padding: 10px 0 0 10px;                                                                               
+                          border: 1px solid red;
+                          color: red;
+                          border: none;
+                          font-style: italic;
+                      ">
+                          &nbsp;
+                          <i data-payment="unpaid" class="fas fa-exclamation-circle" style="font-size: 18px; color: red;"></i>
+                          &nbsp;
+                          Chưa thanh toán 
+                      </span>
+                  <% } else { %>
+                      <span style=" 
+                          padding: 10px 0 0 10px;                                                                                                                           
+                          color: rgb(18, 190, 32);
+                          border: none;
+                          font-style: italic;
+                      ">
+                          &nbsp;
+                          <i data-status="delivered" class="fas fa-check-circle" style="font-size: 18px; color: green;"></i>
+                          &nbsp;
+                          Đã thanh toán 
+                      </span>
+                  <% } %>  
+                  
+                   </br> </br>                            
+                  <p>( Phí vận chuyển: <%= formatCurrency(showHDChuaGiao.PhiShip) %> )</p>
+              </td>
+              <td>
+                  <p>Số lượng: <span style="color: rgb(0, 0, 0);"> <%= showHDChuaGiao.TongSLDat %> </span></p>
+                  <p>Gỉảm giá: <span style="color: rgb(0, 0, 0);"> -<%= formatCurrency(showHDChuaGiao.SoTienGiamGia) %>  </span></p>
+                  <p>TT: <span style="color: rgb(0, 0, 0);"> <%= formatCurrency(showHDChuaGiao.CanThanhToan) %>  </span></p>
+              </td>
+              <td style="text-align: center;vertical-align: middle;">                                                 
+                    <a  data-bs-toggle="modal" data-bs-target="#suaDonChuaGiao<%= showHDChuaGiao._id %>"                      
+                        href="#">
+                        <!-- Biểu tượng "edit" -->
+                         EDIT
+                        <i title="Chỉnh sửa" style="font-size: 25px; color: rgb(54, 54, 54);" class="fas fa-pencil-alt text-dark me-2"></i>                
+                    </a>                                       
+                    </br>   
+                    </br>   
+                    <button type="button" style="border: none; background-color: white;" onclick="toggleShowHide('<%= index %>', this)">
+                        <!-- Biểu tượng "view" -->
+                         VIEW
+                        <i id="viewIcon<%= index %>" title="Ấn vào để xem chi tiết" style="font-size: 25px; color: red; text-decoration: line-through;" class=" fas fa-eye" ></i>
+                    </button>
+              </td>
+            </tr>
+            
+            <!-- modal sửa đơn chưa giao -->
+            <form action="/save-don-hang/<%= showHDChuaGiao._id %>" enctype="multipart/form-data" id="updateDonHangChuaGiao<%= showHDChuaGiao._id %>" class="updateDonHangChuaGiao" method="POST">
+                <!-- sử dụng hidden để gửi phương thức PUT, hiểu là làm giả method PUT -->
+                <input type="hidden" name="_method" value="PUT" />  
+                <input type="hidden" name="idEditDHChuaGiao" id="idEditDHChuaGiao<%= showHDChuaGiao._id %>" value="<%= showHDChuaGiao._id %>" /> 
+                <div class="modal fade" id="suaDonChuaGiao<%= showHDChuaGiao._id %>" aria-hidden="true" aria-labelledby="listDonChuaGiaoModalToggleLabel" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="listDonChuaGiaoModalToggleLabel" style="color: navy;">Chỉnh sửa đơn hàng <br>
+                                    <div style="padding: 5px 30px;">
+                                        <i title="Họ Tên Khách Hàng" class="fas fa-user"></i> 
+                                        <span style="color: black; padding: 5px;">
+                                            <%= showHDChuaGiao.Ho %> <%= showHDChuaGiao.Ten %> ( <i style="color: blue;" title="Số Điện Thoại" class="fas fa-phone"></i>  <%= showHDChuaGiao.SoDienThoai %> ) / &nbsp;
+                                            <i style="color: green;" title="Địa Chỉ Chi Tiết" class="fas fa-map-marker"></i> <%= showHDChuaGiao.DiaChiChiTiet %> / &nbsp;                                             
+                                        </span>
+                                    </div> 
+                                </h5>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <p style="color: rgb(61, 0, 0); font-weight: bold;font-size: 18px">Tình trạng giao hàng</p>
+                                        <% if(showHDChuaGiao.TinhTrangDonHang == "Chưa giao hàng") { %>                                             
+                                            <div class="form-check">
+                                                <input  value="Chưa giao hàng" onchange="logValue('TinhTrangDonHang', this.value)"
+                                                        class="form-check-input" type="radio" name="TinhTrangDonHang" id="TinhTrangDonHang1-<%= showHDChuaGiao._id %>" checked>
+                                                <label class="form-check-label" for="TinhTrangDonHang1-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Chưa giao hàng
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input  value="Đang giao hàng" onchange="logValue('TinhTrangDonHang', this.value)"
+                                                        class="form-check-input" type="radio" name="TinhTrangDonHang" id="TinhTrangDonHang2-<%= showHDChuaGiao._id %>">
+                                                <label class="form-check-label" for="TinhTrangDonHang2-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Đang Giao Hàng
+                                                </label>
+                                            </div>  
+                                            <div class="form-check">
+                                                <input value="Đã giao hàng" onchange="logValue('TinhTrangDonHang', this.value)" class="form-check-input" type="radio" name="TinhTrangDonHang" id="TinhTrangDonHang3-<%= showHDChuaGiao._id %>">
+                                                <label class="form-check-label" for="TinhTrangDonHang3-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Đã Giao Hàng
+                                                </label>
+                                            </div> 
+                                        <% } else if(showHDChuaGiao.TinhTrangDonHang == "Đang giao hàng"){ %>
+                                            <div class="form-check">
+                                                <input  value="Đang giao hàng" onchange="logValue('TinhTrangDonHang', this.value)"
+                                                        class="form-check-input" type="radio" name="TinhTrangDonHang" id="TinhTrangDonHang1-<%= showHDChuaGiao._id %>" checked>
+                                                <label class="form-check-label" for="TinhTrangDonHang1-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Đang giao hàng
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input value="Chưa giao hàng" onchange="logValue('TinhTrangDonHang', this.value)" class="form-check-input" type="radio" name="TinhTrangDonHang" id="TinhTrangDonHang2-<%= showHDChuaGiao._id %>">
+                                                <label class="form-check-label" for="TinhTrangDonHang2-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Chưa Giao Hàng
+                                                </label>
+                                            </div>  
+                                            <div class="form-check">
+                                                <input value="Đã giao hàng" onchange="logValue('TinhTrangDonHang', this.value)" class="form-check-input" type="radio" name="TinhTrangDonHang" id="TinhTrangDonHang3-<%= showHDChuaGiao._id %>">
+                                                <label class="form-check-label" for="TinhTrangDonHang3-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Đã Giao Hàng
+                                                </label>
+                                            </div> 
+                                        <% } else { %> 
+                                            <div class="form-check">
+                                                <input  value="Đã giao hàng" onchange="logValue('TinhTrangDonHang', this.value)"
+                                                        class="form-check-input" type="radio" name="TinhTrangDonHang" id="TinhTrangDonHang1-<%= showHDChuaGiao._id %>" checked>
+                                                <label class="form-check-label" for="TinhTrangDonHang1-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Đã Giao Hàng
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input value="Chưa giao hàng" onchange="logValue('TinhTrangDonHang', this.value)" class="form-check-input" type="radio" name="TinhTrangDonHang" id="TinhTrangDonHang2-<%= showHDChuaGiao._id %>">
+                                                <label class="form-check-label" for="TinhTrangDonHang2-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Chưa Giao Hàng
+                                                </label>
+                                            </div>  
+                                            <div class="form-check">
+                                                <input value="Đang giao hàng" onchange="logValue('TinhTrangDonHang', this.value)" class="form-check-input" type="radio" name="TinhTrangDonHang" id="TinhTrangDonHang3-<%= showHDChuaGiao._id %>">
+                                                <label class="form-check-label" for="TinhTrangDonHang3-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Đang Giao Hàng
+                                                </label>
+                                            </div>                                            
+                                        <% } %> 
+                                        <script>
+                                            function logValue(fieldName, value) {
+                                                console.log(`${fieldName}: ${value}`);
+                                            }
+                                        </script>
+                                        <p style="color: rgb(61, 0, 0); font-weight: bold;font-size: 18px">Tình trạng thanh toán</p>
+                                        <% if(showHDChuaGiao.TinhTrangThanhToan == "Chưa Thanh Toán") { %>  
+                                            <div class="form-check">
+                                                <input  value="Chưa Thanh Toán" onchange="logValue('TinhTrangThanhToan', this.value)"
+                                                        class="form-check-input" type="radio" name="TinhTrangThanhToan" id="TinhTrangThanhToan1-<%= showHDChuaGiao._id %>" checked>
+                                                <label class="form-check-label" for="TinhTrangThanhToan1-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Chưa Thanh Toán
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input value="Đã Thanh Toán" onchange="logValue('TinhTrangThanhToan', this.value)" class="form-check-input" type="radio" name="TinhTrangThanhToan" id="TinhTrangThanhToan2-<%= showHDChuaGiao._id %>">
+                                                <label class="form-check-label" for="TinhTrangThanhToan2-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Đã Thanh Toán
+                                                </label>
+                                            </div>  
+                                        <% } else { %>    
+                                            <div class="form-check">
+                                                <input value="Chưa Thanh Toán" onchange="logValue('TinhTrangThanhToan', this.value)" class="form-check-input" type="radio" name="TinhTrangThanhToan" id="TinhTrangThanhToan2-<%= showHDChuaGiao._id %>">
+                                                <label class="form-check-label" for="TinhTrangThanhToan2-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Chưa Thanh Toán
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input  value="Đã Thanh Toán" onchange="logValue('TinhTrangThanhToan', this.value)"
+                                                        class="form-check-input" type="radio" name="TinhTrangThanhToan" id="TinhTrangThanhToan1-<%= showHDChuaGiao._id %>" checked>
+                                                <label class="form-check-label" for="TinhTrangThanhToan1-<%= showHDChuaGiao._id %>" style="font-size: 18px;">
+                                                    Đã Thanh Toán
+                                                </label>
+                                            </div>                                            
+                                        <% } %> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">Không</button>
+                                <!-- <button type="button" onclick="createAdmin()" class="btn btn-primary" >Xác nhận thêm</button> -->
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    &nbsp;Xác nhận sửa
+                                </button>
+                            </div>
+                        </div>                            
+                    </div>
+                </div>
+            </form>
+
+            <!-- thông tin địa chỉ khách hàng và tt sản phẩm đã đặt -->
+            
+            <tr>
+              <!-- <th scope="row">3</th> -->
+              <td colspan="4" style="border-bottom: 2px solid ">
+                  <!-- thông tin địa chỉ khách hàng -->
+                  <div style="padding: 5px 30px;">
+                      <i title="Họ Tên Khách Hàng" class="fas fa-user"></i> 
+                      <span style="color: black; font-weight: bold; padding: 5px;">
+                          <%= showHDChuaGiao.Ho %> <%= showHDChuaGiao.Ten %> ( <i style="color: blue;" title="Số Điện Thoại" class="fas fa-phone"></i>  <%= showHDChuaGiao.SoDienThoai %> ) / &nbsp;
+                          <i style="color: green;" title="Địa Chỉ Chi Tiết" class="fas fa-map-marker"></i> <%= showHDChuaGiao.DiaChiChiTiet %> / &nbsp; 
+                          <!-- <i style="color: navy;" title="Thành Phố" class="fas fa-building"></i> <%= showHDChuaGiao.ThanhPho %> / &nbsp; 
+                          <i style="color: rgb(110, 33, 33);" title="Quốc Gia" class="fas fa-globe"></i> <%= showHDChuaGiao.QuocGia %> -->
+                      </span>
+                  </div>                                    
+                  <!-- end thông tin địa chỉ khách hàng -->  
+                  
+                  <!-- thông tin chi tiết sp đã đặt -->
+                  <div style="padding: 5px 30px; display: none;" id="showttsp<%= index %>">
+                      <table class="table table-bordered" style="border: 1px solid;">
+                          <thead>
+                            <tr>
+                              <th scope="col" class="table-active" style="text-align: center;vertical-align: middle;color: black; width: 500px;">Sản phẩm</th>
+                              <th scope="col" class="table-active" style="text-align: center;vertical-align: middle;color: black;">Số lượng</th>
+                              <!-- <th scope="col" class="table-active" style="text-align: center;vertical-align: middle;color: black; width: 250px;">
+                                  Thông tin vận chuyển/ </br> Người nhận hàng
+                              </th> -->
+                            </tr>
+                          </thead>
+                          <tbody>
+                              <% showHDChuaGiao.cart.items.forEach(function(ttSPChuaGiao) { %>
+    
+                              <!-- sản phẩm 1 -->
+                            <tr>
+                                  <td>
+                                      <table >
+                                        <td style="padding: 0; border: none; width: 130px;">
+                                            <% if (ttSPChuaGiao.productId && ttSPChuaGiao.productId.Icon) { %>
+                                                <img style="height: 170px; width: 150px; background-color: rgb(0, 146, 44);" src="images/upload/<%= getRelativeImagePath(ttSPChuaGiao.productId.Icon[0]) %>" class="img-fluid" alt="Image">
+                                            <% } else { %>
+                                                <p>Không có hình ảnh</p>
+                                            <% } %>
+                                        </td>
+                                        
+                                          <td style="border: none;width: 100vh;"> 
+                                            <% if (ttSPChuaGiao.productId && ttSPChuaGiao.productId.TenSP && ttSPChuaGiao.productId.GiaBan) { %>
+                                                <p style="font-size: 20px; color: black; font-weight: bold;"><%= ttSPChuaGiao.productId.TenSP %></p>  
+                                                <p style="font-size: 18px; color: rgb(151, 148, 148); ">
+                                                    Giá Bán: <span style="color: red;"> <%= formatCurrency(ttSPChuaGiao.donGia) %></span>
+                                                </p> 
+                                                <p style="font-size: 18px; color: rgb(151, 148, 148); ">Size: <span style="color: navy;"> <%= (ttSPChuaGiao.size) %></span></p>                                            
+                                            <% } else { %>
+                                                <p>Không có thông tin</p>
+                                            <% } %>
+                                              
+                                          </td>
+                                      </table>
+                                  </td>
+                                  <td style="text-align: center;vertical-align: middle;width: 100px;"><%= ttSPChuaGiao.qty %></td>
+                                </tr>
+                                
+                                <% }); %>
+                                <td colspan="4" style="text-align: center;vertical-align: middle;">
+                                    <p> Phí vận chuyển: <span style="color: rgb(255, 0, 0);"><%= formatCurrency(showHDChuaGiao.PhiShip) %> </span></p>
+                                    <p>Người nhận hàng: <span style="color: black;"><%= showHDChuaGiao.Ho %> <%= showHDChuaGiao.Ten %></span> </p>
+                                </td>
+                          </tbody>
+                        </table>
+                  </div>
+                  <!-- end thông tin chi tiết sp đã đặt -->
+              </td>
+              
+            </tr>
+            
+            <% }); %> 
+            <% } else { %>
+                chưa có đơn
+                <% } %>
+            <!-- end thông tin địa chỉ khách hàng và tt sản phẩm đã đặt -->
+                       
+                                          
+          </tbody>
+        </table>
+    </div>
+      
+    </br>
+    <!-- số trang ở đây -->
+    <nav aria-label="...">
+      <ul class="pagination">
+          <% 
+              const pre = curPage <= 1 ? curPage : curPage - 1; 
+              const next = curPage >= soTrang ? curPage : parseInt(curPage) + 1            
+          %>
+
+          <li class="page-item disabled">
+              <a class="page-link" href="/list-don-hang?page=<%=pre%>" tabindex="-1" aria-disabled="true">&laquo;</a>
+          </li>
+
+        <% for(var i=1; i <=soTrang; i++) { 
+          var active="" ; 
+          if(i == curPage) active="active" ; %>
+
+          <li class="page-item <%=active%>">
+              <a class="page-link" href="/list-don-hang?page=<%=i%>">
+                  <%=i%>  
+              </a>
+          </li>
+
+          <% } %> 
+
+          <li class="page-item">
+              <a class="page-link" href="/list-don-hang?page=<%=next%>">&raquo;</a>
+          </li>
+          
+      </ul>
+    </nav>
+
+  </div>
+
+  <!-- (ấn vào view để hiển thị thông tin sp đã đặt) -->
+  <script>
+    // Hàm để toggle show/hide của phần tử có ID 'showttsp' và thay đổi icon
+        // handle show/hide chưa giao hàng
+        function toggleShowHide(index, iconElement) {
+            var element = document.getElementById('showttsp' + index);
+            console.log("element: ", element);
+            if (element.style.display === 'none' || element.style.display === '') {
+                element.style.display = 'block';
+                // Thay đổi icon sang con mắt khi show
+                iconElement.innerHTML = '<i id="viewIcon' + index + '" title="Ấn vào để thu gọn xem chi tiết" style="font-size: 25px; color: green;" class=" fas fa-eye"></i>';
+            } else {
+                element.style.display = 'none';
+                // Thay đổi icon sang gạch chéo khi hide
+                iconElement.innerHTML = '<i id="viewIcon' + index + '" title="Ấn vào để xem chi tiết" style="font-size: 25px; color: red; text-decoration: line-through;" class=" fas fa-eye"></i>';
+            }
+        }
+
+  </script>

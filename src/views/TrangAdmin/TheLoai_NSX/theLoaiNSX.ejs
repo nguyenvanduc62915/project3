@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- start head -->
+  <%- include("../partials/head.ejs") %>
+  <!-- end head -->
+
+  <body class="g-sidenav-show bg-gray-100">
+    <div class="min-height-300 bg-primary position-absolute w-100"></div>
+
+    <!-- navbar left start -->
+    <%- include("../partials/navbarLeft.ejs") %>
+    <!-- navbar left end -->
+
+    <main class="main-content position-relative border-radius-lg">
+      <!-- Navbar TOP start -->
+      <%- include("../partials/navTop.ejs") %>
+      <!-- End Navbar TOP -->
+      <div class="container-fluid py-4">
+        <div class="row mt-4">
+          <!-- start quản lý Hãng sản xuất -->
+          <div class="col-lg-7 mb-lg-0 mb-4">
+            <div class="card">
+              <div
+                class="card-header d-flex justify-content-between align-items-center pb-0 p-3"
+              >
+                <h6 class="mb-0">Hãng sản xuất</h6>
+                <div class="text-end">
+                  <a
+                    class="btn bg-gradient-primary mb-0"
+                    data-bs-toggle="modal"
+                    href="#hangSxModalToggle"
+                    role="button"
+                    ><i class="fas fa-plus"></i>&nbsp;&nbsp;Thêm Mới Hãng</a
+                  >
+                </div>
+              </div>
+
+              <div class="card-body pt-4 p-3">
+                <ul class="list-group list-groupp">
+                  <% if (hangSX && Object.keys(hangSX).length > 0) { %> <% let
+                  index = 0; %> <% for (const tenHangSX in hangSX) { %> <% const
+                  hangSXData = hangSX[tenHangSX]; %> <% const hangSXId =
+                  hangSXData._id; %>
+                  <li
+                    class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg"
+                  >
+                    <div class="d-flex flex-column">
+                      <h6 class="mb-3 text-sm"><%= tenHangSX %></h6>
+                      <span class="mb-2 text-xs"
+                        >Thể loại: <% const uniqueLoaiSP =
+                        Array.from(hangSXData.loaiSPNames); %> <% for (let i =
+                        0; i < uniqueLoaiSP.length; i++) { %>
+                        <span class="text-dark font-weight-bold ms-sm-2"
+                          ><%= uniqueLoaiSP[i] %></span
+                        >
+                        <% if (i < uniqueLoaiSP.length - 1) { %>
+                        <span>,</span>
+                        <!-- Dấu phẩy -->
+                        <% } %> <% } %>
+                      </span>
+
+                      <% const soLuongSP = tongSLHangSX.find(item =>
+                      item.TenHangSX === tenHangSX).soLuongSP || 0; %>
+                      <span class="mb-2 text-xs"
+                        >Số lượng sản phẩm:
+                        <span class="text-danger ms-sm-2 font-weight-bold"
+                          ><%= soLuongSP %></span
+                        ></span
+                      >
+                      <% if(soLuongSP > 0) { %>
+                      <span class="text-xs"
+                        >Đang có liên kết với sản phẩm:
+                        <span class="text-danger ms-sm-2 font-weight-bold"
+                          >Không thể xoá</span
+                        ></span
+                      >
+                      <% } else { %>
+                      <span class="text-xs"
+                        >Chưa có liên kết nào với sản phẩm</span
+                      >
+                      <% } %>
+                    </div>
+                    <div class="ms-auto text-end">
+                      <% if(soLuongSP > 0) { %>
+                      <a
+                        class="btn btn-link text-danger text-gradient px-3 mb-0"
+                        data-bs-toggle="modal"
+                        data-bs-target="#thongBaoKhongChoXoaHangSX"
+                        ><i class="far fa-trash-alt me-2"></i>Delete</a
+                      >
+                      <% } else { %>
+                      <a
+                        class="btn btn-link text-danger text-gradient px-3 mb-0"
+                        data-bs-toggle="modal"
+                        data-bs-target="#HangSX-Xoa<%= index %>"
+                        ><i class="far fa-trash-alt me-2"></i>Delete</a
+                      >
+                      <% } %>
+
+                      <!-- <a class="btn btn-link text-dark px-3 mb-0" 
+                                      data-bs-toggle="modal" data-bs-target="#suaHangSxModalToggle<%= index %>"
+                                  ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a> -->
+                    </div>
+                  </li>
+
+                  <!-- modal sửa hãng sx -->
+                  <form
+                    action="/sua-hang-sx/<%= tenHangSX %>"
+                    method="post"
+                    class="editHangSx"
+                    id="editHangSx<%= tenHangSX %>"
+                  >
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input
+                      type="hidden"
+                      value="<%= tenHangSX %>"
+                      id="idEditHangSx<%= tenHangSX %>"
+                      name="idEditHangSx"
+                    />
+                    <div
+                      class="modal fade"
+                      id="suaHangSxModalToggle<%= index %>"
+                      aria-hidden="true"
+                      aria-labelledby="suaHangSxModalToggleLabel<%= index %>"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              id="suaHangSxModalToggleLabel<%= index %>"
+                              style="color: navy"
+                            >
+                              Sửa tên hãng sản xuất?
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row">
+                              <div class="col-md-11">
+                                <div class="form-group">
+                                  <label
+                                    for="TenHangSX<%= tenHangSX %>"
+                                    class="form-control-label"
+                                    style="font-size: 14px"
+                                    >Tên nhà sản xuất
+                                    <span style="color: red">*</span></label
+                                  >
+                                  <input
+                                    value="<%= tenHangSX %>"
+                                    class="form-control"
+                                    id="TenHangSX<%= tenHangSX %>"
+                                    name="SuaTenHangSX"
+                                    type="text"
+                                    placeholder="Nhập tên hãng sản xuất ..."
+                                    required
+                                  />
+                                </div>
+
+                                <div class="form-group">
+                                  <label
+                                    for="IdLoaiSP<%= tenHangSX %>"
+                                    class="form-control-label"
+                                    style="font-size: 14px"
+                                    >Thể loại
+                                    <span style="color: red">*</span></label
+                                  >
+                                  <select
+                                    id="IdLoaiSP<%= tenHangSX %>"
+                                    name="SuaIdLoaiSP"
+                                    class="form-control"
+                                    aria-label="Default select example"
+                                    multiple
+                                    style="
+                                      font-size: 15px;
+                                      color: navy;
+                                      height: 200px;
+                                    "
+                                  >
+                                    <% loaiSP.forEach(function(loaiSP) { %> <%
+                                    if
+                                    (hangSXData.loaiSPIds.includes(loaiSP._id.toString()))
+                                    { %>
+                                    <option
+                                      value="<%= loaiSP._id %>"
+                                      style="font-weight: bold"
+                                      selected
+                                    >
+                                      <%= loaiSP.TenLoaiSP %>
+                                    </option>
+                                    <% } else { %>
+                                    <option value="<%= loaiSP._id %>">
+                                      <%= loaiSP.TenLoaiSP %>
+                                    </option>
+                                    <% } %> <% }); %>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-dismiss="modal"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              Không
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                              Lưu lại
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+
+                  <!-- Modal xoá hãng sx -->
+                  <div
+                    class="modal fade"
+                    id="HangSX-Xoa<%= index %>"
+                    tabindex="-1"
+                    aria-labelledby="HangSX-XoaLabel<%= index %>"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5
+                            class="modal-title"
+                            id="HangSX-XoaToggleLabel<%= index %>"
+                            style="color: navy"
+                          >
+                            Xoá loại sản phẩm?
+                          </h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          Bạn có chắc chắn muốn xoá hãng có tên
+                          <span style="color: red"><%= tenHangSX %></span> này
+                          không?
+                          <input
+                            type="hidden"
+                            id="tenXoa<%= index %>"
+                            value="<%= tenHangSX %>"
+                            name="tenCanXoa"
+                          />
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-outline-dark"
+                            data-dismiss="modal"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          >
+                            Không
+                          </button>
+                          <button
+                            class="btn bg-gradient-danger"
+                            onclick="deleteHangSX('<%= tenHangSX %>')"
+                          >
+                            Đồng ý xoá
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% index++; %> <% } %> <% } else { %>
+                  <p>Admin chưa update loại sản phẩm</p>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- end quản lý Hãng sản xuất -->
+
+          <!-- start quản lý thể loại -->
+          <div class="col-lg-5">
+            <div class="card">
+              <div
+                class="card-header d-flex justify-content-between align-items-center pb-0 p-3"
+              >
+                <h6 class="mb-0">Thể loại</h6>
+                <div class="text-end">
+                  <a
+                    class="btn bg-gradient-dark mb-0"
+                    data-bs-toggle="modal"
+                    href="#exampleModalToggle"
+                    role="button"
+                    ><i class="fas fa-plus"></i>&nbsp;&nbsp;Thêm Thể Loại</a
+                  >
+                </div>
+              </div>
+
+              <div class="card-body p-3">
+                <ul class="list-group list-groupp">
+                  <% if (loaiSP && loaiSP.length > 0) { %> <%
+                  loaiSP.forEach(function(loaiSP, index) { %>
+                  <li
+                    class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
+                  >
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="icon icon-shape icon-sm me-3 bg-gradient-white shadow text-center"
+                      >
+                        <!-- <i class="ni ni-mobile-button text-white opacity-10"></i> -->
+                        <img
+                          src="images/upload/<%= getRelativeImagePath(loaiSP.Icon) %>"
+                          alt=""
+                          class="text-white opacity-10"
+                          style="
+                            width: 18px;
+                            height: 18px;
+                            position: relative;
+                            top: 3px;
+                          "
+                        />
+                      </div>
+                      <div class="d-flex flex-column">
+                        <h6 class="mb-1 text-dark text-sm">
+                          <%= loaiSP.TenLoaiSP %>
+                        </h6>
+
+                        <span class="text-xs"
+                          >Đang có
+                          <span class="font-weight-bold">
+                            <span
+                              class="font-weight-bold"
+                              style="color: rgb(255, 0, 0); font-size: 15px"
+                            >
+                              <% for (const item of tongSL) { %> <% if
+                              (item.IdLoaiSP.toString() ===
+                              loaiSP._id.toString()) { %> <%=
+                              item.soLuongTenHangSX %> <% } %> <% } %>
+                            </span>
+                            liên kết với hãng sản xuất</span
+                          >
+                        </span>
+                      </div>
+                    </div>
+                    <div class="d-flex">
+                      <% for (const item of tongSL) { %>
+                      <!-- cho phép xoá -->
+                      <% if (item.IdLoaiSP.toString() === loaiSP._id.toString()
+                      && item.soLuongTenHangSX < 1) { %>
+                      <a
+                        class="btn btn-link text-danger text-gradient px-3 mb-0"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal<%= loaiSP._id %>"
+                        ><i class="far fa-trash-alt me-2"></i>Delete</a
+                      >
+
+                      <!-- không cho phép xoá -->
+                      <% } else if(item.IdLoaiSP.toString() ===
+                      loaiSP._id.toString() && item.soLuongTenHangSX > 0) { %>
+                      <a
+                        class="btn btn-link text-danger text-gradient px-3 mb-0"
+                        data-bs-toggle="modal"
+                        data-bs-target="#thongBaoKhongChoXoa"
+                        ><i class="far fa-trash-alt me-2"></i>Delete</a
+                      >
+                      <% } else { %> <% } %> <% } %>
+
+                      <a
+                        class="btn btn-link text-dark px-3 mb-0"
+                        data-bs-toggle="modal"
+                        data-bs-target="#SuaLoaiSP<%= loaiSP._id %>"
+                        ><i
+                          class="fas fa-pencil-alt text-dark me-2"
+                          aria-hidden="true"
+                        ></i
+                        >Edit</a
+                      >
+                      <!-- <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i class="ni ni-bold-right" aria-hidden="true"></i></button> -->
+                    </div>
+                  </li>
+
+                  <!-- Modal xoá loại sp -->
+                  <div
+                    class="modal fade"
+                    id="exampleModal<%= loaiSP._id %>"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel<%= loaiSP._id %>"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5
+                            class="modal-title"
+                            id="exampleModalToggleLabel<%= loaiSP._id %>"
+                            style="color: navy"
+                          >
+                            Xoá loại sản phẩm?
+                          </h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          Bạn có chắc chắn muốn xoá loại sản phẩm
+                          <span style="color: red"
+                            ><%= loaiSP.TenLoaiSP %></span
+                          >
+                          này không?
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-outline-dark"
+                            data-dismiss="modal"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          >
+                            Không
+                          </button>
+                          <button
+                            class="btn bg-gradient-danger"
+                            onclick="deleteLoaiSP('<%= loaiSP._id %>')"
+                          >
+                            Đồng ý xoá
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Modal sửa loại sp -->
+                  <form
+                    action="/save-loai-sp/<%= loaiSP._id %>"
+                    enctype="multipart/form-data"
+                    id="updateLoaiSP<%= loaiSP._id %>"
+                    class="updateLoaiSP"
+                    method="POST"
+                  >
+                    <!-- sử dụng hidden để gửi phương thức PUT, hiểu là làm giả method PUT -->
+                    <input type="hidden" name="_method" value="PUT" />
+                    <input
+                      type="hidden"
+                      name="idEdit<%= loaiSP._id %>"
+                      id="idEdit<%= loaiSP._id %>"
+                      value="<%= loaiSP._id %>"
+                    />
+
+                    <div
+                      class="modal fade"
+                      id="SuaLoaiSP<%= loaiSP._id %>"
+                      aria-hidden="true"
+                      aria-labelledby="SuaLoaiSPLabel<%= loaiSP._id %>"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5
+                              class="modal-title"
+                              id="SuaLoaiSPLabel<%= loaiSP._id %>"
+                              style="color: navy"
+                            >
+                              Bạn có chắc chắn muốn sửa loại
+                              <span style="color: red"
+                                ><%= loaiSP.TenLoaiSP %></span
+                              >?
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row">
+                              <div class="col-md-11">
+                                <div class="form-group">
+                                  <label
+                                    for="TenLoaiSP<%= loaiSP._id %>"
+                                    class="form-control-label"
+                                    style="font-size: 14px"
+                                    >Tên thể loại
+                                    <span style="color: red">*</span></label
+                                  >
+                                  <input
+                                    class="form-control"
+                                    id="TenLoaiSP<%= loaiSP._id %>"
+                                    name="TenLoaiSP"
+                                    type="text"
+                                    value="<%= loaiSP.TenLoaiSP %>"
+                                    placeholder="Nhập tên thể loại ..."
+                                    required
+                                  />
+                                </div>
+
+                                <div class="form-group">
+                                  <label
+                                    for="Iconn<%= loaiSP._id %>"
+                                    class="form-control-label"
+                                    style="font-size: 14px"
+                                    >Icon
+                                    <span style="color: red">*</span></label
+                                  >
+                                  <input
+                                    class="form-control input-file"
+                                    id="Iconn<%= loaiSP._id %>"
+                                    name="Iconn"
+                                    type="file"
+                                    value="<%= loaiSP.Icon %>"
+                                    data-loaisp-id="<%= loaiSP._id %>"
+                                  />
+                                  <input
+                                    class="form-control no-file-selected"
+                                    placeholder="Vui lòng chọn tệp ảnh"
+                                    type="text"
+                                    id="noFileSelectedIcon<%= loaiSP._id %>"
+                                    name="noFileSelectedIcon"
+                                    value="<%= loaiSP.Icon %>"
+                                    readonly
+                                    style="
+                                      border: none;
+                                      position: relative;
+                                      top: -40px;
+                                      width: 340px;
+                                      left: 85px;
+                                    "
+                                  />
+                                </div>
+
+                                <div class="form-group">
+                                  <label
+                                    for="img"
+                                    class="form-control-label"
+                                    style="font-size: 14px"
+                                    >Hình ảnh</label
+                                  >
+                                  <br />
+                                  <div
+                                    class="form-group icon icon-shape bg-gradient-primary shadow text-center"
+                                    style="width: 100px; height: 100px"
+                                  >
+                                    <img
+                                      width="40"
+                                      height="40"
+                                      data-loaisp-id="<%= loaiSP._id %>"
+                                      id="previewImg<%= loaiSP._id %>"
+                                      src="images/upload/<%= getRelativeImagePath(loaiSP.Icon) %>"
+                                      alt=""
+                                      class="text-white opacity-10 preview-img"
+                                      style="position: relative; top: 28px"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-dismiss="modal"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            >
+                              Không
+                            </button>
+                            <button class="btn btn-warning" type="submit">
+                              Lưu lại
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+
+                  <% }); %> <% } else { %>
+                  <p>Admin chưa update loại sản phẩm</p>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <%- include("../modal/modalTheLoaiSP.ejs") %>
+          <!-- end quản lý thể loại -->
+        </div>
+
+        <%- include("../partials/footer.ejs") %>
+      </div>
+    </main>
+
+    <!-- chân trang và các script -->
+    <%- include("../partials/chanTrangVaScript.ejs") %>
+    <!-- end chân trang và các script -->
+  </body>
+</html>

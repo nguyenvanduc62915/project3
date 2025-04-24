@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- start head -->
+<%- include("../partials/head.ejs") %>
+<!-- end head -->
+
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+
+  <!-- navbar left start -->
+  <%- include("../partials/navbarLeft.ejs") %>
+  <!-- navbar left end -->
+  
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar TOP start -->
+    <%- include("../partials/navTop.ejs") %>
+    <!-- End Navbar TOP -->
+    <div class="container-fluid py-4">
+            
+        <!-- start quản lý sản phẩm -->
+        <div class="row mt-4">
+            <div class="col-12">
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center pb-0 p-3">
+                    <!-- <h6 class="mb-0">Danh sách tất cả sản phẩm</h6> -->                    
+                    <div class="d-flex justify-content-end">
+                        <!-- SẮP XẾP THEO GIÁ & CHỮ -->
+                        <select name="sapXepGia" onchange="handleChangeTheLoai()" title="Sắp xếp theo giá" class="form-select me-2" aria-label="Default select example" style="width: 180px;cursor: pointer;">                            
+                            <optgroup label="Sắp xếp theo giá" >
+                                <% if(SapXepTheoGiaSession === 1) { %>
+                                    <option value="1" selected style="font-weight: bold;color: navy;">Tăng dần theo giá</option>
+                                    <option value="0">Không sắp xếp</option>
+                                    <option value="-1">Giảm dần theo giá</option>
+                                    <% } else if(SapXepTheoGiaSession === -1) { %>
+                                        <option value="-1" selected style="font-weight: bold;color: navy;">Giảm dần theo giá</option>
+                                        <option value="0">Không sắp xếp</option>
+                                        <option value="1">Tăng dần theo giá</option>
+                                        <%  } else { %>
+                                            <option value="0" selected style="font-weight: bold;color: navy;">Không sắp xếp</option>
+                                            <option value="-1" >Giảm dần theo giá</option>
+                                            <option value="1">Tăng dần theo giá</option>
+                                            <% } %>  
+                            </optgroup>                                 
+                        </select>
+
+                        <!-- LỌC THEO TIỀN -->
+                        <select onchange="handleChangeTheLoai()" id="LocTheoGia" name="LocTheoGia" title="Lọc sản phẩm theo giá" class="form-select" aria-label="Default select example" style="width: 180px;cursor: pointer;">
+                            <optgroup label="Lọc sản phẩm theo giá" style="color: navy;">
+                                <option value="1000-999999999">Tất Cả Sản Phẩm</option>
+                                <option value="1000-200000">Dưới 200k</option>
+                                <option value="200001-1000000">Từ 200k đến 1M</option>
+                                <option value="1000001-3000000">Từ 1M đến 3M</option>
+                                <option value="3000001-5000000">Từ 3M đến 5M</option>
+                                <option value="5000001-10000000">Từ 5M đến 10M</option>
+                                <option value="10000001-20000000">Từ 10M đến 20m</option>
+                                <option value="20000001-999999999">Trên 20M</option>
+                            </optgroup>                                                                           
+                        </select>
+                        <script>
+                            // ví dụ savedPrice là 10000-200000
+                            const savedPrice = '<%= price %>';
+                        
+                            // Chọn thẻ select
+                            const locTheoGia = document.getElementById('LocTheoGia');
+                        
+                            // Tìm option có giá trị khớp với savedPrice và đặt thuộc tính selected
+                            if (savedPrice) {
+                                const options = locTheoGia.options;
+                                for (let i = 0; i < options.length; i++) {
+                                    if (options[i].value === savedPrice) {
+                                        options[i].selected = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        </script>
+
+                        <!-- LỌC THEO THỂ LOẠI VÀ HÃNG SẢN XUẤT -->
+                        <select title="Lọc sản phẩm theo thể loại" name="theLoai" onchange="handleChangeTheLoai()" class="form-select" aria-label="Default select example" style="width: 150px; margin-left: 8px; cursor: pointer;">
+                            <optgroup label="Lọc theo thể loại">
+                                <option value="undefined" >Tất Cả</option>
+                                <% theLoai.forEach(function(theLoai, index) { %>
+                                    <% if (theLoai._id.toString() === searchSP_TheLoaiSPSession) { %>
+                                        <option value="<%= theLoai._id %>" style="font-weight: bold;color: navy;" selected><%= theLoai.TenLoaiSP %></option>                                    
+                                    <% } else { %>   
+                                        <option value="<%= theLoai._id %>"><%= theLoai.TenLoaiSP %></option>
+                                    <% } %>
+                                <% }); %> 
+                            </optgroup>                            
+                        </select>
+                    </div>                    
+                    
+                    <div class="d-flex justify-content-end">
+                        <a class="btn bg-gradient-dark mb-0" href="/export-product" style="margin-left: 10px;"><i class="fas fa-file-export"></i>&nbsp;&nbsp;Export</a>
+                        <!-- <a class="btn bg-gradient-dark mb-0" href="/export-product" style="margin-left: 10px;"><i class="fas fa-file-import"></i>&nbsp;&nbsp;Import</a> -->
+                        <!-- <form id="importForm" enctype="multipart/form-data" method="POST" action="/import-product">
+                            <input type="file" id="file" name="file" accept=".xlsx, .xls" required style="display: none;">
+                            <button type="button" 
+                                    class="btn bg-gradient-dark mb-0"
+                                    style="margin-left: 10px;"
+                                    onclick="document.getElementById('file').click();">
+                                <i class="fas fa-file-import"></i>&nbsp;&nbsp;
+                                Import
+                            </button>
+                            <button type="submit" style="display: none;"></button> 
+                        </form> -->
+                                              
+                        <a class="btn bg-gradient-dark mb-0" href="/create-sp" style="margin-left: 10px;"><i class="fas fa-plus"></i>&nbsp;&nbsp;Thêm Mới Sản Phẩm</a>
+                    </div>
+
+                    <script>
+                        document.getElementById('file').addEventListener('change', function() {
+                            if (this.files.length > 0) {
+                                document.getElementById('importForm').submit(); // Tự động gửi form
+                            } else {
+                                alert("Vui lòng chọn file trước khi gửi.");
+                            }
+                        });
+
+                    
+                        document.getElementById('importForm').addEventListener('submit', function(event) {
+                            event.preventDefault(); // Ngăn chặn gửi yêu cầu mặc định của form
+                    
+                            fetch('/import-product', {
+                                method: 'POST',
+                                body: new FormData(this) // Sử dụng `this` để lấy form
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    // Swal.fire({
+                                    //     icon: 'success',
+                                    //     title: 'Thành công!',
+                                    //     text: data.message,
+                                    //     confirmButtonText: 'OK'
+                                    // });
+                                    console.log(data.data);
+                                    
+                                    alert(data.message)
+                                } else {
+                                    // Swal.fire({
+                                    //     icon: 'error',
+                                    //     title: 'Lỗi!',
+                                    //     text: data.message,
+                                    //     confirmButtonText: 'OK'
+                                    // });
+                                    alert(data.message)
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                        });
+                    </script>
+                    
+
+                  </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                  <div class="table-responsive p-0">
+                    <table class="table align-items-center justify-content-center mb-0">
+                      <thead>
+                        <tr>
+                            <th class="text-uppercase text-dark text-xxs font-weight-bolder text-sm" style="text-align: center; vertical-align: middle;">STT</th>
+                            <th class="text-uppercase text-dark text-xxs font-weight-bolder text-sm" style="text-align: center; vertical-align: middle;">Sản phẩm</th>
+                            <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2 text-sm" style="text-align: center; vertical-align: middle;">Size, Số lượng, Giá bán</th>
+                            <!-- <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2 text-sm" style="text-align: center; vertical-align: middle;">Giảm giá &nbsp;<span style="color: rgb(255, 0, 0);">%</span></th> -->
+                            <!-- <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2 text-sm" style="text-align: center; vertical-align: middle;">Số lượng tồn</th> -->
+                            <!-- <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2 text-sm" style="text-align: center; vertical-align: middle;">Ngày hết khuyến mãi</th> -->
+                            <!-- <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2 text-sm" style="text-align: center; vertical-align: middle;">Ngày bắt đầu khuyến mãi</th> -->
+                            <!-- <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2 text-sm" style="text-align: center; vertical-align: middle;">Ngày kết thúc khuyến mãi</th> -->
+                            <!-- <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2 text-sm" style="text-align: center; vertical-align: middle;">Giảm theo số ngày  &nbsp;<span style="color: rgb(255, 0, 0);">%</span></th> -->
+                            <!-- <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2 text-sm" style="text-align: center; vertical-align: middle;">Hãng sản xuất</th> -->
+                            <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2 text-sm" style="text-align: center; vertical-align: middle;">Ngày tạo</th>
+                            <th class="text-uppercase text-dark text-xxs font-weight-bolder ps-2 text-sm" style="text-align: center; vertical-align: middle;">Ngày chỉnh sửa</th>
+                            <th class="text-uppercase text-dark text-xxs font-weight-bolder text-center ps-2" style="text-align: center; vertical-align: middle;">Show / Hidden</th>
+                            <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                        <%
+                            <!-- Tính toán số thứ tự bắt đầu của sản phẩm đầu tiên trên trang -->
+                            const startIndex = (curPage - 1) * limit + 1;
+
+                            <!-- Tính toán số thứ tự của các sản phẩm tiếp theo trên trang -->
+                            const endIndex = Math.min(startIndex + limit - 1, );
+                        %> 
+                        <% if (showSP && showSP.length > 0) { %>    
+                            <% showSP.forEach(function(showSP, index) { %>
+                            <tr>
+                                <td style="text-align: center; vertical-align: middle;"><p class="text-sm font-weight-bold mb-0"><%= startIndex  + index %></p></td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <div class="d-flex px-2">
+                                    <div>
+                                        <img src="images/upload/<%= getRelativeImagePath(showSP.Icon[0]) %>" height="100" width="100"  alt="spotify">
+                                    </div>
+                                    <div class="my-auto">
+                                        <h6 class="mb-0 text-sm" style="margin-left: 20px;"><%= showSP.TenSP %></h6>
+                                    </div>
+                                    </div>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <% showSP.sizeQuantity.forEach(function(sizeItem) { %>
+                                        <p class="text-sm font-weight-bold mb-0">
+                                            Size: <span style="color: red;"><%= sizeItem.size %></span>, &nbsp;&nbsp;
+                                            Số lượng: <span style="color: red;"><%= sizeItem.quantity %></span>, &nbsp;&nbsp;
+                                            Đơn giá: <span style="color: red;"><%= formatCurrency(sizeItem.price) %></span>
+                                        </p>                                        
+                                    <% }) %>
+                                </td>
+                                <!-- <td style="text-align: center; vertical-align: middle;">
+                                    <span class="text-sm font-weight-bold text-dark"><span style="color: blue;"><%= showSP.GiamGiaSP %>%</span></span>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span class="text-sm font-weight-bold"><span style="color: blue;"><%= showSP.SoLuongTon %></span></span>
+                                </td>                                                                                            
+
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span class="text-sm font-weight-bold">
+                                        <span style="color: blue;">
+                                            <%= showSP.KhuyenMaiBatDauDate %><br>
+                                            <%= showSP.KhuyenMaiBatDauTime %>
+                                        </span>
+                                    </span>
+                                </td> 
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span class="text-sm font-weight-bold">
+                                        <span class="text-danger">
+                                            <%= showSP.KhuyenMaiKetThucDate %><br>
+                                            <%= showSP.KhuyenMaiKetThucTime %>
+                                        </span>
+                                    </span>
+                                </td>                                
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span class="text-sm font-weight-bold"><span style="color: blue;"><%= showSP.GiamGiaTheoNgay %> %</span></span>
+                                </td> 
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span class="text-sm font-weight-bold"><%= showSP.IdHangSX ? showSP.IdHangSX.TenHangSX : 'Error' %> &nbsp;&nbsp;( <%= showSP.IdLoaiSP ? showSP.IdLoaiSP.TenLoaiSP : 'N/A' %> )</span>
+                                </td> --> 
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span class="text-sm font-weight-bold"><%= showSP.createdAt %></span>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <span class="text-sm font-weight-bold"><%= showSP.updatedAt %></span>
+                                </td>
+                                <td class="align-middle text-center text-sm" style="text-align: center; vertical-align: middle;">
+                                    <% if(showSP.deleted == true) { %> 
+                                        <span class="badge badge-sm bg-gradient-danger">Offline</span>
+                                    <% } else { %>
+                                        <span class="badge badge-sm bg-gradient-success">SHOW</span>                                        
+                                    <% } %>                                
+                                </td>
+                                <td class="align-middle" style="text-align: center; vertical-align: middle;">
+                                    <div class="ms-auto text-end">
+                                        <% if(!showSP.deleted) { %> 
+                                            <a  class="btn btn-link text-dark px-3 mb-0"
+                                                data-bs-toggle="offcanvas" href="#viewProduct<%= index %>" role="button" aria-controls="viewProduct<%= index %>"
+                                                href="#">
+                                                <i class="fas fa-eye text-dark me-2" aria-hidden="true"></i>
+                                                View
+                                            </a>
+                                            <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="#tbXoaSanPham<%= showSP._id %>"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                            <a class="btn btn-link text-dark px-3 mb-0" href="/update-sp?idUpdate=<%= showSP._id %>"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                        <% } else { %>
+                                            <a  class="btn btn-link text-dark px-3 mb-0"
+                                                data-bs-toggle="modal" data-bs-target="#viewProduct<%= index %>"
+                                                href="#">
+                                                <i class="fas fa-eye text-dark me-2" aria-hidden="true"></i>
+                                                View
+                                            </a>                                            
+                                            <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="#"><i class="far fa-trash-alt me-2"></i>Not Delete</a>
+                                            <a class="btn btn-link text-dark px-3 mb-0" href="/update-sp?idUpdate=<%= showSP._id %>"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                        <% } %>                                    
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- view sản phẩm -->
+                            <div class="offcanvas offcanvas-end" style="width: 530px;" tabindex="-1" id="viewProduct<%= index %>" aria-labelledby="viewProduct<%= index %>Label">
+                                <div class="offcanvas-header">
+                                  <h5 class="offcanvas-title" id="viewProduct<%= index %>Label"><%= showSP.TenSP %></h5>
+                                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body">
+                                  <div class="dropdown mt-3">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <img src="images/upload/<%= getRelativeImagePath(showSP.Icon[0]) %>" height="100" width="100"  alt="spotify">
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <h6 class="mb-0 text-sm fw-bold" style="margin-left: 20px;color: navy;font-weight: bold">
+                                                    <p>Giảm giá &nbsp;<span style="color: rgb(255, 0, 0);"><%= showSP.GiamGiaSP %>%</span></p>
+                                                    <p>Giảm giá theo thời gian cài đặt &nbsp;<span style="color: rgb(255, 0, 0);"><%= showSP.GiamGiaTheoNgay %>%</span></p>
+                                                    <p>Số lượng tồn: <span style="color: blue;"><%= showSP.SoLuongTon %></span></p>
+                                                    <p>Hãng sản xuất: 
+                                                        <span class="text-sm font-weight-bold text-primary"><%= showSP.IdHangSX ? showSP.IdHangSX.TenHangSX : 'Error' %> &nbsp;&nbsp;( <%= showSP.IdLoaiSP ? showSP.IdLoaiSP.TenLoaiSP : 'N/A' %> )</span>
+                                                    </p>
+                                                </h6>
+                                            </div>
+                                          </div>
+
+                                          <div class="row">
+                                            <div class="col-6">
+                                                Ngày bắt đầu khuyến mãi: 
+                                                <span style="color: blue;">
+                                                    <%= showSP.KhuyenMaiBatDauDate %><br>
+                                                    <%= showSP.KhuyenMaiBatDauTime %>
+                                                </span>
+                                            </div>
+                                            <div class="col-6">
+                                                Ngày kết thúc khuyến mãi: 
+                                                <span class="text-danger">
+                                                    <%= showSP.KhuyenMaiKetThucDate %><br>
+                                                    <%= showSP.KhuyenMaiKetThucTime %>
+                                                </span>
+                                            </div>
+                                          </div>
+
+                                          <div class="row">
+                                            <div  class="col-12">
+                                                <h6 style="font-weight: bold;color: navy;">Hình ảnh slider:</h6>
+                                                <% showSP.Icon.forEach(function(icon) { %>
+                                                    <img src="images/upload/<%= getRelativeImagePath(icon) %>" height="100" width="100" alt="product image">
+                                                <% }); %>
+                                            </div>
+                                          </div>
+
+                                          <br>
+                                            <div class="row">
+                                                <div  class="col-12">
+                                                    <p>
+                                                        <button 
+                                                                class="btn btn-primary" 
+                                                                type="button" 
+                                                                data-bs-toggle="collapse" 
+                                                                data-bs-target="#mota<%= index %>" 
+                                                                aria-expanded="false" 
+                                                                aria-controls="mota<%= index %>" 
+                                                                onclick="showDetail('<%= index %>')">Mô tả</button>
+                                                            <button 
+                                                                class="btn btn-primary" 
+                                                                type="button" 
+                                                                data-bs-toggle="collapse" 
+                                                                data-bs-target="#mo-ct<%= index %>" 
+                                                                aria-expanded="false" 
+                                                                aria-controls="mo-ct<%= index %>" 
+                                                                onclick="showDetail('<%= index %>')">Mô tả chi tiết</button>
+                                                        <!-- <a class="btn btn-primary" data-bs-toggle="collapse" href="#mota<%= index %>" role="button" aria-expanded="false" aria-controls="mota<%= index %>">Mô tả</a> -->
+                                                    </p>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="collapse multi-collapse" id="mota<%= index %>">
+                                                                <div class="card card-body" id="MoTa<%= index %>"></div>
+                                                                <input type="hidden" name="" id="hidden-mota<%= index %>" value="<%= showSP.MoTa %>">
+                                                            </div>
+                                                        </div>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+                                            <div class="row">
+                                                <div  class="col-12">
+                                                    <p>
+                                                        <!-- <button 
+                                                                class="btn btn-primary" 
+                                                                type="button" 
+                                                                data-bs-toggle="collapse" 
+                                                                data-bs-target="#mo-ct<%= index %>" 
+                                                                aria-expanded="false" 
+                                                                aria-controls="mo-ct<%= index %>" 
+                                                                onclick="showDetail('<%= index %>')">Mô tả chi tiết</button> -->
+                                                        <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#mo-ct<%= index %>" aria-expanded="false" aria-controls="mo-ct<%= index %>">Mô tả chi tiết</button> -->
+                                                    </p>
+                                                    <div class="row">                                                        
+                                                        <div class="col-12">
+                                                            <div class="collapse multi-collapse" id="mo-ct<%= index %>">
+                                                                <div class="card card-body" id="MoTaCT<%= index %>"></div>
+                                                                <input type="hidden" name="" id="hidden-motact<%= index %>" value="<%= showSP.MoTaChiTiet %>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <script>
+                                function showDetail(id) {
+                                    document.getElementById('MoTa' + id).innerHTML = document.getElementById('hidden-mota' + id).value;
+                                    document.getElementById('MoTaCT' + id).innerHTML = document.getElementById('hidden-motact' + id).value;
+                                }
+                              </script>
+                            <!-- end view sản phẩm -->
+
+                            <!-- thông báo hỏi trước khi xóa sản phẩm -->
+                            <div class="modal fade" id="tbXoaSanPham<%= showSP._id %>" tabindex="-1" aria-labelledby="tbXoaSanPhamLabel<%= showSP._id %>" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="tbXoaSanPhamLabel<%= showSP._id %>"> 
+                                            Bạn có chắc chắn muốn xóa sản phẩm 
+                                            <span class="text-danger fw-bold"><%= showSP.TenSP %></span> ?
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <span class="text-dark">Bấm vào nút <span class="text-danger">Xác nhận xóa</span> để xóa sản phẩm nhé!</span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-facebook" data-bs-dismiss="modal">Không xóa</button>
+                                        <button type="button" class="btn btn-danger" onclick="deleteSP('<%= showSP._id %>')">Xác nhận xóa</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <% }); %>
+                            <tr >
+                                <td colspan="10" >
+                                    <%- include("../partials/phanTrang.ejs") %>
+                                </td>
+                            </tr>
+                        <% } else { %> 
+                            <tr >
+                                <td colspan="10" >
+                                    <span style="color: red;">Chưa có sản phẩm nào trong này cả. <br> Vui lòng chọn loại khác. <br> Cảm ơn bạn!</span>
+                                </td>
+                            </tr>
+                        <% } %>
+                        
+                                                                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- end quản lý sản phẩm -->
+      
+      <%- include("../partials/footer.ejs") %>
+    </div>
+
+  </main>
+
+  <!-- chân trang và các script -->
+  <%- include("../partials/chanTrangVaScript.ejs") %>
+  <!-- end chân trang và các script -->
+  
+</body>
+
+</html>

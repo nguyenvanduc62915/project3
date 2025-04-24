@@ -1,0 +1,351 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+    
+<!-- index-231:32-->
+    <!-- start head -->
+    <%- include("../../TrangChu/partials/head.ejs") %>
+    <!-- end head -->
+    <body>
+
+        <!-- Begin Body Wrapper -->
+        <div class="body-wrapper">
+            <!-- Begin Header Area -->
+            <%- include("../../TrangChu/partials/navTop.ejs") %>
+            <!-- Header Area End Here -->
+
+            <!-- Begin Li's Breadcrumb Area -->
+            <div class="breadcrumb-area">
+                <div class="container">
+                    <div class="breadcrumb-content">
+                        <ul>
+                            <li><a href="/page-home">Home</a></li>
+                            <li class="active">Chi tiết thanh toán</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!--Checkout Area Strat-->
+            <div class="checkout-area pt-60 pb-30">
+                <div class="container">
+                    
+                     <!-- Thêm loader.svg vào trang HTML -->
+                     <div id="loader" class="loader">
+                        <!-- <img id="loader_page_img" src="assets/css/loadNhieuMau.svg" alt="Loader"> -->
+                        <img id="loader_page_img" src="pageHome/jsXuLyCacChucNang/load.svg" alt="Loader">
+                    </div>
+                    
+                    <form action="/dat-hang" method="post" id="dathang">
+                        <div class="row">
+                            <div class="col-lg-6 col-12">
+                                <!-- <form action="#"> -->
+                                    <div class="checkbox-form">
+                                        <h3 style="font-family: Arial, Helvetica, sans-serif;color: navy;">THÔNG TIN ĐẶT HÀNG</h3>
+                                        <div class="row">
+                                            
+                                            <div class="col-md-6">
+                                                <div class="checkout-form-list">
+                                                    <label>Họ <span class="required text-danger text-danger">*</span></label>
+                                                    <input placeholder="Nhập Họ Của Bạn..." type="text" name="Ho" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="checkout-form-list">
+                                                    <label>Tên <span class="required text-danger">*</span></label>
+                                                    <input placeholder="Nhập Tên Của Bạn..." type="text" name="Ten" required>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-12">
+                                                <div class="checkout-form-list">
+                                                    <label>Địa chỉ chi tiết <span class="required text-danger">*</span></label>
+                                                    <input placeholder="Nhập địa chỉ chi tiết..." type="text" name="DiaChiChiTiet" required>
+                                                </div>
+                                            </div>
+                                                                    
+                                            <div class="col-md-6">
+                                                <div class="checkout-form-list">
+                                                    <label>Địa chỉ Email đặt hàng<span class="required text-danger">*</span></label>
+                                                    <input placeholder="Nhập Email đặt hàng của bạn..." type="email" name="Email" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="checkout-form-list">
+                                                    <label>Số Điện Thoại <span class="required text-danger">*</span></label>
+                                                    <input type="text" placeholder="Nhập Số điện thoại của bạn..." name="SoDienThoai" required>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="order-notes">
+                                            <div class="checkout-form-list">
+                                                <label>Ghi chú</label>
+                                                <textarea name="Note" id="checkout-mess" cols="30" rows="10" placeholder="Ghi chú thêm thông tin cần thiết"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- </form> -->
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <div class="your-order">
+                                    <h3 style="font-family: Arial, Helvetica, sans-serif;color: navy;">
+                                        ĐƠN HÀNG CỦA BẠN &nbsp;                                       
+                                        <p id="idSpan" style="font-size: 20px;color: red; margin-top: 10px;">#<%= detailCart._id %></p>
+                                        <!-- <script>p
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                const idSpan = document.getElementById('idSpan');
+                                                const fullId = idSpan.textContent.substring(1); // Bỏ ký tự '#'
+                                                const lastEightChars = fullId.slice(-8); // Lấy 8 ký tự cuối cùng
+                                                idSpan.textContent = `#${lastEightChars}`;
+                                            });
+                                        </script> -->
+                                    </h3>
+                                    <div class="your-order-table table-responsive">
+                                        <% if(productDetailsArray.length > 0) { %>   
+                                        <table class="table" id="cartTable">
+                                            <thead>
+                                                <tr>
+                                                    <th class="cart-product-name font-weight-bold">Sản Phẩm</th>
+                                                    <th class="cart-product-total font-weight-bold">Số Lượng</th>
+                                                    <th class="cart-product-total font-weight-bold">Tổng Tiền</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% productDetailsArray.forEach(function(spDetailCart, index) { %>
+                                                <tr class="cart_item <% if (index >= 3) { %> hidden <% } %>">
+                                                    <td class="cart-product-name">  
+                                                        <!-- <a href="/detailt-sp-linkUrl?idDetailTrangMoi=<%= spDetailCart.productDetails._id %>">
+                                                            <img width="100" height="80" src="images/upload/<%= getRelativeImagePath(spDetailCart.productDetails.Icon[0]) %>" alt="Li's Product Image">
+                                                        </a> -->
+                                                        <a href="/detailt-sp-linkUrl?idDetailTrangMoi=<%= spDetailCart.productDetails._id %>" style=" color: navy;" >
+                                                            <%= spDetailCart.productDetails.TenSP  %>
+                                                        </a>
+                                                        <p>Cấu Hình: <span style="color: black;">&nbsp; <%= spDetailCart.size %></span></p> 
+                                                        <span class="amount" style="color: rgb(240, 26, 26);"><%= formatCurrency(spDetailCart.donGia) %></span> &nbsp;
+                                                        <span class="amount" style="color: rgb(150, 150, 150);font-weight: 500;font-style: italic;text-decoration: line-through;"><%= formatCurrency(spDetailCart.giaChuaGiam) %></span>
+                                                </td>
+                                                    </td>
+                                                    <td class="cart-product-name"> <strong class="product-quantity"> × <%= spDetailCart.qty %></strong></td>
+                                                    <td class="cart-product-total"><span class="amount font-weight-bold"><%= formatCurrency(spDetailCart.donGia * spDetailCart.qty ) %></span></td>  
+                                                </tr>
+                                                <% }); %> 
+                                                <input type="hidden" id="totalItems" value="<%= productDetailsArray.length %>">
+                                                
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="cart-subtotal">
+                                                    <td colspan="3">
+                                                        <a id="showMoreBtn" class="btn bg-primary text-white" title="Xem thêm sản phẩm của đơn hàng">
+                                                            <i class="fa fa-eye"></i> 
+                                                            Xem thêm
+                                                        </a>
+                                                        <a id="showLessBtn" class="btn btn-secondary text-white" style="display:none;" title="Ẩn bớt sản phẩm của đơn hàng">
+                                                            <i class="fa fa-eye-slash"></i> &nbsp;
+                                                            Ẩn bớt sản phẩm
+                                                        </a>
+                                                    </td>
+                                                    
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function() {
+                                                            const showMoreBtn = document.getElementById('showMoreBtn');
+                                                            const showLessBtn = document.getElementById('showLessBtn');
+                                                            let itemsToShow = 3;
+                                                            const totalItems = parseInt(document.getElementById("totalItems").value);
+                                                            console.log("totalItems: ", totalItems);
+                                                
+                                                            if (totalItems <= 3) {
+                                                                showMoreBtn.style.display = 'none';
+                                                                showLessBtn.style.display = 'none';
+                                                            }
+                                                
+                                                            showMoreBtn.addEventListener('click', function() {
+                                                                const hiddenItems = document.querySelectorAll('.cart_item.hidden');
+                                                                for (let i = 0; i < 3 && i < hiddenItems.length; i++) {
+                                                                    hiddenItems[i].classList.remove('hidden');
+                                                                }
+                                                                itemsToShow += 3;
+                                                                if (itemsToShow >= totalItems) {
+                                                                    showMoreBtn.style.display = 'none';
+                                                                }
+                                                                if (itemsToShow > 3) {
+                                                                    showLessBtn.style.display = 'inline-block';
+                                                                }
+                                                            });
+                                                
+                                                            showLessBtn.addEventListener('click', function() {
+                                                                const visibleItems = document.querySelectorAll('.cart_item:not(.hidden)');
+                                                                for (let i = visibleItems.length - 1; i >= visibleItems.length - 3 && i >= 3; i--) {
+                                                                    visibleItems[i].classList.add('hidden');
+                                                                }
+                                                                itemsToShow -= 3;
+                                                                if (itemsToShow <= 3) {
+                                                                    showLessBtn.style.display = 'none';
+                                                                }
+                                                                if (itemsToShow < totalItems) {
+                                                                    showMoreBtn.style.display = 'inline-block';
+                                                                }
+                                                            });
+                                                        });
+                                                    </script>
+                                                </tr>                                                
+
+                                                <tr class="cart-subtotal">
+                                                    <th class="font-weight-bold">
+                                                        Tổng giá của &nbsp;
+                                                        <strong><%= cartItemss.totalQuaty !== 0 ? cartItemss.totalQuaty : 0 %></strong>
+                                                        &nbsp; sản phẩm 
+                                                    </th>
+                                                    <td><span class="amount"></span></td>
+                                                    <td><span class="amount text-danger font-weight-bold"><%= formatCurrency(tongGiaAllSP) %></span></td>
+                                                </tr>
+                                                <tr class="cart-subtotal">
+                                                    <th class="font-weight-bold">
+                                                        <!-- Giảm giá <strong class="product-quantity text-danger"> &nbsp; 10%</strong> -->
+
+                                                        <% if(GiamGia > 0) { %> 
+                                                            Giảm giá &nbsp; <text style="color: blue;"><%= GiamGia %>%</text> <text style="font-style: italic;font-size: 15px;color: green;">(Đã dùng VOUCHER)</text>
+                                                        <% } else { %>
+                                                            Giảm giá &nbsp; <text style="color: blue;"><%= GiamGia %>%</text>
+                                                        <% } %>
+    
+                                                        
+                                                        <% 
+                                                            const giam_gia = ( GiamGia / 100 ) * tongGiaAllSP
+                                                        %>
+                                                    </th>
+                                                    <td><span class="amount"></span></td>
+                                                    <td><span class="amount text-danger font-weight-bold" style="font-style: italic;">- <%= formatCurrency(giam_gia) %></span></td>
+                                                </tr>
+                                                <tr class="cart-subtotal" >
+                                                    <th class="font-weight-bold">Phí giao hàng </th>
+                                                    <!-- <td><span class="amount"></span></td> -->
+                                                    <td colspan="3">
+                                                        <!-- <span class="amount text-primary font-weight-bold">30.000đ</span> -->
+                                                        <% if (tongGiaAllSP >= 1000000) { %>
+                                                            <span style="color: rgb(0, 148, 37);font-size: 16px;">Miễn phí vận chuyển</span>
+                                                        <% } else { %>
+                                                            <span class="cart_amount" style="color: blue;font-size: 18px;"> <%= formatCurrency(detailCart.cart.PhiShip) %></span>
+                                                        <% } %>
+                                                    </td>
+                                                </tr>
+                                                <tr class="order-total">
+                                                    <th class="font-weight-bold" style="color: rgb(37, 37, 37);">SỐ TIỀN CẨN THANH TOÁN</th>
+                                                    <td></td>
+                                                    <td>
+                                                        <strong>
+                                                            <span class="amount font-weight-bold text-danger">
+                                                                <% if (tongGiaAllSP >= 1000000) { %>
+                                                                    <%= formatCurrency(tongGiaAllSP - giam_gia ) %>
+                                                                <% } else { %>
+                                                                    <%= formatCurrency(tongGiaAllSP + detailCart.cart.PhiShip - giam_gia ) %>
+                                                                <% } %>
+                                                            </span>
+                                                        </strong>
+                                                </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                        <!-- các giá trị để ném lên server -->
+                                        <input type="hidden" name="TongSLDat" value="<%= cartItemss.totalQuaty !== 0 ? cartItemss.totalQuaty : 0 %>">
+                                        <input type="hidden" name="ThanhTien" value="<%= formatCurrency(tongGiaAllSP) %>">
+                                        <input type="hidden" name="GiamGia" value="<%= GiamGia %>">                                                
+                                        <input type="hidden" name="SoTienGiamGia" value="<%= formatCurrency(giam_gia) %>">
+                                        <% if (tongGiaAllSP >= 1000000) { %>                                            
+                                            <input type="hidden" name="CanThanhToan" value="<%= formatCurrency(tongGiaAllSP - giam_gia) %>">
+                                        <% } else { %>
+                                            <input type="hidden" name="CanThanhToan" value="<%= formatCurrency(tongGiaAllSP + detailCart.cart.PhiShip - giam_gia ) %>">
+                                        <% } %>
+                                        
+                                        <% if (tongGiaAllSP >= 1000000) { %>
+                                            <input type="hidden" name="PhiShip" value="0₫">
+                                        <% } else { %>
+                                            <input type="hidden" name="PhiShip" value="<%= formatCurrency(detailCart.cart.PhiShip) %>">
+                                        <% } %>
+
+                                        
+
+                                        <% } else { %> 
+                                            <div style="display: flex; justify-content: center;">
+                                                <img width="70" src="pageHome/jsXuLyCacChucNang/icons8-error.gif" alt="">                                        
+                                                <p style=" color: red; font-size: 22px; margin-top: 20px; margin-left: 30px;">Giỏ hàng rỗng</p>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                    <div class="payment-method">
+                                        <div class="payment-accordion">
+                                            <div class="payment-options">
+                                                <label>
+                                                    <input type="radio" name="paymentMethod" value="online" checked onchange="handlePaymentChange()">
+                                                    Thanh toán online
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="paymentMethod" value="cashOnDelivery" onchange="handlePaymentChange()">
+                                                    Nhận hàng và thanh toán
+                                                </label>
+                                            </div>
+                                            
+                                            <!-- Hidden input to store the selected payment method -->
+                                            <input type="hidden" name="paymentMethodSelected" value="online">
+                                            
+                                            <!-- Payment details for cash on delivery -->
+                                            <div id="cashOnDeliveryDetails" class="payment-method-details" style="display: none;">
+                                                <p>Quý khách nhận hàng kiểm tra hàng rồi mới thanh toán. Thắc mắc inbox liên hệ SHOP nha!</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="order-button-payment">
+                                        <input type="submit" value="Tiến hành đặt hàng">
+                                    </div>
+
+                                    
+                                    <script>
+                                        // Handle payment method change
+                                        function handlePaymentChange() {
+                                            const paymentMethodSelected = document.querySelector('input[name="paymentMethodSelected"]');
+                                            const cashOnDeliveryDetails = document.getElementById('cashOnDeliveryDetails');
+                                            
+                                            // Check the selected payment method
+                                            const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+                                            console.log("Selected payment method:", selectedMethod);
+                                            
+                                            // Update hidden input based on selected payment method
+                                            paymentMethodSelected.value = selectedMethod;
+                                            
+                                            // Toggle the visibility of the cash on delivery details
+                                            if (selectedMethod === 'online') {
+                                                cashOnDeliveryDetails.style.display = 'none';
+                                            } else if (selectedMethod === 'cashOnDelivery') {
+                                                cashOnDeliveryDetails.style.display = 'block';
+                                            }
+                                        }
+                                    
+                                        // Initial setup
+                                        handlePaymentChange(); // Run once on page load to set the correct state
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--Checkout Area End-->
+            
+            
+            <!-- Begin Footer Area -->
+            <%- include("../../TrangChu/partials/footer.ejs") %>
+            <!-- Footer Area End Here -->
+
+            <!-- Begin Quick View | Modal Area -->
+            <%- include("../../TrangChu/Modal/modal-detailt-product.ejs") %>
+            <!-- Quick View | Modal Area End Here -->
+        </div>
+        <!-- Body Wrapper End Here -->
+        <!-- các script -->
+        <%- include("../../TrangChu/partials/chanTrangVaScript.ejs") %>
+    </body>
+
+<!-- index-231:38-->
+</html>

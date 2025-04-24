@@ -1,0 +1,128 @@
+<div class="modal fade modal-wrapper" id="modalDetails" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-inner-area row">
+                    <div class="col-lg-5 col-md-6 col-sm-6">
+                        <!-- Product Details Left -->
+                        <!-- <div class="product-details-left">
+                            <div class="product-details-images slider-navigation-1" id="large-images">
+
+                            </div>
+                            <div class="product-details-thumbs slider-thumbs-1" id="thumb-images">
+
+                            </div>
+                        </div> -->
+                        
+                        
+                        <div class="product-details-left">
+                            <div class="product-details-images slider-navigation-1">
+                                
+                                <div class="lg-image">
+                                    
+                                    <img id="anh-to-1" src="" alt="Ảnh to 1">
+                                </div>
+                                <div class="lg-image">
+                                    <img id="anh-to-2" src="" alt="Ảnh to 2">
+                                </div>
+                                <div class="lg-image">
+                                    <img id="anh-to-3" src="" alt="Ảnh to 3">
+                                </div>
+                                <div class="lg-image">
+                                    <img id="anh-to-4" src="" alt="Ảnh to 4">
+                                </div>
+                                <div class="lg-image">
+                                    <img id="anh-to-5" src="" alt="Ảnh to 5">
+                                </div>
+                                 <div class="lg-image">
+                                    <img id="anh-to-6" src="" alt="Ảnh to 6">
+                                </div> 
+                                
+                            </div>
+                            <div class="product-details-thumbs slider-thumbs-1">                                        
+                                <div class="sm-image"><img id="anh-nho-1" src="" alt="Ảnh nhỏ 1"></div>
+                                <div class="sm-image"><img id="anh-nho-2" src="" alt="Ảnh nhỏ 2"></div>
+                                <div class="sm-image"><img id="anh-nho-3" src="" alt="Ảnh nhỏ 3"></div>
+                                <div class="sm-image"><img id="anh-nho-4" src="" alt="Ảnh nhỏ 4"></div>
+                                <div class="sm-image"><img id="anh-nho-5" src="" alt="Ảnh nhỏ 5"></div>
+                                <div class="sm-image"><img id="anh-nho-6" src="" alt="Ảnh nhỏ 6"></div>
+                                
+                            </div>
+                        </div>
+                        <!--// Product Details Left -->
+                    </div>
+
+                    
+                    <div class="col-lg-7 col-md-6 col-sm-6">
+                        <div class="product-details-view-content pt-60">
+                            <div class="product-info">
+                                <h2 id="TenSP"></h2>
+                                Thương hiệu: &nbsp;<span class="product-details-ref" id="TenHangSX"></span>
+                                <div class="rating-box pt-20">
+                                    <ul class="rating rating-with-review-item">
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        <li><i class="fa fa-star-o"></i></li>                                        
+                                    </ul>
+                                </div>                        
+                               
+                                <div class="price-box pt-20">
+                                    <span class="new-price new-price-2" id="price-pro"></span> &nbsp;
+                                    <del id="old-price" style="font-style: italic;"></del>
+                                </div>
+
+                                <div class="product-desc">
+                                    <p>
+                                        <span id="MoTa"></span>
+                                    </p>
+                                </div>
+                                
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="size-select">Cấu Hình</label>
+                                    </div>
+                                    <select class="custom-select" id="size-select"></select>
+                                </div>
+                                
+                                <div class="single-add-to-cart">
+                                    <form class="cart-quantity" id="form-addtocart" method="post" action="/add-to-cart">
+                                        <input type="hidden" name="idVaoDay" id="idVaoDay">
+                                        <input type="hidden" name="giaNew" id="giaNew">
+                                        <input type="hidden" name="giaChuaGiam" id="giaChuaGiam">
+                                        <input type="hidden" name="sizeMua" id="sizeMua">
+                                        <input type="hidden" name="SoLuongTon" id="SoLuongTon">
+                                        <div class="quantity">
+                                            <label style="font-family: Arial, Helvetica, sans-serif;">Số lượng mua</label>
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box" name="quantity" value="1" type="text">
+                                                <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
+                                                <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                            </div>
+                                        </div>
+                                        <button class="add-to-cart" type="submit">Thêm vào giỏ hàng</button>
+                                    </form>
+                                </div>
+                                <div class="product-additional-info pt-25">
+                                    <a class="wishlist-btn" href="wishlist.html"><i class="fa fa-heart-o" ></i>Thêm vào danh sách Yêu thích</a>
+                                    <div class="product-social-sharing pt-25">
+                                        <ul>
+                                            <li class="facebook"><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
+                                            <li class="twitter"><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
+                                            <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i>Google +</a></li>
+                                            <li class="instagram"><a href="#"><i class="fa fa-instagram"></i>Instagram</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   

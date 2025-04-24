@@ -1,0 +1,167 @@
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/khactu-logo.png">
+    <link rel="icon" type="image/png" href="assets/img/khactu-logo.png">
+    <% if(activee == "active_homeAdmin") { %>
+        <title>
+            Trang Admin Quản Lý Đồ Điện Tử - Khắc Tú
+          </title>
+        <% } else if(activee == "active_categoris") { %>
+            <title>
+                Quản lý Thể loại và Nhà sản xuất 
+              </title>
+          <% } else if(activee == "active_quanLySP") { %>
+                <% if(activeee == "active_quanLySPP") { %>
+                  <title>
+                    Tạo mới sản phẩm
+                  </title>
+                  <% } else if(activeee === "active_updateSP") { %>
+                    <title>
+                      Update sản phẩm
+                    </title>
+                    <% } else { %>
+                      <title>
+                        Danh sách sản phẩm
+                      </title>
+                    <% } %>
+            <% } else if(activee == "active_quanLyTKAdmin") { %> 
+                <% if(activeee == "active_quanLyTKAdmin_list") { %>
+                  <title>
+                    Danh sách tài khoản admin
+                  </title>
+                  <% } else if(activeee === "active_quanLyTKAdmin_create") { %>
+                    <title>
+                      Tạo tài khoản admin
+                    </title>
+                    <% } else { %>
+                      <title>
+                        Update tài khoản admin
+                      </title>
+                    <% } %>
+
+            <% } else if(activee == "active_quanLyVoucher") { %> 
+              <% if(activeee == "active_quanLyVoucher_list") { %>
+                <title>
+                  Danh sách tài khoản khách hàng và danh sách mã giảm giá
+                </title>
+                <% } else if(activeee === "active_quanLyVoucher_create") { %>
+                  <title>
+                    Tạo voucher
+                  </title>
+                  <% } else { %>
+                    <title>
+                      Update voucher
+                    </title>
+                  <% } %>
+
+              <% } else if(activee == "active_quanLyDonHang") { %> 
+                <% if(activeee == "active_quanLyDonHang_list") { %>
+                  <title>
+                    Danh sách đơn hàng
+                  </title>
+                  <% } else if(activeee === "active_quanLyDonHang_create") { %>
+                    <title>
+                      Tạo 
+                    </title>
+                    <% } else { %>
+                      <title>
+                        Update 
+                      </title>
+                    <% } %>
+      
+
+            <% } %>
+    
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
+    
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+
+    <!-- Ví dụ với thư viện sweetalert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- thư viện hiệu ứng thông báo -->
+    <link rel="stylesheet" href="thuVienToastr/toastr.min.css">
+
+    <style>
+
+      .loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        /* position: relative; */
+      }
+
+      .loader #loader_page_img {
+        width: 160px; /* Điều chỉnh kích thước của loader */
+        height: 160px;
+        position: absolute;
+        left: 50%; /* Di chuyển về giữa theo chiều ngang */
+        top: 45%;
+        transform: translateX(-50%); /* Dịch chuyển về trái 50% chiều ngang */
+      }
+
+      .pagination .page-item.active .page-link {
+        background-color: black;
+        color: white;
+      }
+
+      /* style cho thanh cuộn */
+      .list-groupp {
+            max-height: 600px;
+            overflow-y: scroll;
+            position: relative;
+        }
+
+        /* Hide the default scrollbar */
+        .list-groupp::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .list-groupp::-webkit-scrollbar-thumb {
+            background-color: transparent;
+            border-radius: 4px;
+        }
+
+        .list-groupp::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        /* Show the scrollbar thumb on hover */
+        .list-groupp:hover::-webkit-scrollbar-thumb {
+            background-color: #888;
+        }
+
+        .list-groupp:hover::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        /* Firefox specific */
+        .list-groupp {
+            scrollbar-width: thin;
+            scrollbar-color: transparent transparent;
+        }
+
+        .list-groupp:hover {
+            scrollbar-color: #888 #f1f1f1;
+        }
+    </style>
+
+
+  </head>

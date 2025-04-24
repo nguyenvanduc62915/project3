@@ -1,0 +1,372 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+    
+<!-- index-231:32-->
+    <!-- start head -->
+    <%- include("../../TrangChu/partials/head.ejs") %>
+    <!-- end head -->
+    <body>
+
+        <!-- Begin Body Wrapper -->
+        <div class="body-wrapper">
+            <!-- Begin Header Area -->
+            <%- include("../../TrangChu/partials/navTop.ejs") %>
+            <!-- Header Area End Here -->
+
+            <!-- Begin Li's Breadcrumb Area -->
+            <div class="breadcrumb-area">
+                <div class="container">
+                    <div class="breadcrumb-content">
+                        <ul>
+                            <li><a href="/page-home">Home</a></li>
+                            <li class="active">Trang sản phẩm <%= loaiSP.TenLoaiSP %></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Li's Breadcrumb Area End Here -->
+            <!-- Begin Li's Content Wraper Area -->
+            <div class="content-wraper pt-60 pb-60 pt-sm-30">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9 order-1 order-lg-2">
+                            <!-- Begin Li's Banner Area -->
+                            <div class="single-banner shop-page-banner">
+                                <a href="#">
+                                    <img src="pageHome/images/bg-banner/2.jpg" alt="Li's Static Banner">
+                                </a>
+                            </div>
+                            <!-- Li's Banner Area End Here -->
+                            <!-- shop-top-bar start -->
+                            <div class="shop-top-bar mt-30">
+                                <div class="shop-bar-inner">
+                                    <div class="product-view-mode">
+                                        <!-- shop-item-filter-list start -->
+                                        <ul class="nav shop-item-filter-list" role="tablist">
+                                            <li class="active" role="presentation"><a aria-selected="true" class="active show" data-toggle="tab" role="tab" aria-controls="grid-view" href="#grid-view"><i class="fa fa-th"></i></a></li>
+                                            <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="list-view" href="#list-view"><i class="fa fa-th-list"></i></a></li>
+                                        </ul>
+                                        <!-- shop-item-filter-list end -->
+                                    </div>
+                                    <!-- <div class="toolbar-amount">
+                                        <span>Showing 1 to 9 of 15</span>
+                                    </div> -->
+                                </div>
+                                <!-- product-select-box start -->
+                                <div class="product-select-box">
+                                    <div class="product-short">
+                                        <p style="font-family: Arial, Helvetica, sans-serif;">Sắp xếp tăng / giảm theo giá:</p>
+                                        <input type="hidden" id="ssIdLoaiSP" value="<%= ssIdLoaiSP %>">
+                                        <select class="nice-select" name="sapXepGia" onchange="handleChangeTheLoai()" title="Sắp xếp theo giá">
+                                            <% if(SapXepTheoGiaSession === 1) { %>
+                                                <option value="0">Không sắp xếp</option>
+                                                <option value="1" selected style="font-weight: bold;color: navy;">Tăng dần theo giá</option>
+                                                <option value="-1">Giảm dần theo giá</option>
+                                            <% } else if(SapXepTheoGiaSession === -1) { %>
+                                                <option value="0">Không sắp xếp</option>
+                                                <option value="1">Tăng dần theo giá</option>
+                                                <option value="-1" selected style="font-weight: bold;color: navy;">Giảm dần theo giá</option>
+                                            <%  } else { %>
+                                                <option value="0" selected style="font-weight: bold;color: navy;">Không sắp xếp</option>
+                                                <option value="1">Tăng dần theo giá</option>
+                                                <option value="-1" >Giảm dần theo giá</option>
+                                            <% } %> 
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- product-select-box end -->
+                            </div>
+                            <!-- shop-top-bar end -->
+                            <!-- shop-products-wrapper start -->
+                            <div class="shop-products-wrapper">
+                                <div class="tab-content">
+                                    <div id="grid-view" class="tab-pane fade active show" role="tabpanel">
+                                        <div class="product-area shop-product-area">
+                                            <div class="row">
+                                                
+                                                <% if (sanPham && sanPham.length > 0) { %>
+                                                    <% sanPham.forEach(function(sp, index) { %> 
+                                                    <div class="col-lg-4 col-md-4 col-sm-6 mt-40 grid-item">
+                                                        <%- include("../partials/product-1-phan.ejs", { sp: sp }) %>                                                        
+                                                    </div>
+                                                    <% }) %>
+                                                <% } else { %> 
+                                                    <img width="50" src="pageHome/jsXuLyCacChucNang/icons8-error.gif" alt="">
+                                                    <p style=" color: red; font-size: 22px; margin-top: 20px;">Chưa có sản phẩm</p>
+                                                <% } %>
+                                                                                                                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="list-view" class="tab-pane fade product-list-view" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col">
+                                                <% if (sanPham && sanPham.length > 0) { %>
+                                                    <% sanPham.forEach(function(sp, index) { %> 
+                                                    <div class="row product-layout-list list-item">
+                                                        <div class="col-lg-3 col-md-5 ">
+                                                            <div class="product-image">
+                                                                <a href="/detailt-sp-linkUrl?idDetailTrangMoi=<%= sp._id %>">
+                                                                    <img src="images/upload/<%= getRelativeImagePath(sp.Icon[0]) %>" alt="Li's Product Image">
+                                                                </a>
+                                                                <% if (sp.GiamGiaSP > 0) { %>
+                                                                    <span class="sticker font-weight-bold">-<%= sp.GiamGiaSP %>%</span>
+                                                                <% } %>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-5 col-md-7">
+                                                            <div class="product_desc">
+                                                                <div class="product_desc_info">
+                                                                    <div class="product-review">
+                                                                        <h5 class="manufacturer">
+                                                                            <a href="product-details.html">Thương hiệu: <%= sp.IdHangSX.TenHangSX %></a>
+                                                                        </h5>
+                                                                        <div class="rating-box">
+                                                                            <ul class="rating">
+                                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                                
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <h4><a class="product_name" href="/detailt-sp-linkUrl?idDetailTrangMoi=<%= sp._id %>"><%= sp.TenSP %></a></h4>
+                                                                    <div class="price-box">
+                                                                        <!-- <span class="new-price">$46.80</span> -->
+                                                                        <%
+                                                                            let sale = sp.sizeQuantity[0].price * (sp.GiamGiaSP / 100)
+                                                                        %>
+                                                                            <span class="new-price new-price-2"><%= formatCurrency(sp.sizeQuantity[0].price - sale) %></span>
+                                                                        <% if (sp.GiamGiaSP > 0) { %>
+                                                                            <span class="old-price"><%= formatCurrency(sp.sizeQuantity[0].price) %></span>
+                                                                        <% } %>
+                                                                    </div>
+                                                                    <input type="hidden" id="inpMoTa<%= sp._id %>" value="<%= sp.MoTa %>">
+                                                                    <p id="motaODay<%= sp._id %>"></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <div class="shop-add-action mb-xs-30">
+                                                                
+                                                                <ul class="add-actions-link">
+                                                                    <li class="add-cart active"><a href="/detailt-sp-linkUrl?idDetailTrangMoi=<%= sp._id %>">Đi Mua Thôi</a></li>
+                                                                    <li class="wishlist">
+                                                                        <a class="wishlist-btn" href="wishlist.html"><i class="fa fa-heart-o" ></i>Yêu thích</a>
+                                                                    </li>
+                                                                    <li class="wishlist">
+                                                                        <input type="hidden" name="idDetailTaiTrang" value="<%= sp._id %>">
+                                                                        <a id="viewDetailt<%= sp._id %>" 
+                                                                            href="#" 
+                                                                            data-product-id="<%= sp._id %>"  
+                                                                            data-toggle="modal" 
+                                                                            data-target="#modalDetails" 
+                                                                            title="Quick view" > <i class="fa fa-eye"></i>
+                                                                            Xem chi tiết
+                                                                        </a>
+                                                                    </li>                                                                                
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <script>
+                                                        // Đợi cho trang được tải hoàn toàn trước khi thực hiện các thao tác JavaScript
+                                                        document.addEventListener("DOMContentLoaded", function() {
+                                                            // Lấy giá trị từ phần tử input có id là "inpMoTa"
+                                                            var inpMoTa = document.getElementById("inpMoTa<%= sp._id %>").value;
+                                                            
+                                                            // Gán giá trị vừa lấy được vào phần tử p có id là "motaODay"
+                                                            document.getElementById("motaODay<%= sp._id %>").innerHTML = inpMoTa;
+
+                                                            // var elements = document.getElementsByClassName("motaODay");                                                
+                                                            // for (var i = 0; i < elements.length; i++) {
+                                                            //     elements[i].innerHTML = inpMoTa;
+                                                            // }
+                                                        });  
+                                                    </script>
+                                                    <% }) %>
+                                                <% } else { %> 
+                                                    <img width="50" src="pageHome/jsXuLyCacChucNang/icons8-error.gif" alt="">
+                                                    <p style=" color: red; font-size: 22px; margin-top: 20px;">Chưa có sản phẩm</p>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <br><br><br>
+                                    <div class="paginatoin-area">
+                                        <div class="row">
+                                            <!-- <div class="col-lg-6 col-md-6 pt-xs-15">
+                                                <p></p>
+                                            </div> -->
+                                            <div class="col-lg-12 col-md-12" style="text-align: center;">
+                                                <!-- <ul class="pagination-box pt-xs-20 pb-xs-15">
+                                                    <li><a href="#" class="Previous"><i class="fa fa-chevron-left"></i> Previous</a>
+                                                    </li>
+                                                    <li class="active"><a href="#">1</a></li>
+                                                    <li><a href="#">2</a></li>
+                                                    <li><a href="#">3</a></li>
+                                                    <li>
+                                                      <a href="#" class="Next"> Next <i class="fa fa-chevron-right"></i></a>
+                                                    </li>
+                                                </ul> -->
+                                                <button id="load-more" class="btn btn-primary">
+                                                    <i class="fa fa-eye"></i> &nbsp;
+                                                    Xem thêm
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- shop-products-wrapper end -->
+                        </div>
+                        <div class="col-lg-3 order-2 order-lg-1">
+                            <!-- category-sub-menu start -->
+                            <div class="sidebar-categores-box mb-sm-0 mb-xs-0">
+                                <div class="sidebar-title">
+                                    <h2 class="font-weight-bold" style="font-family: Arial, Helvetica, sans-serif;"><%= loaiSP.TenLoaiSP %></h2>
+                                </div>
+                                <div class="category-tags">
+                                    <ul>
+                                        <input type="hidden" id="ssIdHangSXGT" value="<%= ssIdHangSX %>">
+                                        <li class="<%= !ssIdHangSX ? 'active' : '' %>"><a href="/shop-list-category-product?idLoaiSP=<%= ssIdLoaiSP %>">Tất cả</a></li>
+                                        <% hangSP.forEach(function(hangSP) { %> 
+                                            <li class="<%= ssIdHangSX === hangSP._id.toString() ? 'active' : '' %>"><a href="/shop-list-category-product?idHangSX=<%= hangSP._id %>&idLoaiSP=<%= ssIdLoaiSP %>"><%= hangSP.TenHangSX %></a></li>
+                                        <% }) %>                                                                                
+                                    </ul>
+                                </div>
+                                <!-- category-sub-menu end -->
+                            </div>
+                            <!--sidebar-categores-box start  -->
+                            <div class="sidebar-categores-box">
+                                <!-- <div class="sidebar-title">
+                                    <h2>Filter By</h2>
+                                </div> -->
+                                <!-- btn-clear-all start -->
+                                <!-- <button class="btn-clear-all mb-sm-30 mb-xs-30">Clear all</button> -->
+                                <!-- btn-clear-all end -->
+                                <!-- filter-sub-area start -->
+                                <div class="filter-sub-area">
+                                    <input type="hidden" id="minGT" value="<%= ssMin %>">
+                                    <input type="hidden" id="maxGT" value="<%= ssMax %>">
+                                    <h5 class="filter-sub-titel font-weight-bold" style="font-family: Arial, Helvetica, sans-serif;">Lọc sản phẩm theo giá</h5>
+                                    <div class="categori-checkbox">
+                                        <form action="#">
+                                            <ul>
+                                                <li>
+                                                    <label for="500k">
+                                                        <img width="18" src="pageHome/jsXuLyCacChucNang/icons8-right.gif" alt="">
+                                                        <a  class="<%= (ssMin === '10000' && ssMax === '500000000') ? 'active_color_red' : '' %>" 
+                                                            href="/shop-list-category-product?idHangSX=<%= ssIdHangSX %>&idLoaiSP=<%= ssIdLoaiSP %>&min=10000&max=500000000">Tất cả </a>
+                                                    </label>                                                    
+                                                </li>
+                                                <% counts.forEach(function(range) { %>
+                                                    <li>
+                                                        <label for="<%= range.label.replace(/\s+/g, '-').toLowerCase() %>">
+                                                            <img width="18" src="pageHome/jsXuLyCacChucNang/icons8-right.gif" alt="">
+                                                            <a class="<%= (ssMin === range.min.toString() && ssMax === range.max.toString()) ? 'active_color_red' : '' %>" 
+                                                               href="/shop-list-category-product?idHangSX=<%= ssIdHangSX %>&idLoaiSP=<%= ssIdLoaiSP %>&min=<%= range.min %>&max=<%= range.max %>"><%= range.label %> (<%= range.count %>)</a>
+                                                        </label>                                                    
+                                                    </li>
+                                                <% }) %>
+                                                <!-- <li>
+                                                    <label for="500k">
+                                                        <img width="18" src="pageHome/jsXuLyCacChucNang/icons8-right.gif" alt="">
+                                                        <a  class="<%= (ssMin === '10000' && ssMax === '500000') ? 'active_color_red' : '' %>" 
+                                                            href="/shop-list-category-product?idHangSX=<%= ssIdHangSX %>&idLoaiSP=<%= ssIdLoaiSP %>&min=10000&max=500000">Dưới 500K</a>
+                                                    </label>                                                    
+                                                </li>
+                                                <li>
+                                                    <label for="500k-5m">
+                                                        <img width="18" src="pageHome/jsXuLyCacChucNang/icons8-right.gif" alt="">
+                                                        <a  class="<%= (ssMin === '500000' && ssMax === '5000000') ? 'active_color_red' : '' %>" 
+                                                            href="/shop-list-category-product?idHangSX=<%= ssIdHangSX %>&idLoaiSP=<%= ssIdLoaiSP %>&min=500000&max=5000000">500K Đến 5 Triệu</a>
+                                                    </label>                                                    
+                                                </li>
+                                                <li>
+                                                    <label for="5m-10m">
+                                                        <img width="18" src="pageHome/jsXuLyCacChucNang/icons8-right.gif" alt="">
+                                                        <a  class="<%= (ssMin === '5000000' && ssMax === '10000000') ? 'active_color_red' : '' %>" 
+                                                            href="/shop-list-category-product?idHangSX=<%= ssIdHangSX %>&idLoaiSP=<%= ssIdLoaiSP %>&min=5000000&max=10000000">5 Triệu Đến 10 Triệu </a>
+                                                    </label>                                                    
+                                                </li>
+                                                <li>
+                                                    <label for="10m-20m">
+                                                        <img width="18" src="pageHome/jsXuLyCacChucNang/icons8-right.gif" alt="">
+                                                        <a  class="<%= (ssMin === '10000000' && ssMax === '20000000') ? 'active_color_red' : '' %>" 
+                                                            href="/shop-list-category-product?idHangSX=<%= ssIdHangSX %>&idLoaiSP=<%= ssIdLoaiSP %>&min=10000000&max=20000000">10 Triệu Đến 20 Triệu </a>
+                                                    </label>                                                    
+                                                </li>
+                                                <li>
+                                                    <label for="20m">
+                                                        <img width="18" src="pageHome/jsXuLyCacChucNang/icons8-right.gif" alt="">
+                                                        <a  class="<%= (ssMin === '20000000' && ssMax === '500000000') ? 'active_color_red' : '' %>" 
+                                                            href="/shop-list-category-product?idHangSX=<%= ssIdHangSX %>&idLoaiSP=<%= ssIdLoaiSP %>&min=20000000&max=500000000">Trên 20 Triệu</a>
+                                                    </label>                                                    
+                                                </li> -->
+                                            </ul>
+                                        </form>
+                                    </div>
+                                 </div>
+                                <!-- filter-sub-area end -->
+                                
+                                <!-- filter-sub-area start -->
+                                <div class="filter-sub-area pt-sm-10 pb-sm-15 pb-xs-15">
+                                    <h5 class="filter-sub-titel">Dimension</h5>
+                                    <div class="categori-checkbox">
+                                        <form action="#">
+                                            <ul>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                <li><a href="#"></a></li>
+                                                
+                                            </ul>
+                                        </form>
+                                    </div>
+                                 </div>
+                                 
+                                <!-- filter-sub-area end -->
+                            </div>
+                            <!--sidebar-categores-box end  -->
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Content Wraper Area End Here -->
+            <!-- Begin Footer Area -->
+            
+            <!-- Begin Footer Area -->
+            <%- include("../../TrangChu/partials/footer.ejs") %>
+            <!-- Footer Area End Here -->
+
+            <!-- Begin Quick View | Modal Area -->
+            <%- include("../../TrangChu/Modal/modal-detailt-product.ejs") %>
+            <!-- Quick View | Modal Area End Here -->
+        </div>
+        <!-- Body Wrapper End Here -->
+        <!-- các script -->
+        <%- include("../../TrangChu/partials/chanTrangVaScript.ejs") %>
+    </body>
+
+<!-- index-231:38-->
+</html>
